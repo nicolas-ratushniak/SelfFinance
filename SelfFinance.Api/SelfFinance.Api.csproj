@@ -12,7 +12,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Controllers\" />
+      <ProjectReference Include="..\SelfFinance.Domain\SelfFinance.Domain.csproj" />
     </ItemGroup>
 
 </Project>
