@@ -1,10 +1,12 @@
-﻿namespace SelfFinance.Data.Models;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace SelfFinance.Data.Models;
 
 public class FinancialOperation
 {
     public int Id { get; set; }
     public bool IsIncome { get; set; }
-    public decimal Sum { get; set; }
+    [Column(TypeName = "numeric(9,2)")] public decimal Sum { get; set; }
     public int? IncomeTagId { get; set; }
     public IncomeTag? IncomeTag { get; set; }
     public int? ExpenseTagId { get; set; }

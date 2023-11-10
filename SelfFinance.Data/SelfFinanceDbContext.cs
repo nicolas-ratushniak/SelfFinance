@@ -12,13 +12,4 @@ public class SelfFinanceDbContext : DbContext
     public SelfFinanceDbContext(DbContextOptions options) : base(options)
     {
     }
-
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        modelBuilder.Entity<FinancialOperation>()
-            .Property(f => f.Sum)
-            .HasPrecision(2);
-
-        base.OnModelCreating(modelBuilder);
-    }
 }

@@ -12,7 +12,7 @@ using SelfFinance.Data;
 namespace SelfFinance.Data.Migrations
 {
     [DbContext(typeof(SelfFinanceDbContext))]
-    [Migration("20231106092813_Initial")]
+    [Migration("20231110213142_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -76,8 +76,7 @@ namespace SelfFinance.Data.Migrations
                         .HasColumnType("bit");
 
                     b.Property<decimal>("Sum")
-                        .HasPrecision(2)
-                        .HasColumnType("decimal(2,2)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("UpdatedOn")
                         .HasColumnType("datetime2");

@@ -73,8 +73,7 @@ namespace SelfFinance.Data.Migrations
                         .HasColumnType("bit");
 
                     b.Property<decimal>("Sum")
-                        .HasPrecision(2)
-                        .HasColumnType("decimal(2,2)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("UpdatedOn")
                         .HasColumnType("datetime2");
