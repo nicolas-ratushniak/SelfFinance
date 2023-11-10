@@ -73,8 +73,17 @@ public class FinancialOperationService : IFinancialOperationService
 
         Validator.ValidateObject(dto, new ValidationContext(dto), true);
 
-        var incomeTagId = dto.IsIncome ? dto.TagId : null;
-        var expenseTagId = dto.IsIncome ? null : dto.TagId;
+        int? incomeTagId = null;
+        int? expenseTagId = null;
+
+        if (dto.IsIncome)
+        {
+            incomeTagId = dto.TagId;
+        }
+        else
+        {
+            expenseTagId = dto.TagId;
+        }
 
         var incomeTag = incomeTagId is not null
             ? await _context.IncomeTags.SingleOrDefaultAsync(tag =>
