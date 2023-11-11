@@ -9,12 +9,12 @@ namespace SelfFinance.Api.Controllers;
 
 [ApiController]
 [Route("self-finance/api/expense-tags")]
-public class ExpenseTagsController : ControllerBase
+public class ExpenseTagController : ControllerBase
 {
     private readonly IExpenseTagService _expenseTagService;
-    private readonly ILogger<ExpenseTagsController> _logger;
+    private readonly ILogger<ExpenseTagController> _logger;
 
-    public ExpenseTagsController(IExpenseTagService expenseTagService, ILogger<ExpenseTagsController> logger)
+    public ExpenseTagController(IExpenseTagService expenseTagService, ILogger<ExpenseTagController> logger)
     {
         _expenseTagService = expenseTagService;
         _logger = logger;

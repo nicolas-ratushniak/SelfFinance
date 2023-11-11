@@ -10,14 +10,14 @@ namespace SelfFinance.Api.Controllers;
 
 [ApiController]
 [Route("self-finance/api/transactions")]
-public class FinancialOperationsController : ControllerBase
+public class FinancialOperationController : ControllerBase
 {
     private readonly IFinancialOperationService _financialOperationService;
-    private readonly ILogger<FinancialOperationsController> _logger;
+    private readonly ILogger<FinancialOperationController> _logger;
 
-    public FinancialOperationsController(
+    public FinancialOperationController(
         IFinancialOperationService financialOperationService,
-        ILogger<FinancialOperationsController> logger)
+        ILogger<FinancialOperationController> logger)
     {
         _financialOperationService = financialOperationService;
         _logger = logger;

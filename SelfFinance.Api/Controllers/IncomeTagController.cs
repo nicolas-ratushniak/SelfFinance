@@ -9,12 +9,12 @@ namespace SelfFinance.Api.Controllers;
 
 [ApiController]
 [Route("self-finance/api/income-tags")]
-public class IncomeTagsController : ControllerBase
+public class IncomeTagController : ControllerBase
 {
     private readonly IIncomeTagService _incomeTagService;
-    private readonly ILogger<IncomeTagsController> _logger;
+    private readonly ILogger<IncomeTagController> _logger;
 
-    public IncomeTagsController(IIncomeTagService incomeTagService, ILogger<IncomeTagsController> logger)
+    public IncomeTagController(IIncomeTagService incomeTagService, ILogger<IncomeTagController> logger)
     {
         _incomeTagService = incomeTagService;
         _logger = logger;
