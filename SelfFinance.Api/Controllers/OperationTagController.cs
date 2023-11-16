@@ -33,7 +33,7 @@ public class OperationTagController : ControllerBase
         try
         {
             var tag = await _operationTagService.GetAsync(id);
-            return Ok(OperationTagHelper.ToDto(tag));
+            return Ok(tag.ConvertToDto());
         }
         catch (EntityNotFoundException ex)
         {

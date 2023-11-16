@@ -35,7 +35,7 @@ public class FinancialOperationController : ControllerBase
         try
         {
             var operation = await _financialOperationService.GetAsync(id);
-            return Ok(FinancialOperationHelper.ToDto(operation));
+            return Ok(operation.ConvertToDto());
         }
         catch (EntityNotFoundException ex)
         {

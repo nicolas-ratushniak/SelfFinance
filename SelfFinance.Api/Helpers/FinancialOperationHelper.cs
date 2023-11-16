@@ -5,7 +5,7 @@ namespace SelfFinance.Api.Helpers;
 
 public static class FinancialOperationHelper
 {
-    public static FinancialOperationDto ToDto(FinancialOperation operation)
+    public static FinancialOperationDto ConvertToDto(this FinancialOperation operation)
     {
         return new FinancialOperationDto
         {

@@ -5,7 +5,7 @@ namespace SelfFinance.Api.Helpers;
 
 public static class OperationTagHelper
 {
-    public static OperationTagDto ToDto(OperationTag tag)
+    public static OperationTagDto ConvertToDto(this OperationTag tag)
     {
         return new OperationTagDto
         {
