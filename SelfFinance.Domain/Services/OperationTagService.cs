@@ -8,42 +8,49 @@ using SelfFinance.Domain.Exceptions;
 
 namespace SelfFinance.Domain.Services;
 
-public class IncomeTagService : IIncomeTagService
+public class OperationTagService : IOperationTagService
 {
     private readonly SelfFinanceDbContext _context;
 
-    public IncomeTagService(SelfFinanceDbContext context)
+    public OperationTagService(SelfFinanceDbContext context)
     {
         _context = context;
     }
 
-    public async Task<IncomeTag> GetAsync(int id)
+    public async Task<OperationTag> GetAsync(int id)
     {
-        return await _context.IncomeTags
+        return await _context.OperationTags
             .SingleOrDefaultAsync(tag =>
                 !tag.IsDeleted &&
                 tag.Id == id) ?? throw new EntityNotFoundException();
     }
 
-    public async Task<IEnumerable<IncomeTag>> GetAllAsync()
+    public async Task<IEnumerable<OperationTagDto>> GetAllAsync()
     {
-        return await _context.IncomeTags
+        return await _context.OperationTags
             .Where(tag => !tag.IsDeleted)
+            .Select(t => new OperationTagDto
+            {
+                Id = t.Id,
+                OperationType = t.OperationType,
+                Name = t.Name
+            })
             .ToListAsync();
     }
 
-    public async Task<int> AddAsync(IncomeTagCreateDto dto)
+    public async Task<int> AddAsync(OperationTagCreateDto dto)
     {
         Validator.ValidateObject(dto, new ValidationContext(dto), true);
 
-        if (await _context.IncomeTags.AnyAsync(tag => tag.Name == dto.Name))
+        if (await _context.OperationTags.AnyAsync(tag => tag.Name == dto.Name))
         {
             throw new ValidationException("The name is already in use");
         }
 
-        var tag = new IncomeTag
+        var tag = new OperationTag
         {
-            Name = dto.Name
+            Name = dto.Name,
+            OperationType = dto.OperationType
         };
 
         await _context.AddAsync(tag);
@@ -52,11 +59,11 @@ public class IncomeTagService : IIncomeTagService
         return tag.Id;
     }
 
-    public async Task UpdateAsync(IncomeTagUpdateDto dto)
+    public async Task UpdateAsync(OperationTagUpdateDto dto)
     {
         Validator.ValidateObject(dto, new ValidationContext(dto), true);
 
-        if (await _context.IncomeTags.AnyAsync(tag => 
+        if (await _context.OperationTags.AnyAsync(tag => 
                 tag.Name == dto.Name &&
                 tag.Id != dto.Id))
         {
@@ -66,6 +73,7 @@ public class IncomeTagService : IIncomeTagService
         var tag = await GetAsync(dto.Id);
 
         tag.Name = dto.Name;
+        tag.OperationType = dto.OperationType;
 
         _context.Update(tag);
         await _context.SaveChangesAsync();

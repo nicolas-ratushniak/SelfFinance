@@ -4,7 +4,7 @@ namespace SelfFinance.Domain.Dto;
 
 public class FinancialOperationCreateDto
 {
-    [Required] public bool IsIncome { get; set; }
-    [Required, Range(0, 1_000_000)] public decimal Sum { get; set; }
-    [Required] public int TagId { get; set; }
+    [Required, Range(1, 1_000_000)] public decimal Sum { get; set; }
+    [Required] public DateTime OperationDate { get; set; }
+    [Required] public int OperationTagId { get; set; }
 }

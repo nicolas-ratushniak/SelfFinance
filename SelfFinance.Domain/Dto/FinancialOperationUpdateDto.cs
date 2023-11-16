@@ -5,5 +5,5 @@ namespace SelfFinance.Domain.Dto;
 public class FinancialOperationUpdateDto
 {
     [Required] public int Id { get; set; }
-    public int? TagId { get; set; }
+    [Required] public int OperationTagId { get; set; }
 }

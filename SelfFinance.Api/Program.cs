@@ -12,8 +12,7 @@ builder.Services.AddDbContext<SelfFinanceDbContext>(options =>
 
 builder.Services.AddControllers();
 
-builder.Services.AddScoped<IExpenseTagService, ExpenseTagService>();
-builder.Services.AddScoped<IIncomeTagService, IncomeTagService>();
+builder.Services.AddScoped<IOperationTagService, OperationTagService>();
 builder.Services.AddScoped<IFinancialOperationService, FinancialOperationService>();
 
 var app = builder.Build();

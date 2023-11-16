@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using SelfFinance.Api.Dto;
+using SelfFinance.Api.Helpers;
 using SelfFinance.Data.Models;
 using SelfFinance.Domain.Abstract;
 using SelfFinance.Domain.Dto;
@@ -22,49 +23,22 @@ public class FinancialOperationController : ControllerBase
         _financialOperationService = financialOperationService;
         _logger = logger;
     }
-
-    [HttpGet("daily-report")]
-    public async Task<JsonResult> GetDailyReport([FromQuery] DateOnly date)
-    {
-        return await GetDatePeriodReport(date, date);
-    }
-    
-    [HttpGet("report")]
-    public async Task<JsonResult> GetDatePeriodReport([FromQuery] DateOnly startDate, [FromQuery] DateOnly endDate)
-    {
-        var from = startDate.ToDateTime(TimeOnly.MinValue);
-        var to = endDate.ToDateTime(TimeOnly.MaxValue);
-        
-        var operations = (await _financialOperationService.GetAllAsync(from, to)).ToList();
-        var totals = _financialOperationService.CalculateTotal(operations);
-
-        var report = new ReportDto
-        {
-            TotalIncome = totals.totalIncomes,
-            TotalExpense = totals.totalExpenses,
-            Transactions = operations.Select(OperationToDto).ToList()
-        };
-
-        return new JsonResult(report);
-    }
     
     [HttpGet]
     public async Task<IActionResult> GetAllOperationsAsync()
     {
-        var operations = (await _financialOperationService.GetAllAsync())
-            .Select(OperationToDto);
-
-        return new ObjectResult(operations);
+        var operations = await _financialOperationService.GetAllAsync();
+        return Ok(operations);
     }
     
     [HttpGet("{id:int}")]
-    public async Task<IActionResult> GetOperationAsync(int id)
+    public async Task<IActionResult> GetOperationAsync([FromRoute] int id)
     {
         try
         {
             var operation = await _financialOperationService.GetAsync(id);
 
-            return new ObjectResult(OperationToDto(operation));
+            return Ok(FinancialOperationHelper.OperationToDto(operation));
         }
         catch (EntityNotFoundException ex)
         {
@@ -114,7 +88,7 @@ public class FinancialOperationController : ControllerBase
     }
     
     [HttpDelete("{id:int}")]
-    public async Task<IActionResult> DeleteOperationAsync(int id)
+    public async Task<IActionResult> DeleteOperationAsync([FromRoute] int id)
     {
         try
         {
@@ -126,16 +100,5 @@ public class FinancialOperationController : ControllerBase
             _logger.LogInformation("Handled exception: {Exception}", ex.Message);
             return NotFound();
         }
-    }
-
-    private FinancialOperationDto OperationToDto(FinancialOperation operation)
-    {
-        return new FinancialOperationDto
-        {
-            Id = operation.Id,
-            IsIncome = operation.IsIncome,
-            Sum = operation.Sum,
-            TagId = operation.IsIncome ? (int)operation.IncomeTagId! : (int)operation.ExpenseTagId!
-        };
     }
 }

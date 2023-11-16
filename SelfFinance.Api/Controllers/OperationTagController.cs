@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using SelfFinance.Api.Dto;
 using SelfFinance.Domain.Abstract;
 using SelfFinance.Domain.Dto;
 using SelfFinance.Domain.Exceptions;
@@ -8,39 +8,34 @@ using SelfFinance.Domain.Exceptions;
 namespace SelfFinance.Api.Controllers;
 
 [ApiController]
-[Route("self-finance/api/income-tags")]
-public class IncomeTagController : ControllerBase
+[Route("self-finance/api/tags")]
+public class OperationTagController : ControllerBase
 {
-    private readonly IIncomeTagService _incomeTagService;
-    private readonly ILogger<IncomeTagController> _logger;
+    private readonly IOperationTagService _operationTagService;
+    private readonly ILogger<OperationTagController> _logger;
 
-    public IncomeTagController(IIncomeTagService incomeTagService, ILogger<IncomeTagController> logger)
+    public OperationTagController(IOperationTagService operationTagService, ILogger<OperationTagController> logger)
     {
-        _incomeTagService = incomeTagService;
+        _operationTagService = operationTagService;
         _logger = logger;
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAllIncomeTagsAsync()
+    public async Task<IActionResult> GetAllAsync()
     {
-        var tags = (await _incomeTagService.GetAllAsync())
-            .Select(tag => new IncomeTagDto
-            {
-                Id = tag.Id,
-                Name = tag.Name
-            });
+        var tags = await _operationTagService.GetAllAsync();
 
-        return new ObjectResult(tags);
+        return Ok(tags);
     }
     
     [HttpGet("{id:int}")]
-    public async Task<IActionResult> GetIncomeTagAsync(int id)
+    public async Task<IActionResult> GetExpenseTagAsync([FromRoute] int id)
     {
         try
         {
-            var tag = await _incomeTagService.GetAsync(id);
+            var tag = await _operationTagService.GetAsync(id);
 
-            return new ObjectResult(new IncomeTagDto
+            return Ok(new OperationTagDto
             {
                 Id = tag.Id,
                 Name = tag.Name
@@ -54,11 +49,11 @@ public class IncomeTagController : ControllerBase
     }
     
     [HttpPost]
-    public async Task<IActionResult> AddIncomeTagAsync([FromBody] IncomeTagCreateDto dto)
+    public async Task<IActionResult> AddAsync([FromBody] OperationTagCreateDto dto)
     {
         try
         {
-            await _incomeTagService.AddAsync(dto);
+            await _operationTagService.AddAsync(dto);
             return Ok();
         }
         catch (ValidationException ex)
@@ -69,11 +64,11 @@ public class IncomeTagController : ControllerBase
     }
     
     [HttpPut]
-    public async Task<IActionResult> UpdateIncomeTagAsync([FromBody] IncomeTagUpdateDto dto)
+    public async Task<IActionResult> UpdateExpenseTagAsync([FromBody] OperationTagUpdateDto dto)
     {
         try
         {
-            await _incomeTagService.UpdateAsync(dto);
+            await _operationTagService.UpdateAsync(dto);
             return Ok();
         }
         catch (ValidationException ex)
@@ -89,11 +84,11 @@ public class IncomeTagController : ControllerBase
     }
     
     [HttpDelete("{id:int}")]
-    public async Task<IActionResult> DeleteIncomeTagAsync(int id)
+    public async Task<IActionResult> DeleteExpenseTagAsync([FromRoute] int id)
     {
         try
         {
-            await _incomeTagService.SoftDeleteAsync(id);
+            await _operationTagService.SoftDeleteAsync(id);
             return Ok();
         }
         catch (EntityNotFoundException ex)

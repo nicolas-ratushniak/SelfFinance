@@ -17,24 +17,16 @@ public class FinancialOperationService : IFinancialOperationService
         _context = context;
     }
 
-    public (decimal totalIncomes, decimal totalExpenses) CalculateTotal(IEnumerable<FinancialOperation> operations)
+    public async Task<Dictionary<OperationType, decimal>> CalculateTotalAsync(
+        IEnumerable<FinancialOperationDto> operations)
     {
-        var totalIncome = 0m;
-        var totalExpenses = 0m;
+        var operationTags = await _context.OperationTags.ToListAsync();
 
-        foreach (var operation in operations)
-        {
-            if (operation.IsIncome)
-            {
-                totalIncome += operation.Sum;
-            }
-            else
-            {
-                totalExpenses += operation.Sum;
-            }
-        }
-
-        return (totalIncome, totalExpenses);
+        return operations
+            .GroupBy(o => operationTags
+                .Single(t => t.Id == o.OperationTagId).OperationType)
+            .ToDictionary(g => g.Key, 
+                g => g.Sum(o => o.Sum));
     }
 
     public async Task<FinancialOperation> GetAsync(int id)
@@ -45,25 +37,37 @@ public class FinancialOperationService : IFinancialOperationService
                ?? throw new EntityNotFoundException();
     }
 
-    public async Task<IEnumerable<FinancialOperation>> GetAllAsync()
+    public async Task<IEnumerable<FinancialOperationDto>> GetAllAsync()
     {
         return await _context.FinancialOperations
             .Where(fo => !fo.IsDeleted)
+            .Select(fo => new FinancialOperationDto
+            {
+                Id = fo.Id,
+                Sum = fo.Sum,
+                OperationTagId = fo.OperationTagId
+            })
             .ToListAsync();
     }
 
-    public async Task<IEnumerable<FinancialOperation>> GetAllAsync(DateTime from, DateTime to)
+    public async Task<IEnumerable<FinancialOperationDto>> GetAllAsync(DateTime from, DateTime to)
     {
         if (from > to)
         {
-            throw new ArgumentException("From should precede to");
+            throw new ArgumentException("From should precede To");
         }
 
         return await _context.FinancialOperations
             .Where(fo =>
                 !fo.IsDeleted &&
-                fo.CreatedOn >= from &&
-                fo.CreatedOn <= to)
+                fo.OperationDate >= from &&
+                fo.OperationDate <= to)
+            .Select(fo => new FinancialOperationDto
+                {
+                    Id = fo.Id,
+                    Sum = fo.Sum,
+                    OperationTagId = fo.OperationTagId
+                })
             .ToListAsync();
     }
 
@@ -73,38 +77,21 @@ public class FinancialOperationService : IFinancialOperationService
 
         Validator.ValidateObject(dto, new ValidationContext(dto), true);
 
-        int? incomeTagId = null;
-        int? expenseTagId = null;
-
-        if (dto.IsIncome)
+        if (dto.OperationDate > DateTime.Now)
         {
-            incomeTagId = dto.TagId;
-        }
-        else
-        {
-            expenseTagId = dto.TagId;
+            throw new ValidationException("Future date unsupported");
         }
 
-        var incomeTag = incomeTagId is not null
-            ? await _context.IncomeTags.SingleOrDefaultAsync(tag =>
-                !tag.IsDeleted &&
-                tag.Id == incomeTagId) ?? throw new EntityNotFoundException("Income tag not found")
-            : null;
-
-        var expenseTag = expenseTagId is not null
-            ? await _context.ExpenseTags.SingleOrDefaultAsync(tag =>
-                !tag.IsDeleted &&
-                tag.Id == expenseTagId) ?? throw new EntityNotFoundException("Expense tag not found")
-            : null;
+        var operationTag = _context.OperationTags
+                               .SingleOrDefault(t => !t.IsDeleted && t.Id == dto.OperationTagId)
+                           ?? throw new EntityNotFoundException("Operation tag not found");
 
         var operation = new FinancialOperation
         {
-            IsIncome = dto.IsIncome,
             Sum = dto.Sum,
-            IncomeTagId = incomeTagId,
-            IncomeTag = incomeTag,
-            ExpenseTagId = expenseTagId,
-            ExpenseTag = expenseTag,
+            OperationTagId = dto.OperationTagId,
+            OperationTag = operationTag,
+            OperationDate = dto.OperationDate,
             CreatedOn = createdOn
         };
 
@@ -126,29 +113,12 @@ public class FinancialOperationService : IFinancialOperationService
                                 op.Id == dto.Id)
                         ?? throw new EntityNotFoundException("Operation not found");
 
-        if (operation.IsIncome)
-        {
-            var incomeTag = dto.TagId is not null
-                ? await _context.IncomeTags.SingleOrDefaultAsync(tag =>
-                    !tag.IsDeleted &&
-                    tag.Id == dto.TagId) ?? throw new EntityNotFoundException("Income tag not found")
-                : null;
+        var operationTag = _context.OperationTags
+                               .SingleOrDefault(t => !t.IsDeleted && t.Id == dto.OperationTagId)
+                           ?? throw new EntityNotFoundException("Operation tag not found");
 
-            operation.IncomeTagId = dto.TagId;
-            operation.IncomeTag = incomeTag;
-        }
-        else
-        {
-            var expenseTag = dto.TagId is not null
-                ? await _context.ExpenseTags.SingleOrDefaultAsync(tag =>
-                    !tag.IsDeleted &&
-                    tag.Id == dto.TagId) ?? throw new EntityNotFoundException("Expense tag not found")
-                : null;
-
-            operation.ExpenseTagId = dto.TagId;
-            operation.ExpenseTag = expenseTag;
-        }
-
+        operation.OperationTagId = dto.OperationTagId;
+        operation.OperationTag = operationTag;
         operation.UpdatedOn = updatedOn;
 
         _context.Update(operation);
