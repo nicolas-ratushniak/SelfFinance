@@ -8,5 +8,5 @@ public class OperationTag
     public OperationType OperationType { get; set; }
     [MaxLength(30)] public string Name { get; set; }
     public bool IsDeleted { get; set; }
-    public DateTime DeletedOn { get; set; }
+    public DateTime? DeletedOn { get; set; }
 }

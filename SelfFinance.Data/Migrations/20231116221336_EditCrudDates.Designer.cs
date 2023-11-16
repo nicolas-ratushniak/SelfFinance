@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SelfFinance.Data;
 
@@ -11,9 +12,11 @@ using SelfFinance.Data;
 namespace SelfFinance.Data.Migrations
 {
     [DbContext(typeof(SelfFinanceDbContext))]
-    partial class SelfFinanceDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231116221336_EditCrudDates")]
+    partial class EditCrudDates
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
