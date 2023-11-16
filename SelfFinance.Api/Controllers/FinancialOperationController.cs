@@ -1,8 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
-using SelfFinance.Api.Dto;
 using SelfFinance.Api.Helpers;
-using SelfFinance.Data.Models;
 using SelfFinance.Domain.Abstract;
 using SelfFinance.Domain.Dto;
 using SelfFinance.Domain.Exceptions;
@@ -25,20 +23,19 @@ public class FinancialOperationController : ControllerBase
     }
     
     [HttpGet]
-    public async Task<IActionResult> GetAllOperationsAsync()
+    public async Task<IActionResult> GetAllAsync()
     {
         var operations = await _financialOperationService.GetAllAsync();
         return Ok(operations);
     }
     
     [HttpGet("{id:int}")]
-    public async Task<IActionResult> GetOperationAsync([FromRoute] int id)
+    public async Task<IActionResult> GetAsync([FromRoute] int id)
     {
         try
         {
             var operation = await _financialOperationService.GetAsync(id);
-
-            return Ok(FinancialOperationHelper.OperationToDto(operation));
+            return Ok(FinancialOperationHelper.ToDto(operation));
         }
         catch (EntityNotFoundException ex)
         {
@@ -48,7 +45,7 @@ public class FinancialOperationController : ControllerBase
     }
     
     [HttpPost]
-    public async Task<IActionResult> AddOperationAsync([FromBody] FinancialOperationCreateDto dto)
+    public async Task<IActionResult> AddAsync([FromBody] FinancialOperationCreateDto dto)
     {
         try
         {
@@ -68,7 +65,7 @@ public class FinancialOperationController : ControllerBase
     }
     
     [HttpPut]
-    public async Task<IActionResult> UpdateOperationAsync([FromBody] FinancialOperationUpdateDto dto)
+    public async Task<IActionResult> UpdateAsync([FromBody] FinancialOperationUpdateDto dto)
     {
         try
         {
@@ -88,7 +85,7 @@ public class FinancialOperationController : ControllerBase
     }
     
     [HttpDelete("{id:int}")]
-    public async Task<IActionResult> DeleteOperationAsync([FromRoute] int id)
+    public async Task<IActionResult> DeleteAsync([FromRoute] int id)
     {
         try
         {

@@ -22,11 +22,19 @@ public class FinancialOperationService : IFinancialOperationService
     {
         var operationTags = await _context.OperationTags.ToListAsync();
 
-        return operations
+        var resultDict = operations
             .GroupBy(o => operationTags
                 .Single(t => t.Id == o.OperationTagId).OperationType)
             .ToDictionary(g => g.Key, 
                 g => g.Sum(o => o.Sum));
+
+        // ensure all keys are present
+        foreach (var tag in Enum.GetValues<OperationType>())
+        {
+            resultDict.TryAdd(tag, 0m);
+        }
+
+        return resultDict;
     }
 
     public async Task<FinancialOperation> GetAsync(int id)
@@ -45,6 +53,7 @@ public class FinancialOperationService : IFinancialOperationService
             {
                 Id = fo.Id,
                 Sum = fo.Sum,
+                OperationDate = fo.OperationDate,
                 OperationTagId = fo.OperationTagId
             })
             .ToListAsync();
@@ -66,6 +75,7 @@ public class FinancialOperationService : IFinancialOperationService
                 {
                     Id = fo.Id,
                     Sum = fo.Sum,
+                    OperationDate = fo.OperationDate,
                     OperationTagId = fo.OperationTagId
                 })
             .ToListAsync();

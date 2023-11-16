@@ -10,14 +10,10 @@ namespace SelfFinance.Api.Controllers;
 public class ReportController : Controller
 {
     private readonly IFinancialOperationService _financialOperationService;
-    private readonly ILogger<ReportController> _logger;
 
-    public ReportController(
-        IFinancialOperationService financialOperationService,
-        ILogger<ReportController> logger)
+    public ReportController(IFinancialOperationService financialOperationService)
     {
         _financialOperationService = financialOperationService;
-        _logger = logger;
     }
 
     [HttpGet("daily-report")]
@@ -25,13 +21,13 @@ public class ReportController : Controller
     {
         return await GetDatePeriodReport(date, date);
     }
-    
+
     [HttpGet("period-report")]
     public async Task<IActionResult> GetDatePeriodReport([FromQuery] DateOnly startDate, [FromQuery] DateOnly endDate)
     {
         var from = startDate.ToDateTime(TimeOnly.MinValue);
         var to = endDate.ToDateTime(TimeOnly.MaxValue);
-        
+
         var operations = (await _financialOperationService.GetAllAsync(from, to)).ToList();
         var totals = await _financialOperationService.CalculateTotalAsync(operations);
 

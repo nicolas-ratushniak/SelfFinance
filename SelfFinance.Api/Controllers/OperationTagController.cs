@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using SelfFinance.Api.Helpers;
 using SelfFinance.Domain.Abstract;
 using SelfFinance.Domain.Dto;
 using SelfFinance.Domain.Exceptions;
@@ -24,22 +24,16 @@ public class OperationTagController : ControllerBase
     public async Task<IActionResult> GetAllAsync()
     {
         var tags = await _operationTagService.GetAllAsync();
-
         return Ok(tags);
     }
     
     [HttpGet("{id:int}")]
-    public async Task<IActionResult> GetExpenseTagAsync([FromRoute] int id)
+    public async Task<IActionResult> GetAsync([FromRoute] int id)
     {
         try
         {
             var tag = await _operationTagService.GetAsync(id);
-
-            return Ok(new OperationTagDto
-            {
-                Id = tag.Id,
-                Name = tag.Name
-            });
+            return Ok(OperationTagHelper.ToDto(tag));
         }
         catch (EntityNotFoundException ex)
         {
@@ -64,7 +58,7 @@ public class OperationTagController : ControllerBase
     }
     
     [HttpPut]
-    public async Task<IActionResult> UpdateExpenseTagAsync([FromBody] OperationTagUpdateDto dto)
+    public async Task<IActionResult> UpdateAsync([FromBody] OperationTagUpdateDto dto)
     {
         try
         {
@@ -84,7 +78,7 @@ public class OperationTagController : ControllerBase
     }
     
     [HttpDelete("{id:int}")]
-    public async Task<IActionResult> DeleteExpenseTagAsync([FromRoute] int id)
+    public async Task<IActionResult> DeleteAsync([FromRoute] int id)
     {
         try
         {
