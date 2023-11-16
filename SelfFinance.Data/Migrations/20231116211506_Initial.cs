@@ -12,33 +12,19 @@ namespace SelfFinance.Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "ExpenseTags",
+                name: "OperationTags",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    OperationType = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ExpenseTags", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "IncomeTags",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_IncomeTags", x => x.Id);
+                    table.PrimaryKey("PK_OperationTags", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -47,10 +33,9 @@ namespace SelfFinance.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    IsIncome = table.Column<bool>(type: "bit", nullable: false),
-                    Sum = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    IncomeTagId = table.Column<int>(type: "int", nullable: true),
-                    ExpenseTagId = table.Column<int>(type: "int", nullable: true),
+                    Sum = table.Column<decimal>(type: "numeric(9,2)", nullable: false),
+                    OperationTagId = table.Column<int>(type: "int", nullable: false),
+                    OperationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -60,26 +45,17 @@ namespace SelfFinance.Data.Migrations
                 {
                     table.PrimaryKey("PK_FinancialOperations", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_FinancialOperations_ExpenseTags_ExpenseTagId",
-                        column: x => x.ExpenseTagId,
-                        principalTable: "ExpenseTags",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_FinancialOperations_IncomeTags_IncomeTagId",
-                        column: x => x.IncomeTagId,
-                        principalTable: "IncomeTags",
-                        principalColumn: "Id");
+                        name: "FK_FinancialOperations_OperationTags_OperationTagId",
+                        column: x => x.OperationTagId,
+                        principalTable: "OperationTags",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_FinancialOperations_ExpenseTagId",
+                name: "IX_FinancialOperations_OperationTagId",
                 table: "FinancialOperations",
-                column: "ExpenseTagId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_FinancialOperations_IncomeTagId",
-                table: "FinancialOperations",
-                column: "IncomeTagId");
+                column: "OperationTagId");
         }
 
         /// <inheritdoc />
@@ -89,10 +65,7 @@ namespace SelfFinance.Data.Migrations
                 name: "FinancialOperations");
 
             migrationBuilder.DropTable(
-                name: "ExpenseTags");
-
-            migrationBuilder.DropTable(
-                name: "IncomeTags");
+                name: "OperationTags");
         }
     }
 }

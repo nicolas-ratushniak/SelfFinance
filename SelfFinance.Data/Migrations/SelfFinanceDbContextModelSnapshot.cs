@@ -22,30 +22,6 @@ namespace SelfFinance.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("SelfFinance.Data.Models.ExpenseTag", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("DeletedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ExpenseTags");
-                });
-
             modelBuilder.Entity("SelfFinance.Data.Models.FinancialOperation", b =>
                 {
                     b.Property<int>("Id")
@@ -60,34 +36,29 @@ namespace SelfFinance.Data.Migrations
                     b.Property<DateTime>("DeletedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("ExpenseTagId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("IncomeTagId")
-                        .HasColumnType("int");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsIncome")
-                        .HasColumnType("bit");
+                    b.Property<DateTime>("OperationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("OperationTagId")
+                        .HasColumnType("int");
 
                     b.Property<decimal>("Sum")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("numeric(9,2)");
 
                     b.Property<DateTime>("UpdatedOn")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ExpenseTagId");
-
-                    b.HasIndex("IncomeTagId");
+                    b.HasIndex("OperationTagId");
 
                     b.ToTable("FinancialOperations");
                 });
 
-            modelBuilder.Entity("SelfFinance.Data.Models.IncomeTag", b =>
+            modelBuilder.Entity("SelfFinance.Data.Models.OperationTag", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -106,24 +77,23 @@ namespace SelfFinance.Data.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
+                    b.Property<int>("OperationType")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.ToTable("IncomeTags");
+                    b.ToTable("OperationTags");
                 });
 
             modelBuilder.Entity("SelfFinance.Data.Models.FinancialOperation", b =>
                 {
-                    b.HasOne("SelfFinance.Data.Models.ExpenseTag", "ExpenseTag")
+                    b.HasOne("SelfFinance.Data.Models.OperationTag", "OperationTag")
                         .WithMany()
-                        .HasForeignKey("ExpenseTagId");
+                        .HasForeignKey("OperationTagId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("SelfFinance.Data.Models.IncomeTag", "IncomeTag")
-                        .WithMany()
-                        .HasForeignKey("IncomeTagId");
-
-                    b.Navigation("ExpenseTag");
-
-                    b.Navigation("IncomeTag");
+                    b.Navigation("OperationTag");
                 });
 #pragma warning restore 612, 618
         }
