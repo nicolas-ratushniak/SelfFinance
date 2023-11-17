@@ -1,6 +1,4 @@
-﻿using SelfFinance.Domain.Dto;
-
-namespace SelfFinance.Api.Dto;
+﻿namespace SelfFinance.Domain.Dto;
 
 public class ReportDto
 {

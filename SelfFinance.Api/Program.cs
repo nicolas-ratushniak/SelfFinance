@@ -14,6 +14,7 @@ builder.Services.AddControllers();
 
 builder.Services.AddScoped<IOperationTagService, OperationTagService>();
 builder.Services.AddScoped<IFinancialOperationService, FinancialOperationService>();
+builder.Services.AddScoped<IReportService, ReportService>();
 
 var app = builder.Build();
 

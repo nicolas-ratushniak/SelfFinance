@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SelfFinance.Api.Dto;
-using SelfFinance.Data.Models;
 using SelfFinance.Domain.Abstract;
 
 namespace SelfFinance.Api.Controllers;
@@ -9,35 +7,42 @@ namespace SelfFinance.Api.Controllers;
 [Route("self-finance/api/reports")]
 public class ReportController : Controller
 {
-    private readonly IFinancialOperationService _financialOperationService;
+    private readonly IReportService _reportService;
+    private readonly ILogger<ReportController> _logger;
 
-    public ReportController(IFinancialOperationService financialOperationService)
+    public ReportController(IReportService reportService, ILogger<ReportController> logger)
     {
-        _financialOperationService = financialOperationService;
+        _reportService = reportService;
+        _logger = logger;
     }
 
     [HttpGet("daily-report")]
     public async Task<IActionResult> GetDailyReport([FromQuery] DateOnly date)
     {
-        return await GetDatePeriodReport(date, date);
+        try
+        {
+            var report = await _reportService.GetReportAsync(date);
+            return Ok(report);
+        }
+        catch (ArgumentException ex)
+        {
+            _logger.LogInformation("Handled exception: {Exception}", ex.Message);
+            return BadRequest($"Argument exception: {ex.Message}");
+        }
     }
 
     [HttpGet("period-report")]
     public async Task<IActionResult> GetDatePeriodReport([FromQuery] DateOnly startDate, [FromQuery] DateOnly endDate)
     {
-        var from = startDate.ToDateTime(TimeOnly.MinValue);
-        var to = endDate.ToDateTime(TimeOnly.MaxValue);
-
-        var operations = (await _financialOperationService.GetAllAsync(from, to)).ToList();
-        var totals = await _financialOperationService.CalculateTotalAsync(operations);
-
-        var report = new ReportDto
+        try
         {
-            TotalIncome = totals[OperationType.Income],
-            TotalExpense = totals[OperationType.Expense],
-            Transactions = operations
-        };
-
-        return Ok(report);
+            var report = await _reportService.GetReportAsync(startDate, endDate);
+            return Ok(report);
+        }
+        catch (ArgumentException ex)
+        {
+            _logger.LogInformation("Handled exception: {Exception}", ex.Message);
+            return BadRequest($"Argument exception: {ex.Message}");
+        }
     }
 }

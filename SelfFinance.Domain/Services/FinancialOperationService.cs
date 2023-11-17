@@ -17,26 +17,6 @@ public class FinancialOperationService : IFinancialOperationService
         _context = context;
     }
 
-    public async Task<Dictionary<OperationType, decimal>> CalculateTotalAsync(
-        IEnumerable<FinancialOperationDto> operations)
-    {
-        var operationTags = await _context.OperationTags.ToListAsync();
-
-        var resultDict = operations
-            .GroupBy(o => operationTags
-                .Single(t => t.Id == o.OperationTagId).OperationType)
-            .ToDictionary(g => g.Key, 
-                g => g.Sum(o => o.Sum));
-
-        // ensure all keys are present
-        foreach (var tag in Enum.GetValues<OperationType>())
-        {
-            resultDict.TryAdd(tag, 0m);
-        }
-
-        return resultDict;
-    }
-
     public async Task<FinancialOperation> GetAsync(int id)
     {
         return await _context.FinancialOperations
