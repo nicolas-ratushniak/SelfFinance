@@ -73,7 +73,6 @@ public class OperationTagService : IOperationTagService
         var tag = await GetAsync(dto.Id);
 
         tag.Name = dto.Name;
-        tag.OperationType = dto.OperationType;
 
         _context.Update(tag);
         await _context.SaveChangesAsync();

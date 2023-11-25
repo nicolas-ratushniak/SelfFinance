@@ -107,6 +107,8 @@ public class FinancialOperationService : IFinancialOperationService
                                .SingleOrDefault(t => !t.IsDeleted && t.Id == dto.OperationTagId)
                            ?? throw new EntityNotFoundException("Operation tag not found");
 
+        operation.Sum = dto.Sum;
+        operation.OperationDate = dto.OperationDate;
         operation.OperationTagId = dto.OperationTagId;
         operation.OperationTag = operationTag;
         operation.UpdatedOn = updatedOn;
