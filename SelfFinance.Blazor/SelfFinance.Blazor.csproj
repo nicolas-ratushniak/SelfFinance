@@ -6,4 +6,19 @@
         <ImplicitUsings>enable</ImplicitUsings>
     </PropertyGroup>
 
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Components\Pages\_Host.cshtml" />
+      <_ContentIncludedByDefault Remove="Components\Pages\Index.razor" />
+      <_ContentIncludedByDefault Remove="Components\Pages\TransactionsComponent.razor" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <AdditionalFiles Include="Layout\MainLayout.razor" />
+      <AdditionalFiles Include="Pages\Index.razor" />
+      <AdditionalFiles Include="Pages\_Host.cshtml" />
+    </ItemGroup>
+
+
+
 </Project>

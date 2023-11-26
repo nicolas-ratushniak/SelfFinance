@@ -1,0 +1,47 @@
+﻿.presentation {
+    background-color: var(--primary-color);
+    margin-left: 285px;
+    transition: margin-left .5s;
+    padding: 20px;
+}
+
+
+/*------ Side Nav ------*/
+.side-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 285px;
+    max-width: 285px;
+    overflow: hidden;
+    background-color: var(--contrast-color);
+    color: #FFFFFF;
+    transition: 0.5s;
+}
+
+@media screen and (max-width: 768px) {
+    .side-nav {
+        max-width: 100%;
+    }
+}
+
+.side-nav__toggle {
+    position: relative;
+    height: 100%;
+    width: 25px;
+    background-color: var(--accent-color);
+    float: right;
+    cursor: pointer;
+}
+
+.side-nav__toggle:before {
+    content: '';
+    position: absolute;
+    top: calc(50% - 25px);
+    left: calc(50% - 2px);
+    width: 5px;
+    height: 50px;
+    background-color: #272829;
+    border-radius: 3px;
+}
