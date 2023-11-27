@@ -1,3 +1,29 @@
+/*------ Global ------*/
+:root {
+    --accent-color: #AB68FF;
+    --primary-color: #F5F5F5;
+    --contrast-color: #272829;
+
+    --success-color: #19C37D;
+    --danger-color: #F05454;
+    --warning-color: #FFC60B;
+
+    --light-grey: #E5E5E5;
+    --grey: #8E8EA0;
+}
+
+* {
+    box-sizing: border-box;
+    font-family: Arial, serif;
+    margin: 0;
+}
+
+body {
+    height: 100%;
+    overflow: visible;
+}
+
+
 /*------ Blazor Stuff ------*/
 #blazor-error-ui {
     background: lightyellow;
@@ -26,30 +52,4 @@
 
 .blazor-error-boundary::after {
     content: "An error has occurred."
-}
-
-
-/*------ Global ------*/
-:root {
-    --accent-color: #AB68FF;
-    --primary-color: #F5F5F5;
-
-    --success-color: #19C37D;
-    --danger-color: #F05454;
-    --warning-color: #FFC60B;
-
-    --disabled-color: #E5E5E5;
-    --contrast-color: #272829;
-    --outline-color: #8E8EA0;
-}
-
-* {
-    box-sizing: border-box;
-    font-family: Arial, serif;
-    margin: 0;
-}
-
-body {
-    height: 100%;
-    overflow: visible;
 }

@@ -1,8 +1,10 @@
 ﻿@inherits LayoutComponentBase
-@inject IJSRuntime Js
+
+<input id="is-side-bar-closed" type="checkbox">
 
 <nav class="side-nav">
-    <div class="side-nav__toggle"></div>
+    <label for="is-side-bar-closed" class="side-nav__toggle"></label>
+    <div class="side-nav__content"></div>
 </nav>
 
 <div class="presentation">
@@ -13,20 +15,6 @@
         @Body
     </main>
     <footer>
-        Hello footer
+        Hello footer!
     </footer>
 </div>
-
-@code
-{
-    private IJSObjectReference? _jsModule;
-    
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        _jsModule = await Js.InvokeAsync<IJSObjectReference>("import", 
-            $"./Layout/{nameof(MainLayout)}.razor.js");
-        await _jsModule.InvokeVoidAsync("ready");
-        
-        await base.OnAfterRenderAsync(firstRender);
-    }
-}

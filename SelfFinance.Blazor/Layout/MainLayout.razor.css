@@ -1,7 +1,5 @@
 ﻿.presentation {
     background-color: var(--primary-color);
-    margin-left: 285px;
-    transition: margin-left .5s;
     padding: 20px;
 }
 
@@ -12,36 +10,80 @@
     top: 0;
     left: 0;
     height: 100%;
-    width: 285px;
-    max-width: 285px;
-    overflow: hidden;
-    background-color: var(--contrast-color);
-    color: #FFFFFF;
-    transition: 0.5s;
+    width: 265px;
+    overflow-x: hidden;
+    z-index: 100;
+    transition: width .5s;
 }
 
-@media screen and (max-width: 768px) {
-    .side-nav {
-        max-width: 100%;
-    }
+.side-nav ~ .presentation {
+    margin-left: 265px;
+    transition: margin-left .5s;
+}
+
+.side-nav__content {
+    height: 100%;
+    width: 240px;
+    background-color: var(--contrast-color);
+    color: #FFFFFF;
+    transition: width .5s;
 }
 
 .side-nav__toggle {
     position: relative;
+    float: right;
     height: 100%;
     width: 25px;
-    background-color: var(--accent-color);
-    float: right;
+    background-color: transparent;
     cursor: pointer;
 }
 
-.side-nav__toggle:before {
+.side-nav__toggle:after {
     content: '';
     position: absolute;
-    top: calc(50% - 25px);
+    top: 50%;
+    bottom: 50%;
     left: calc(50% - 2px);
     width: 5px;
-    height: 50px;
-    background-color: #272829;
+    height: 40px;
+    background-color: var(--grey);
     border-radius: 3px;
+    transition: all .3s;
+}
+
+.side-nav__toggle:hover:after {
+    background-color: var(--contrast-color);
+    transform: translate(0, -5px);
+    height: 50px;
+}
+
+#is-side-bar-closed {
+    appearance: none;
+    display: none;
+}
+
+#is-side-bar-closed:checked + .side-nav {
+    width: 25px;
+}
+
+#is-side-bar-closed:checked + .side-nav > .side-nav__content {
+    width: 0;
+}
+
+#is-side-bar-closed:checked ~ .presentation {
+    margin-left: 25px;
+}
+
+@media screen and (max-width: 480px) {
+    .side-nav {
+        width: 100%;
+    }
+
+    .side-nav + .presentation {
+        margin-left: 100%;
+    }
+
+    .side-nav__content {
+        width: calc(100% - 25px);
+    }
 }
