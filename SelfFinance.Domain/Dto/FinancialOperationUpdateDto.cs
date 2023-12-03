@@ -1,11 +1,18 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Newtonsoft.Json;
 
 namespace SelfFinance.Domain.Dto;
 
 public class FinancialOperationUpdateDto
 {
-    [Required] public int Id { get; set; }
-    [Required, Range(1, 1_000_000)] public decimal Sum { get; set; }
-    [Required] public DateTime OperationDate { get; set; }
-    [Required] public int OperationTagId { get; set; }
+    [Required, JsonProperty("id")] public int Id { get; set; }
+
+    [Required, Range(1, 1_000_000), JsonProperty("sum")]
+    public decimal Sum { get; set; }
+
+    [Required, JsonProperty("operationDate")]
+    public DateTime OperationDate { get; set; }
+
+    [Required, JsonProperty("operationTagId")]
+    public int OperationTagId { get; set; }
 }

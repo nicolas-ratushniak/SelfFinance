@@ -7,11 +7,10 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\SelfFinance.Data\SelfFinance.Data.csproj" />
+        <ProjectReference Include="..\SelfFinance.Data\SelfFinance.Data.csproj"/>
     </ItemGroup>
 
-
-
-
-
+    <ItemGroup>
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    </ItemGroup>
 </Project>
