@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SelfFinance.Domain", "SelfF
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SelfFinance.Blazor", "SelfFinance.Blazor\SelfFinance.Blazor.csproj", "{A74E44F8-2FCA-4F7F-9662-21F86375A9C7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SelfFinance.ApiConsumer", "SelfFinance.ApiConsumer\SelfFinance.ApiConsumer.csproj", "{C552404A-0E12-4EB3-8CD2-C66E82DED43E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{A74E44F8-2FCA-4F7F-9662-21F86375A9C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A74E44F8-2FCA-4F7F-9662-21F86375A9C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A74E44F8-2FCA-4F7F-9662-21F86375A9C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C552404A-0E12-4EB3-8CD2-C66E82DED43E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C552404A-0E12-4EB3-8CD2-C66E82DED43E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C552404A-0E12-4EB3-8CD2-C66E82DED43E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C552404A-0E12-4EB3-8CD2-C66E82DED43E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

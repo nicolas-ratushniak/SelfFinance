@@ -9,23 +9,23 @@ namespace SelfFinance.Api.Controllers;
 
 [ApiController]
 [Route("self-finance/api/transactions")]
-public class FinancialOperationController : ControllerBase
+public class TransactionController : ControllerBase
 {
-    private readonly IFinancialOperationService _financialOperationService;
-    private readonly ILogger<FinancialOperationController> _logger;
+    private readonly ITransactionService _transactionService;
+    private readonly ILogger<TransactionController> _logger;
 
-    public FinancialOperationController(
-        IFinancialOperationService financialOperationService,
-        ILogger<FinancialOperationController> logger)
+    public TransactionController(
+        ITransactionService transactionService,
+        ILogger<TransactionController> logger)
     {
-        _financialOperationService = financialOperationService;
+        _transactionService = transactionService;
         _logger = logger;
     }
     
     [HttpGet]
     public async Task<IActionResult> GetAllAsync()
     {
-        var operations = await _financialOperationService.GetAllAsync();
+        var operations = await _transactionService.GetAllAsync();
         return Ok(operations);
     }
     
@@ -34,7 +34,7 @@ public class FinancialOperationController : ControllerBase
     {
         try
         {
-            var operation = await _financialOperationService.GetAsync(id);
+            var operation = await _transactionService.GetAsync(id);
             return Ok(operation.ConvertToDto());
         }
         catch (EntityNotFoundException ex)
@@ -45,11 +45,11 @@ public class FinancialOperationController : ControllerBase
     }
     
     [HttpPost]
-    public async Task<IActionResult> AddAsync([FromBody] FinancialOperationCreateDto dto)
+    public async Task<IActionResult> AddAsync([FromBody] TransactionCreateDto dto)
     {
         try
         {
-            await _financialOperationService.AddAsync(dto);
+            await _transactionService.AddAsync(dto);
             return Ok();
         }
         catch (ValidationException ex)
@@ -65,11 +65,11 @@ public class FinancialOperationController : ControllerBase
     }
     
     [HttpPut]
-    public async Task<IActionResult> UpdateAsync([FromBody] FinancialOperationUpdateDto dto)
+    public async Task<IActionResult> UpdateAsync([FromBody] TransactionUpdateDto dto)
     {
         try
         {
-            await _financialOperationService.UpdateAsync(dto);
+            await _transactionService.UpdateAsync(dto);
             return Ok();
         }
         catch (ValidationException ex)
@@ -89,7 +89,7 @@ public class FinancialOperationController : ControllerBase
     {
         try
         {
-            await _financialOperationService.SoftDeleteAsync(id);
+            await _transactionService.SoftDeleteAsync(id);
             return Ok();
         }
         catch (EntityNotFoundException ex)

@@ -9,12 +9,12 @@ namespace SelfFinance.Domain.Services;
 public class ReportService : IReportService
 {
     private readonly SelfFinanceDbContext _context;
-    private readonly IFinancialOperationService _financialOperationService;
+    private readonly ITransactionService _transactionService;
 
-    public ReportService(SelfFinanceDbContext context, IFinancialOperationService financialOperationService)
+    public ReportService(SelfFinanceDbContext context, ITransactionService transactionService)
     {
         _context = context;
-        _financialOperationService = financialOperationService;
+        _transactionService = transactionService;
     }
 
     public async Task<ReportDto> GetReportAsync(DateOnly date)
@@ -32,7 +32,7 @@ public class ReportService : IReportService
             throw new ArgumentException("Start date should precede end date");
         }
 
-        var operations = (await _financialOperationService.GetAllAsync(from, to)).ToList();
+        var operations = (await _transactionService.GetAllAsync(from, to)).ToList();
         var totals = await CalculateTotalAsync(operations);
 
         return new ReportDto
@@ -44,7 +44,7 @@ public class ReportService : IReportService
     }
 
     private async Task<Dictionary<OperationType, decimal>> CalculateTotalAsync(
-        IEnumerable<FinancialOperationDto> operations)
+        IEnumerable<TransactionDto> operations)
     {
         var operationTags = await _context.OperationTags.ToListAsync();
 

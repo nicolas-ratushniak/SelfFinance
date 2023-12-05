@@ -2,7 +2,7 @@
 
 namespace SelfFinance.Domain.Dto;
 
-public class FinancialOperationDto
+public class TransactionDto
 {
     [JsonProperty("id")] public int Id { get; set; }
     [JsonProperty("sum")] public decimal Sum { get; set; }

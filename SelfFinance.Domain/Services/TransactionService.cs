@@ -8,16 +8,16 @@ using SelfFinance.Domain.Exceptions;
 
 namespace SelfFinance.Domain.Services;
 
-public class FinancialOperationService : IFinancialOperationService
+public class TransactionService : ITransactionService
 {
     private readonly SelfFinanceDbContext _context;
 
-    public FinancialOperationService(SelfFinanceDbContext context)
+    public TransactionService(SelfFinanceDbContext context)
     {
         _context = context;
     }
 
-    public async Task<FinancialOperation> GetAsync(int id)
+    public async Task<Transaction> GetAsync(int id)
     {
         return await _context.FinancialOperations
                    .Where(fo => !fo.IsDeleted)
@@ -25,11 +25,11 @@ public class FinancialOperationService : IFinancialOperationService
                ?? throw new EntityNotFoundException();
     }
 
-    public async Task<IEnumerable<FinancialOperationDto>> GetAllAsync()
+    public async Task<IEnumerable<TransactionDto>> GetAllAsync()
     {
         return await _context.FinancialOperations
             .Where(fo => !fo.IsDeleted)
-            .Select(fo => new FinancialOperationDto
+            .Select(fo => new TransactionDto
             {
                 Id = fo.Id,
                 Sum = fo.Sum,
@@ -39,7 +39,7 @@ public class FinancialOperationService : IFinancialOperationService
             .ToListAsync();
     }
 
-    public async Task<IEnumerable<FinancialOperationDto>> GetAllAsync(DateTime from, DateTime to)
+    public async Task<IEnumerable<TransactionDto>> GetAllAsync(DateTime from, DateTime to)
     {
         if (from > to)
         {
@@ -51,7 +51,7 @@ public class FinancialOperationService : IFinancialOperationService
                 !fo.IsDeleted &&
                 fo.OperationDate >= from &&
                 fo.OperationDate <= to)
-            .Select(fo => new FinancialOperationDto
+            .Select(fo => new TransactionDto
                 {
                     Id = fo.Id,
                     Sum = fo.Sum,
@@ -61,7 +61,7 @@ public class FinancialOperationService : IFinancialOperationService
             .ToListAsync();
     }
 
-    public async Task<int> AddAsync(FinancialOperationCreateDto dto)
+    public async Task<int> AddAsync(TransactionCreateDto dto)
     {
         var createdOn = DateTime.Now;
 
@@ -76,7 +76,7 @@ public class FinancialOperationService : IFinancialOperationService
                                .SingleOrDefault(t => !t.IsDeleted && t.Id == dto.OperationTagId)
                            ?? throw new EntityNotFoundException("Operation tag not found");
 
-        var operation = new FinancialOperation
+        var operation = new Transaction
         {
             Sum = dto.Sum,
             OperationTagId = dto.OperationTagId,
@@ -91,7 +91,7 @@ public class FinancialOperationService : IFinancialOperationService
         return operation.Id;
     }
 
-    public async Task UpdateAsync(FinancialOperationUpdateDto dto)
+    public async Task UpdateAsync(TransactionUpdateDto dto)
     {
         var updatedOn = DateTime.Now;
 

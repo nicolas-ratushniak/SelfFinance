@@ -3,10 +3,8 @@ using Newtonsoft.Json;
 
 namespace SelfFinance.Domain.Dto;
 
-public class FinancialOperationUpdateDto
+public class TransactionCreateDto
 {
-    [Required, JsonProperty("id")] public int Id { get; set; }
-
     [Required, Range(1, 1_000_000), JsonProperty("sum")]
     public decimal Sum { get; set; }
 

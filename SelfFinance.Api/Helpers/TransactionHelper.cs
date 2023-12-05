@@ -3,11 +3,11 @@ using SelfFinance.Domain.Dto;
 
 namespace SelfFinance.Api.Helpers;
 
-public static class FinancialOperationHelper
+public static class TransactionHelper
 {
-    public static FinancialOperationDto ConvertToDto(this FinancialOperation operation)
+    public static TransactionDto ConvertToDto(this Transaction operation)
     {
-        return new FinancialOperationDto
+        return new TransactionDto
         {
             Id = operation.Id,
             Sum = operation.Sum,

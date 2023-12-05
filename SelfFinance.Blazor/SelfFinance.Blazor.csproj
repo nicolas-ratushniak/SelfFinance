@@ -13,8 +13,11 @@
     </ItemGroup>
 
     <ItemGroup>
-      <AdditionalFiles Include="Layout\MainLayout.razor" />
       <AdditionalFiles Include="Pages\Index.razor" />
       <AdditionalFiles Include="Pages\_Host.cshtml" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\SelfFinance.ApiConsumer\SelfFinance.ApiConsumer.csproj" />
     </ItemGroup>
 </Project>

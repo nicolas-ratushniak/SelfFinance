@@ -2,7 +2,7 @@
 
 namespace SelfFinance.Data.Models;
 
-public class FinancialOperation
+public class Transaction
 {
     public int Id { get; set; }
     [Column(TypeName = "numeric(9,2)")] public decimal Sum { get; set; }
