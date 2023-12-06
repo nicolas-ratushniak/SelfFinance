@@ -13,7 +13,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <AdditionalFiles Include="Pages\Index.razor" />
       <AdditionalFiles Include="Pages\_Host.cshtml" />
     </ItemGroup>
 

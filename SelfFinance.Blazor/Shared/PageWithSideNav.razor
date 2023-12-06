@@ -1,0 +1,18 @@
+﻿<input id="is-side-bar-closed" type="checkbox">
+
+<nav class="side-nav">
+    <label for="is-side-bar-closed" class="side-nav__toggle"></label>
+    <div class="side-nav__content">
+        @SideNavOptions
+    </div>
+</nav>
+
+<main>
+    @MainContent
+</main>
+
+@code
+{
+    [Parameter] public RenderFragment SideNavOptions { get; set; }
+    [Parameter] public RenderFragment MainContent { get; set; }
+}

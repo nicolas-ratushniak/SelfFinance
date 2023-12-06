@@ -1,10 +1,7 @@
-﻿.presentation {
-    background-color: var(--primary-color);
+﻿main {
     padding: 20px;
 }
 
-
-/*------ Side Nav ------*/
 .side-nav {
     position: fixed;
     top: 0;
@@ -16,7 +13,7 @@
     transition: width .5s;
 }
 
-.side-nav ~ .presentation {
+.side-nav ~ main {
     margin-left: 265px;
     transition: margin-left .5s;
 }
@@ -24,9 +21,29 @@
 .side-nav__content {
     height: 100%;
     width: 240px;
+    padding-top: 4rem;
     background-color: var(--contrast-color);
     color: #FFFFFF;
     transition: width .5s;
+    display: flex;
+    flex-direction: column;
+}
+
+::deep .side-nav__content a {
+    display: block;
+    width: 100%;
+    padding: 1rem 0;
+    text-align: center;
+    text-decoration: none;
+    color: #FFFFFF;
+}
+
+::deep .side-nav__content a:hover {
+    background-color: var(--gray-700);
+}
+
+::deep .side-nav__content .active {
+    background-color: var(--gray-700);
 }
 
 .side-nav__toggle {
@@ -70,16 +87,16 @@
     width: 0;
 }
 
-#is-side-bar-closed:checked ~ .presentation {
+#is-side-bar-closed:checked ~ main {
     margin-left: 25px;
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 641px) {
     .side-nav {
         width: 100%;
     }
 
-    .side-nav + .presentation {
+    .side-nav + main {
         margin-left: 100%;
     }
 
