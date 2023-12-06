@@ -1,6 +1,12 @@
+using SelfFinance.ApiConsumer.Abstract;
+using SelfFinance.ApiConsumer.Services;
+
 var builder = WebApplication.CreateBuilder(args);
+
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
+builder.Services.AddScoped<ITransactionService, MockTransactionService>();
+builder.Services.AddScoped<IOperationTagService, MockOperationTagService>();
 
 var app = builder.Build();
 

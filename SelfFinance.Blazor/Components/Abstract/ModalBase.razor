@@ -1,0 +1,26 @@
+﻿<div class="modal-container" hidden="@_isHidden">
+    <div class="modal__content">
+        <h2 class="title">@Title</h2>
+        @Content
+    </div>
+</div>
+
+@code {
+    private bool _isHidden = true;
+
+    [Parameter]
+    public string Title { get; set; } = "Modal";
+
+    [Parameter]
+    public RenderFragment? Content { get; set; }
+    
+    public void Show()
+    {
+        _isHidden = false;
+    }
+
+    public void Hide()
+    {
+        _isHidden = true;
+    }
+}

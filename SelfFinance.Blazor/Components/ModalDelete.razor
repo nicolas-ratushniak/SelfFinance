@@ -1,0 +1,33 @@
+﻿@using SelfFinance.Blazor.Components.Abstract
+
+<ModalBase @ref="_modalBase" Title="Are you sure?">
+    <Content>
+        <h2 class="description">@Description</h2>
+
+        <div class="btn-container">
+            <button class="cancel-btn" @onclick="() => HandleDecisionAsync(ModalResult.Cancel)">Cancel</button>
+            <button class="delete-btn" @onclick="() => HandleDecisionAsync(ModalResult.Success)">Delete</button>
+        </div>
+    </Content>
+</ModalBase>
+
+@code {
+    private ModalBase _modalBase;
+
+    [Parameter]
+    public string? Description { get; set; }
+    
+    [Parameter]
+    public EventCallback<ModalResult> OnDecisionMadeCallback { get; set; }
+
+    public void Show()
+    {
+        _modalBase.Show();
+    }
+
+    private async Task HandleDecisionAsync(ModalResult result)
+    {
+        await OnDecisionMadeCallback.InvokeAsync(result);
+        _modalBase.Hide();
+    }
+}
