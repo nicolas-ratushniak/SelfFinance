@@ -1,0 +1,41 @@
+﻿@using SelfFinance.ApiConsumer.ViewModels
+@using SelfFinance.Blazor.Components.Abstract
+@using SelfFinance.Data.Models
+
+<TableBase Items="Items"
+           TItem="TransactionViewModel"
+           Context="transaction">
+
+    <HeaderTemplate>
+        <th>Date</th>
+        <th>Category</th>
+        <th class="align-right">Amount</th>
+        <th class="actions-cell"/>
+    </HeaderTemplate>
+
+    <DataRowTemplate>
+        <td>@transaction.Date.ToString("dd MMM yyyy")</td>
+        <td>@transaction.Tag</td>
+        <td class="align-right primary-text">
+            @($"{(transaction.Type == OperationType.Expense ? "-" : "")}{transaction.AbsoluteSum:C}")
+        </td>
+        <td class="actions-cell">
+            <div class="btn-container">
+                <button class="edit-btn" @onclick="() => OnEditCallback.InvokeAsync(transaction)"></button>
+                <button class="delete-btn" @onclick="() => OnDeleteCallback.InvokeAsync(transaction)"></button>
+            </div>
+        </td>
+    </DataRowTemplate>
+</TableBase>
+
+@code {
+    
+    [Parameter]
+    public EventCallback<TransactionViewModel> OnEditCallback { get; set; }
+    
+    [Parameter]
+    public EventCallback<TransactionViewModel> OnDeleteCallback { get; set; }
+
+    [Parameter]
+    public IEnumerable<TransactionViewModel> Items { get; set; }
+}
