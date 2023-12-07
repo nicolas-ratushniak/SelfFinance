@@ -1,6 +1,19 @@
 ﻿@page "/tags"
 @using SelfFinance.Blazor.Components
 
+<PageTitle>Tags</PageTitle>
+
+<div class="container">
+    <div class="header">
+        <h1>Tags</h1>
+        <button class="add-btn" @onclick="() => _addModal.Show()">+</button>
+    </div>
+
+    <TagsTable Items="_tags"
+               OnDeleteCallback="ShowDeleteModal"
+               OnEditCallback="ShowEditModal"/>
+</div>
+
 <WarningPopup @ref="_warningPopup"
               IconPath="images/no-connection.png"/>
 
@@ -13,16 +26,3 @@
 
 <TagUpdateModal @ref="_editModal"
                 OnValidSubmit="HandleUpdateAsync"/>
-
-<div class="container">
-    <PageTitle>Tags</PageTitle>
-
-    <div class="header">
-        <h1>Tags</h1>
-        <button class="add-btn" @onclick="() => _addModal.Show()">+</button>
-    </div>
-
-    <TagsTable Items="_tags"
-               OnDeleteCallback="ShowDeleteModal"
-               OnEditCallback="ShowEditModal"/>
-</div>

@@ -3,6 +3,19 @@
 
 @using SelfFinance.Blazor.Components
 
+<PageTitle>Transactions</PageTitle>
+
+<div class="container">
+    <div class="header">
+        <h1>Transactions</h1>
+        <button class="add-btn" @onclick="() => _addModal.Show()">+</button>
+    </div>
+    
+    <TransactionsTable Items="_transactions"
+                       OnDeleteCallback="ShowDeleteModal"
+                       OnEditCallback="ShowEditModal"/>
+</div>
+
 <WarningPopup @ref="_warningPopup"
               IconPath="images/no-connection.png"/>
 
@@ -17,16 +30,3 @@
 <TransactionUpdateModal @ref="_editModal"
                         OperationTags="_operationTags"
                         OnValidSubmit="HandleUpdateAsync"/>
-
-<div class="container">
-    <PageTitle>Transactions</PageTitle>
-
-    <div class="header">
-        <h1>Transactions</h1>
-        <button class="add-btn" @onclick="() => _addModal.Show()">+</button>
-    </div>
-    
-    <TransactionsTable Items="_transactions"
-                       OnDeleteCallback="ShowDeleteModal"
-                       OnEditCallback="ShowEditModal"/>
-</div>
