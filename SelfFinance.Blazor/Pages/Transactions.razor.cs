@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Net;
 using Microsoft.AspNetCore.Components;
 using SelfFinance.Blazor.Components;
 using SelfFinance.Blazor.Components.Abstract;
@@ -17,6 +18,7 @@ public partial class Transactions
     private ModalDelete _deleteModal;
     private TransactionCreateModal _addModal;
     private TransactionUpdateModal _editModal;
+    private WarningPopup _warningPopup;
 
     [Inject] private ITransactionService TransactionService { get; set; }
     [Inject] private IOperationTagService OperationTagService { get; set; }
@@ -30,7 +32,7 @@ public partial class Transactions
         }
         catch (HttpRequestException)
         {
-            // handle
+            _warningPopup.PopupAsync("Failed to load data", "The server is not accessible at the moment");
         }
     }
 
@@ -63,7 +65,7 @@ public partial class Transactions
 
             // to avoid refreshing all items from DB
             _transactions!.Insert(0, addedTransaction);
-            
+
             // ------ sort by date ------
             // var sortedTransactions = new List<TransactionViewModel>(_transactions!)
             //     .OrderByDescending(t => t.Date);
@@ -77,9 +79,13 @@ public partial class Transactions
             // ---------------------------
             _addModal.Hide();
         }
-        catch (HttpRequestException)
+        catch (HttpRequestException ex)
         {
-            _addModal.ErrorMessage = "Some server error occured";
+            _addModal.ErrorMessage = ex.StatusCode switch
+            {
+                HttpStatusCode.BadRequest => "Validation error occured",
+                _ => "Some server error occured"
+            };
         }
     }
 
@@ -101,9 +107,13 @@ public partial class Transactions
 
             _editModal.Hide();
         }
-        catch (HttpRequestException)
+        catch (HttpRequestException ex)
         {
-            _editModal.ErrorMessage = "Some server error occured";
+            _editModal.ErrorMessage = ex.StatusCode switch
+            {
+                HttpStatusCode.BadRequest => "Validation error occured",
+                _ => "Some server error occured"
+            };
         }
     }
 
@@ -120,9 +130,9 @@ public partial class Transactions
                 // to avoid refreshing all items from DB
                 _transactions!.Remove(transactionToDelete);
             }
-            catch (HttpRequestException)
+            catch (HttpRequestException ex)
             {
-                // handle
+                _warningPopup.PopupAsync("Server error", ex.Message);
             }
         }
     }

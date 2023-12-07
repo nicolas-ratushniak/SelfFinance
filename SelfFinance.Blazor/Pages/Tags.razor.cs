@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Net;
 using Microsoft.AspNetCore.Components;
 using SelfFinance.Blazor.Components;
 using SelfFinance.Blazor.Components.Abstract;
@@ -16,6 +17,7 @@ public partial class Tags
     private ModalDelete _deleteModal;
     private TagCreateModal _addModal;
     private TagUpdateModal _editModal;
+    private WarningPopup _warningPopup;
     
     [Inject] private IOperationTagService OperationTagService { get; set; }
     
@@ -27,7 +29,7 @@ public partial class Tags
         }
         catch (HttpRequestException)
         {
-            // handle
+            _warningPopup.PopupAsync("Failed to load data", "The server is not accessible at the moment");
         }
     }
 
@@ -73,9 +75,13 @@ public partial class Tags
             
             _addModal.Hide();
         }
-        catch (HttpRequestException)
+        catch (HttpRequestException ex)
         {
-            _addModal.ErrorMessage = "Some server error occured";
+            _addModal.ErrorMessage = ex.StatusCode switch
+            {
+                HttpStatusCode.BadRequest => "Validation error occured",
+                _ => "Some server error occured"
+            };
         }
     }
 
@@ -93,9 +99,13 @@ public partial class Tags
 
             _editModal.Hide();
         }
-        catch (HttpRequestException)
+        catch (HttpRequestException ex)
         {
-            _editModal.ErrorMessage = "Some server error occured";
+            _editModal.ErrorMessage = ex.StatusCode switch
+            {
+                HttpStatusCode.BadRequest => "Validation error occured",
+                _ => "Some server error occured"
+            };
         }
     }
 
@@ -112,9 +122,9 @@ public partial class Tags
                 // to avoid refreshing all items from DB
                 _tags!.Remove(tagToDelete);
             }
-            catch (HttpRequestException)
+            catch (HttpRequestException ex)
             {
-                // handle
+                _warningPopup.PopupAsync("Server error", ex.Message);
             }
         }
     }

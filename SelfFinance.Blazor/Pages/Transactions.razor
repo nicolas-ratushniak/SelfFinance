@@ -3,6 +3,9 @@
 
 @using SelfFinance.Blazor.Components
 
+<WarningPopup @ref="_warningPopup"
+              IconPath="images/no-connection.png"/>
+
 <ModalDelete @ref="_deleteModal"
              Description="The action will permanently delete a transaction"
              OnDecisionMadeCallback="HandleDeleteModalResultAsync"/>
@@ -22,7 +25,7 @@
         <h1>Transactions</h1>
         <button class="add-btn" @onclick="() => _addModal.Show()">+</button>
     </div>
-
+    
     <TransactionsTable Items="_transactions"
                        OnDeleteCallback="ShowDeleteModal"
                        OnEditCallback="ShowEditModal"/>
