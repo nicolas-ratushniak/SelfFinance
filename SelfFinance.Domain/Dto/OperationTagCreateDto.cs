@@ -6,9 +6,13 @@ namespace SelfFinance.Domain.Dto;
 
 public class OperationTagCreateDto
 {
-    [Required, JsonProperty("operationType")]
+    [Required]
+    [Range(1, 2, ErrorMessage = "Specify a correct transaction type")]
+    [JsonProperty("operationType")]
     public OperationType OperationType { get; set; }
 
-    [Required, StringLength(30, MinimumLength = 2), JsonProperty("name")]
+    [Required]
+    [StringLength(30, MinimumLength = 2)]
+    [JsonProperty("name")]
     public string Name { get; set; }
 }
