@@ -22,4 +22,10 @@ public static class TransactionHelper
             AbsoluteSum = dto.Sum
         };
     }
+    
+    public static IEnumerable<TransactionViewModel> ConvertToViewModels(this IEnumerable<TransactionDto> dtos, IEnumerable<OperationTagDto> tagDtos)
+    {
+        return dtos.Select(t => t.ConvertToViewModel(
+            tagDtos.Single(tag => tag.Id == t.OperationTagId)));
+    }
 }

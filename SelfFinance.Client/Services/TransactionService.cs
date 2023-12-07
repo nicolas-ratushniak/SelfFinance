@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Net;
+using System.Text;
 using Newtonsoft.Json;
 using SelfFinance.Client.Abstract;
 using SelfFinance.Client.Helpers;
@@ -47,9 +48,7 @@ public class TransactionService : ITransactionService
         var tagsJsonResult = await tagsResponse.Content.ReadAsStringAsync();
         var tagDtos = JsonConvert.DeserializeObject<IEnumerable<OperationTagDto>>(tagsJsonResult)!;
 
-        return transactionDtos
-            .Select(t => t.ConvertToViewModel(
-                tagDtos.Single(tag => tag.Id == t.OperationTagId)))
+        return transactionDtos.ConvertToViewModels(tagDtos)
             .OrderByDescending(t => t.Date);
     }
 
