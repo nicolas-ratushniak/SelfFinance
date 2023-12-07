@@ -1,5 +1,5 @@
-﻿@using SelfFinance.ApiConsumer.ViewModels
-@using SelfFinance.Blazor.Components.Abstract
+﻿@using SelfFinance.Blazor.Components.Abstract
+@using SelfFinance.Client.ViewModels
 @using SelfFinance.Data.Models
 
 <TableBase Items="Items"
@@ -15,7 +15,7 @@
 
     <DataRowTemplate>
         <td>@transaction.Date.ToString("dd MMM yyyy")</td>
-        <td>@transaction.Tag</td>
+        <td>@transaction.TagName</td>
         <td class="align-right primary-text">
             @($"{(transaction.Type == OperationType.Expense ? "-" : "")}{transaction.AbsoluteSum:C}")
         </td>
@@ -37,5 +37,5 @@
     public EventCallback<TransactionViewModel> OnDeleteCallback { get; set; }
 
     [Parameter]
-    public IEnumerable<TransactionViewModel> Items { get; set; }
+    public IEnumerable<TransactionViewModel>? Items { get; set; }
 }

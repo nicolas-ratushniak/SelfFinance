@@ -12,18 +12,21 @@
         </thead>
 
         <tbody>
-        @if (!Items.Any())
+        @if (Items is not null)
+        {
+            foreach (var item in Items)
+            {
+                <tr>
+                    @if (DataRowTemplate is not null)
+                    {
+                        @DataRowTemplate(item)
+                    }
+                </tr>
+            }
+        }
+        else
         {
             <p class="loading">Loading...</p>
-        }
-        @foreach (var item in Items)
-        {
-            <tr>
-                @if (DataRowTemplate is not null)
-                {
-                    @DataRowTemplate(item)
-                }
-            </tr>
         }
         </tbody>
     </table>
@@ -32,7 +35,7 @@
 @code {
 
     [Parameter]
-    public IEnumerable<TItem> Items { get; set; }
+    public IEnumerable<TItem>? Items { get; set; }
 
     [Parameter]
     public RenderFragment? HeaderTemplate { get; set; }

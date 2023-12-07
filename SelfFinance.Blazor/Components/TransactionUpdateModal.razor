@@ -1,0 +1,86 @@
+﻿@using SelfFinance.Blazor.Components.Abstract
+@using Microsoft.AspNetCore.Components.Forms
+@using SelfFinance.Client.ViewModels
+@using SelfFinance.Domain.Dto
+
+<ModalBase @ref="_modalBase" Title="Edit Transaction">
+    <Content>
+        <EditForm action="" Model="@Transaction" OnValidSubmit="_ => OnValidSubmit.InvokeAsync(Transaction)">
+            <DataAnnotationsValidator/>
+
+            <div class="form__item">
+                <ValidationMessage For="() => Transaction!.OperationDate"/>
+                <InputDate id="date" TValue="DateTime" @bind-Value="Transaction!.OperationDate" min="2000-01-01" max="@DateTime.Today.ToString("yyyy-MM-dd")"/>
+                <label for="date">Date</label>
+            </div>
+
+            <div class="form__item">
+                <ValidationMessage For="() => Transaction!.Sum"/>
+                <InputNumber id="sum" TValue="decimal" @bind-Value="Transaction!.Sum" min="0" width="13"/>
+                <label for="sum">Amount</label>
+            </div>
+
+            <div class="form__item">
+                <ValidationMessage For="() => Transaction!.OperationTagId"/>
+                <InputSelect TValue="int" @bind-Value="Transaction!.OperationTagId">
+                    @if (OperationTags is not null)
+                    {
+                        foreach (var typeGroup in OperationTags.GroupBy(t => t.OperationType).ToList())
+                        {
+                            <optgroup label="@typeGroup.Key">
+                                @foreach (var tag in typeGroup)
+                                {
+                                    <option TValue="int" Value="@tag.Id">@tag.Name</option>
+                                }
+                            </optgroup>
+                        }
+                    }
+                    else
+                    {
+                        <p>Loading...</p>
+                    }
+                </InputSelect>
+                <label for="sum">Tag</label>
+            </div>
+
+            <div class="btn-container">
+                <input class="cancel-btn" type="reset" @onclick="CancelForm" value="Cancel"/>
+                <input class="success-btn" type="submit" value="Submit"/>
+            </div>
+
+            <div class="server-error-message">@ErrorMessage</div>
+        </EditForm>
+    </Content>
+</ModalBase>
+
+@code {
+    private ModalBase _modalBase;
+    
+    
+    public string? ErrorMessage { get; set; }
+    public TransactionUpdateDto? Transaction { get; set; } = new();
+
+    [Parameter]
+    public IEnumerable<OperationTagViewModel>? OperationTags { get; set; }
+
+    [Parameter]
+    public EventCallback<TransactionUpdateDto> OnValidSubmit { get; set; }
+
+    public void Show()
+    {
+        _modalBase.Show();
+    }
+
+    public void Hide()
+    {
+        _modalBase.Hide();
+    }
+
+    private void CancelForm()
+    {
+        _modalBase.Hide();
+        Transaction = new TransactionUpdateDto();
+        ErrorMessage = string.Empty;
+    }
+
+}
