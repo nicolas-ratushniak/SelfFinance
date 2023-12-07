@@ -1,0 +1,57 @@
+﻿@using SelfFinance.Blazor.Components.Abstract
+@using Microsoft.AspNetCore.Components.Forms
+@using SelfFinance.Domain.Dto
+
+
+<ModalBase @ref="_modalBase" Title="Edit Tag">
+    <Content>
+        <EditForm Model="@Tag" OnValidSubmit="_ => OnValidSubmit.InvokeAsync(Tag)">
+            <DataAnnotationsValidator/>
+
+            <div class="form__item">
+                <ValidationMessage For="() => Tag!.Name"/>
+                <InputText id="name" @bind-Value="Tag!.Name"/>
+                <label for="name">Name</label>
+            </div>
+
+            <div class="btn-container">
+                <input class="cancel-btn" type="reset" @onclick="CancelForm" value="Cancel"/>
+                <input class="success-btn" type="submit" value="Submit"/>
+            </div>
+
+            <div class="server-error-message">@ErrorMessage</div>
+        </EditForm>
+    </Content>
+</ModalBase>
+
+@code {
+    private ModalBase _modalBase;
+
+    public string? ErrorMessage { get; set; }
+    public OperationTagUpdateDto? Tag { get; set; }
+
+    [Parameter]
+    public EventCallback<OperationTagUpdateDto> OnValidSubmit { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Tag ??= new OperationTagUpdateDto();
+    }
+
+    public void Show()
+    {
+        _modalBase.Show();
+    }
+
+    public void Hide()
+    {
+        _modalBase.Hide();
+    }
+
+    private void CancelForm()
+    {
+        _modalBase.Hide();
+        Tag = new OperationTagUpdateDto();
+        ErrorMessage = string.Empty;
+    }
+}

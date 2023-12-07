@@ -1,0 +1,69 @@
+﻿@using SelfFinance.Blazor.Components.Abstract
+@using Microsoft.AspNetCore.Components.Forms
+@using SelfFinance.Data.Models
+@using SelfFinance.Domain.Dto
+
+
+<ModalBase @ref="_modalBase" Title="New Tag">
+    <Content>
+        <EditForm Model="@Tag" OnValidSubmit="_ => OnValidSubmit.InvokeAsync(Tag)">
+            <DataAnnotationsValidator/>
+
+            <div class="form__item">
+                <ValidationMessage For="() => Tag!.Name"/>
+                <InputText id="name" @bind-Value="Tag!.Name"/>
+                <label for="name">Name</label>
+            </div>
+
+            <div class="form__item">
+                <ValidationMessage For="() => Tag!.OperationType"/>
+                <InputSelect id="type" TValue="OperationType" @bind-Value="Tag!.OperationType">
+                    @foreach (var type in Enum.GetValues<OperationType>())
+                    {
+                        <option TValue="OperationType" Value="@type">@type</option>
+                    }
+                </InputSelect>
+                <label for="type">Transaction Type</label>
+            </div>
+
+            <div class="btn-container">
+                <input class="cancel-btn" type="reset" @onclick="CancelForm" value="Cancel"/>
+                <input class="success-btn" type="submit" value="Submit"/>
+            </div>
+
+            <div class="server-error-message">@ErrorMessage</div>
+        </EditForm>
+    </Content>
+</ModalBase>
+
+@code {
+    private ModalBase _modalBase;
+
+    public string? ErrorMessage { get; set; }
+    public OperationTagCreateDto? Tag { get; set; }
+
+    [Parameter]
+    public EventCallback<OperationTagCreateDto> OnValidSubmit { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Tag = new OperationTagCreateDto();
+    }
+
+    public void Show()
+    {
+        _modalBase.Show();
+    }
+
+    public void Hide()
+    {
+        _modalBase.Hide();
+    }
+
+    private void CancelForm()
+    {
+        _modalBase.Hide();
+        Tag = new OperationTagCreateDto();
+        ErrorMessage = string.Empty;
+    }
+}

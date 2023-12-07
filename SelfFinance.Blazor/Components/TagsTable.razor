@@ -1,0 +1,36 @@
+﻿@using SelfFinance.Blazor.Components.Abstract
+@using SelfFinance.Client.ViewModels
+
+<TableBase Items="Items"
+           TItem="OperationTagViewModel"
+           Context="tag">
+
+    <HeaderTemplate>
+        <th>Name</th>
+        <th>Type</th>
+        <th class="actions-cell"/>
+    </HeaderTemplate>
+
+    <DataRowTemplate>
+        <td>@tag.Name</td>
+        <td>@tag.OperationType</td>
+        <td class="actions-cell">
+            <div class="btn-container">
+                <button class="edit-btn" @onclick="() => OnEditCallback.InvokeAsync(tag)"></button>
+                <button class="delete-btn" @onclick="() => OnDeleteCallback.InvokeAsync(tag)"></button>
+            </div>
+        </td>
+    </DataRowTemplate>
+</TableBase>
+
+@code {
+    
+    [Parameter]
+    public EventCallback<OperationTagViewModel> OnEditCallback { get; set; }
+    
+    [Parameter]
+    public EventCallback<OperationTagViewModel> OnDeleteCallback { get; set; }
+
+    [Parameter]
+    public IEnumerable<OperationTagViewModel>? Items { get; set; }
+}
