@@ -44,8 +44,6 @@
                 <input class="cancel-btn" type="reset" @onclick="CancelForm" value="Cancel"/>
                 <input class="success-btn" type="submit" value="Submit"/>
             </div>
-
-            <div class="server-error-message">@ErrorMessage</div>
         </EditForm>
     </Content>
 </ModalBase>
@@ -53,7 +51,6 @@
 @code {
     private ModalBase _modalBase;
     
-    public string? ErrorMessage { get; set; }
     public TransactionCreateDto? Transaction { get; set; }
 
     [Parameter]
@@ -84,7 +81,6 @@
     {
         _modalBase.Hide();
         Transaction = GetDefaultModel();
-        ErrorMessage = string.Empty;
     }
 
 }

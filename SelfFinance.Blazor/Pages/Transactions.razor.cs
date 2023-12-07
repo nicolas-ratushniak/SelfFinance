@@ -18,7 +18,7 @@ public partial class Transactions
     private ModalDelete _deleteModal;
     private TransactionCreateModal _addModal;
     private TransactionUpdateModal _editModal;
-    private WarningPopup _warningPopup;
+    private Popup _popup;
 
     [Inject] private ITransactionService TransactionService { get; set; }
     [Inject] private IOperationTagService OperationTagService { get; set; }
@@ -63,7 +63,6 @@ public partial class Transactions
             var id = await TransactionService.AddAsync(dto);
             var addedTransaction = await TransactionService.GetAsync(id);
 
-            // to avoid refreshing all items from DB
             _transactions!.Insert(0, addedTransaction);
 
             // ------ sort by date ------
@@ -78,14 +77,18 @@ public partial class Transactions
             // }
             // ---------------------------
             _addModal.Hide();
+            _popup.PopupAsync(PopupType.Success, "New transaction added");
         }
         catch (HttpRequestException ex)
         {
-            _addModal.ErrorMessage = ex.StatusCode switch
+            if (ex.StatusCode == HttpStatusCode.BadRequest)
             {
-                HttpStatusCode.BadRequest => "Validation error occured",
-                _ => "Some server error occured"
-            };
+                _popup.PopupAsync(PopupType.Warning, "Oops!", "Validation error occured");
+            }
+            else
+            {
+                _popup.PopupAsync(PopupType.Error, "Oops!", "Some server error occured");
+            }
         }
     }
 
@@ -98,7 +101,6 @@ public partial class Transactions
             var updatedTransaction = await TransactionService.GetAsync(dto.Id);
             var oldTransaction = _transactions!.Single(t => t.Id == dto.Id);
 
-            // to avoid refreshing all items from DB
             oldTransaction.Date = updatedTransaction.Date;
             oldTransaction.AbsoluteSum = updatedTransaction.AbsoluteSum;
             oldTransaction.Type = updatedTransaction.Type;
@@ -106,14 +108,18 @@ public partial class Transactions
             oldTransaction.TagName = updatedTransaction.TagName;
 
             _editModal.Hide();
+            _popup.PopupAsync(PopupType.Success, "The transaction was updated");
         }
         catch (HttpRequestException ex)
         {
-            _editModal.ErrorMessage = ex.StatusCode switch
+            if (ex.StatusCode == HttpStatusCode.BadRequest)
             {
-                HttpStatusCode.BadRequest => "Validation error occured",
-                _ => "Some server error occured"
-            };
+                _popup.PopupAsync(PopupType.Warning, "Oops!", "Validation error occured");
+            }
+            else
+            {
+                _popup.PopupAsync(PopupType.Error, "Oops!", "Some server error occured");
+            }
         }
     }
 
@@ -127,12 +133,12 @@ public partial class Transactions
             try
             {
                 await TransactionService.SoftDeleteAsync(transactionToDelete!.Id);
-                // to avoid refreshing all items from DB
                 _transactions!.Remove(transactionToDelete);
+                _popup.PopupAsync(PopupType.Success, "The transaction was deleted");
             }
             catch (HttpRequestException ex)
             {
-                _warningPopup.PopupAsync("Server error", ex.Message);
+                _popup.PopupAsync(PopupType.Error, "Server error", ex.Message);
             }
         }
     }

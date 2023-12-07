@@ -111,11 +111,6 @@
     top: calc(100% - 26px);
 }
 
-::deep .server-error-message {
-    font-size: 14px;
-    color: var(--danger-color);
-}
-
 ::deep .validation-message + input,
 ::deep .validation-message + select {
     border-bottom: solid 1px var(--danger-color);

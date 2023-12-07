@@ -1,0 +1,61 @@
+﻿@using SelfFinance.Blazor.Components.Abstract
+
+<div class="popup-container" hidden="@_isHidden">
+    <div class="popup @PopupClass">
+        <div class="popup__header">
+            @switch (_popupType)
+            {
+                case PopupType.Error:
+                    <img src="images/error.png" alt="">
+                    break;
+                case PopupType.Warning:
+                    <img src="images/warning.png" alt="">
+                    break;
+                case PopupType.Success:
+                    <img src="images/success.png" alt="">
+                    break;
+            }
+            <h3 class="title">@_title</h3>
+        </div>
+        <div class="popup__content">
+            <p>@_message</p>
+        </div>
+    </div>
+</div>
+
+@code {
+    private bool _isHidden = true;
+    private string? _title;
+    private string? _message;
+    private PopupType _popupType;
+
+    public string PopupClass => _popupType switch
+    {
+        PopupType.Error => "popup-error",
+        PopupType.Warning => "popup-warning",
+        PopupType.Success => "popup-success"
+    };
+
+    private void Show()
+    {
+        _isHidden = false;
+        StateHasChanged();
+    }
+
+    private void Hide()
+    {
+        _isHidden = true;
+        StateHasChanged();
+    }
+
+    public async Task PopupAsync(PopupType popupType, string title, string message = null)
+    {
+        _popupType = popupType;
+        _title = title;
+        _message = message;
+
+        Show();
+        await Task.Delay(7000);
+        Hide();
+    }
+}

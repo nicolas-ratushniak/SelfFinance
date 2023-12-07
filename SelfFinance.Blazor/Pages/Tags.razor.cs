@@ -17,7 +17,7 @@ public partial class Tags
     private ModalDelete _deleteModal;
     private TagCreateModal _addModal;
     private TagUpdateModal _editModal;
-    private WarningPopup _warningPopup;
+    private Popup _popup;
     
     [Inject] private IOperationTagService OperationTagService { get; set; }
     
@@ -58,7 +58,6 @@ public partial class Tags
             var id = await OperationTagService.AddAsync(dto);
             var addedTransaction = await OperationTagService.GetAsync(id);
 
-            // to avoid refreshing all items from DB
             _tags!.Insert(0, addedTransaction);
             
             // ------ sort by name ------
@@ -74,14 +73,18 @@ public partial class Tags
             // ---------------------------
             
             _addModal.Hide();
+            _popup.PopupAsync(PopupType.Success, "New tag added");
         }
         catch (HttpRequestException ex)
         {
-            _addModal.ErrorMessage = ex.StatusCode switch
+            if (ex.StatusCode == HttpStatusCode.BadRequest)
             {
-                HttpStatusCode.BadRequest => "Validation error occured",
-                _ => "Some server error occured"
-            };
+                _popup.PopupAsync(PopupType.Warning, "Oops!", "Validation error occured");
+            }
+            else
+            {
+                _popup.PopupAsync(PopupType.Error, "Oops!", "Some server error occured");
+            }
         }
     }
 
@@ -94,18 +97,21 @@ public partial class Tags
             var updatedTag = await OperationTagService.GetAsync(dto.Id);
             var oldTag = _tags!.Single(t => t.Id == dto.Id);
 
-            // to avoid refreshing all items from DB
             oldTag.Name = updatedTag.Name;
 
             _editModal.Hide();
+            _popup.PopupAsync(PopupType.Success, "The tag was updated");
         }
         catch (HttpRequestException ex)
         {
-            _editModal.ErrorMessage = ex.StatusCode switch
+            if (ex.StatusCode == HttpStatusCode.BadRequest)
             {
-                HttpStatusCode.BadRequest => "Validation error occured",
-                _ => "Some server error occured"
-            };
+                _popup.PopupAsync(PopupType.Warning, "Oops!", "Validation error occured");
+            }
+            else
+            {
+                _popup.PopupAsync(PopupType.Error, "Oops!", "Some server error occured");
+            }
         }
     }
 
@@ -119,12 +125,12 @@ public partial class Tags
             try
             {
                 await OperationTagService.SoftDeleteAsync(tagToDelete!.Id);
-                // to avoid refreshing all items from DB
                 _tags!.Remove(tagToDelete);
+                _popup.PopupAsync(PopupType.Success, "The tag was deleted");
             }
             catch (HttpRequestException ex)
             {
-                _warningPopup.PopupAsync("Server error", ex.Message);
+                _popup.PopupAsync(PopupType.Error, "Server error", ex.Message);
             }
         }
     }
