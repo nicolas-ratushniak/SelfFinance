@@ -38,6 +38,18 @@ public class OperationTagService : IOperationTagService
             .ToListAsync();
     }
 
+    public async Task<IEnumerable<OperationTagDto>> GetAllIncludeSoftDeletedAsync()
+    {
+        return await _context.OperationTags
+            .Select(t => new OperationTagDto
+            {
+                Id = t.Id,
+                OperationType = t.OperationType,
+                Name = t.Name
+            })
+            .ToListAsync();
+    }
+
     public async Task<int> AddAsync(OperationTagCreateDto dto)
     {
         Validator.ValidateObject(dto, new ValidationContext(dto), true);

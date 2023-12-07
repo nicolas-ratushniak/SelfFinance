@@ -27,6 +27,13 @@ public class OperationTagController : ControllerBase
         return Ok(tags);
     }
     
+    [HttpGet("include-deleted")]
+    public async Task<IActionResult> GetAllIncludeSoftDeletedAsync()
+    {
+        var tags = await _operationTagService.GetAllIncludeSoftDeletedAsync();
+        return Ok(tags);
+    }
+    
     [HttpGet("{id:int}")]
     public async Task<IActionResult> GetAsync([FromRoute] int id)
     {
@@ -47,8 +54,8 @@ public class OperationTagController : ControllerBase
     {
         try
         {
-            await _operationTagService.AddAsync(dto);
-            return Ok();
+            var id = await _operationTagService.AddAsync(dto);
+            return Ok(id);
         }
         catch (ValidationException ex)
         {
