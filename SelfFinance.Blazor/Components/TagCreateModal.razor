@@ -6,7 +6,7 @@
 
 <ModalBase @ref="_modalBase" Title="New Tag">
     <Content>
-        <EditForm Model="@Tag" OnValidSubmit="_ => OnValidSubmit.InvokeAsync(Tag)">
+        <EditForm Model="@Tag" OnValidSubmit="_ => OnValidSubmit.InvokeAsync(Tag)" autocomplete="off">
             <DataAnnotationsValidator/>
 
             <div class="form__item">
