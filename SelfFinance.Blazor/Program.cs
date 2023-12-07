@@ -12,6 +12,9 @@ builder.Services.AddHttpClient<ITransactionService, TransactionService>(client =
 builder.Services.AddHttpClient<IOperationTagService, OperationTagService>(client => 
     client.BaseAddress = new Uri("http://localhost:5149/self-finance/api/"));
 
+builder.Services.AddHttpClient<IReportService, ReportService>(client => 
+    client.BaseAddress = new Uri("http://localhost:5149/self-finance/api/"));
+
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
