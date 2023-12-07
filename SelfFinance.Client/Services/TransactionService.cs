@@ -20,13 +20,13 @@ public class TransactionService : ITransactionService
     {
         using var transactionResponse = await _client.GetAsync($"transactions/{id}");
         transactionResponse.EnsureSuccessStatusCode();
-        
+
         var transactionJsonResult = await transactionResponse.Content.ReadAsStringAsync();
         var transactionDto = JsonConvert.DeserializeObject<TransactionDto>(transactionJsonResult)!;
-        
+
         using var tagResponse = await _client.GetAsync($"tags/{transactionDto.OperationTagId}");
         tagResponse.EnsureSuccessStatusCode();
-            
+
         var tagJsonResult = await tagResponse.Content.ReadAsStringAsync();
         var tagDto = JsonConvert.DeserializeObject<OperationTagDto>(tagJsonResult)!;
 
@@ -37,13 +37,13 @@ public class TransactionService : ITransactionService
     {
         using var transactionsResponse = await _client.GetAsync("transactions");
         using var tagsResponse = await _client.GetAsync("tags/include-deleted");
-                
+
         transactionsResponse.EnsureSuccessStatusCode();
         tagsResponse.EnsureSuccessStatusCode();
-            
+
         var transactionsJsonResult = await transactionsResponse.Content.ReadAsStringAsync();
         var transactionDtos = JsonConvert.DeserializeObject<IEnumerable<TransactionDto>>(transactionsJsonResult)!;
-            
+
         var tagsJsonResult = await tagsResponse.Content.ReadAsStringAsync();
         var tagDtos = JsonConvert.DeserializeObject<IEnumerable<OperationTagDto>>(tagsJsonResult)!;
 
@@ -74,7 +74,7 @@ public class TransactionService : ITransactionService
 
         using var jsonContent = new StringContent(body, Encoding.UTF8, "application/json");
         using var response = await _client.PutAsync("transactions", jsonContent);
-        
+
         response.EnsureSuccessStatusCode();
     }
 

@@ -7,10 +7,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Exceptions\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\SelfFinance.Domain\SelfFinance.Domain.csproj" />
     </ItemGroup>
 
