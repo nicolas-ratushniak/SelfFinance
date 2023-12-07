@@ -2,80 +2,32 @@
 @page "/transactions"
 
 @using SelfFinance.Blazor.Components
-@using SelfFinance.ApiConsumer.Abstract
-@using System.Collections.ObjectModel
-@using SelfFinance.ApiConsumer.ViewModels
-@using SelfFinance.Blazor.Components.Abstract
+@using SelfFinance.Client.Abstract
 
 @inject ITransactionService TransactionService
 @inject IOperationTagService OperationTagService
 
 <ModalDelete @ref="_deleteModal"
              Description="The action will permanently delete a transaction"
-             OnDecisionMadeCallback="HandleDelete"/>
+             OnDecisionMadeCallback="HandleDeleteModalResultAsync"/>
 
-<ModalCreateTransaction @ref="_addModal"
-                        OperationTags="_operationTags"/>
+<TransactionCreateModal @ref="_addModal"
+                        OperationTags="_operationTags"
+                        OnValidSubmit="HandleAddAsync"/>
+
+<TransactionUpdateModal @ref="_editModal"
+                        OperationTags="_operationTags"
+                        OnValidSubmit="HandleUpdateAsync"/>
 
 <div class="container">
     <PageTitle>Transactions</PageTitle>
-    
+
     <div class="header">
         <h1>Transactions</h1>
         <button class="add-btn" @onclick="() => _addModal.Show()">+</button>
     </div>
 
     <TransactionsTable Items="_transactions"
-                       OnDeleteCallback="ShowDeleteModal"/>
+                       OnDeleteCallback="ShowDeleteModal"
+                       OnEditCallback="ShowEditModal"/>
 </div>
-
-@code
-{
-    private ObservableCollection<TransactionViewModel>? _transactions;
-    private IEnumerable<OperationTagViewModel>? _operationTags;
-    private TransactionViewModel? _selectedTransaction;
-
-    private ModalDelete _deleteModal;
-    private ModalCreateTransaction _addModal;
-
-    protected override async Task OnInitializedAsync()
-    {
-        try
-        {
-            var transactions = await TransactionService.GetAllAsync();
-            _transactions = new ObservableCollection<TransactionViewModel>(transactions);
-            _operationTags = await OperationTagService.GetAllAsync();
-        }
-        catch (Exception ex)
-        {
-            _transactions = new ObservableCollection<TransactionViewModel>();
-        }
-    }
-
-    private void ShowDeleteModal(TransactionViewModel transaction)
-    {
-        _selectedTransaction = transaction;
-        _deleteModal.Show();
-    }
-
-    private async Task HandleDelete(ModalResult result)
-    {
-        var transactionToDelete = _selectedTransaction;
-        _selectedTransaction = null;
-        
-        if (result == ModalResult.Success)
-        {
-            try
-            {
-                await TransactionService.SoftDeleteAsync(transactionToDelete!.Id);
-                
-                // to avoid refreshing all items from DB
-                _transactions.Remove(transactionToDelete);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-            }
-        }
-    }
-}
