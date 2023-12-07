@@ -17,7 +17,7 @@ public class ReportController : Controller
     }
 
     [HttpGet("daily-report")]
-    public async Task<IActionResult> GetDailyReport([FromQuery] DateOnly date)
+    public async Task<IActionResult> GetDailyReportAsync([FromQuery] DateOnly date)
     {
         try
         {
@@ -32,7 +32,7 @@ public class ReportController : Controller
     }
 
     [HttpGet("period-report")]
-    public async Task<IActionResult> GetDatePeriodReport([FromQuery] DateOnly startDate, [FromQuery] DateOnly endDate)
+    public async Task<IActionResult> GetDatePeriodReportAsync([FromQuery] DateOnly startDate, [FromQuery] DateOnly endDate)
     {
         try
         {
