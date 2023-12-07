@@ -19,15 +19,15 @@ public class TransactionService : ITransactionService
     public async Task<TransactionViewModel> GetAsync(int id)
     {
         using var transactionResponse = await _client.GetAsync($"transactions/{id}");
-        using var tagResponse = await _client.GetAsync($"tags/{id}");
-                
         transactionResponse.EnsureSuccessStatusCode();
-        tagResponse.EnsureSuccessStatusCode();
-            
+        
         var transactionJsonResult = await transactionResponse.Content.ReadAsStringAsync();
         var transactionDto = JsonConvert.DeserializeObject<TransactionDto>(transactionJsonResult)!;
+        
+        using var tagResponse = await _client.GetAsync($"tags/{transactionDto.OperationTagId}");
+        tagResponse.EnsureSuccessStatusCode();
             
-        var tagJsonResult = await transactionResponse.Content.ReadAsStringAsync();
+        var tagJsonResult = await tagResponse.Content.ReadAsStringAsync();
         var tagDto = JsonConvert.DeserializeObject<OperationTagDto>(tagJsonResult)!;
 
         return transactionDto.ConvertToViewModel(tagDto);
