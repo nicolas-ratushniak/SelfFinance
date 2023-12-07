@@ -35,7 +35,9 @@ public class OperationTagService : IOperationTagService
         var jsonResult = await response.Content.ReadAsStringAsync();
         var tagDtos = JsonConvert.DeserializeObject<IEnumerable<OperationTagDto>>(jsonResult);
 
-        return tagDtos!.Select(dto => dto.ConvertToViewModel());
+        return tagDtos!
+            .Select(dto => dto.ConvertToViewModel())
+            .OrderBy(tag => tag.Name);
     }
 
     public async Task<int> AddAsync(OperationTagCreateDto dto)
