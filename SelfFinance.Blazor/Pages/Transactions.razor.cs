@@ -57,7 +57,19 @@ public partial class Transactions
             var addedTransaction = await TransactionService.GetAsync(id);
 
             // to avoid refreshing all items from DB
-            _transactions!.Add(addedTransaction);
+            _transactions!.Insert(0, addedTransaction);
+            
+            // ------ sort by date ------
+            // var sortedTransactions = new List<TransactionViewModel>(_transactions!)
+            //     .OrderByDescending(t => t.Date);
+            //
+            // _transactions!.Clear();
+            //
+            // foreach (var transaction in sortedTransactions)
+            // {
+            //     _transactions.Add(transaction);
+            // }
+            // ---------------------------
             _addModal.Hide();
         }
         catch (HttpRequestException)

@@ -53,7 +53,20 @@ public partial class Tags
             var addedTransaction = await OperationTagService.GetAsync(id);
 
             // to avoid refreshing all items from DB
-            _tags!.Add(addedTransaction);   // todo: insert in correct order
+            _tags!.Insert(0, addedTransaction);
+            
+            // ------ sort by name ------
+            // var sortedTags = new List<OperationTagViewModel>(_tags!)
+            //     .OrderByDescending(t => t.Name);
+            //
+            // _tags!.Clear();
+            //
+            // foreach (var tag in sortedTags)
+            // {
+            //     _tags.Add(tag);
+            // }
+            // ---------------------------
+            
             _addModal.Hide();
         }
         catch (HttpRequestException)
