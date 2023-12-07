@@ -1,12 +1,16 @@
-using SelfFinance.ApiConsumer.Abstract;
-using SelfFinance.ApiConsumer.Services;
+using SelfFinance.Client.Abstract;
+using SelfFinance.Client.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddScoped<ITransactionService, MockTransactionService>();
-builder.Services.AddScoped<IOperationTagService, MockOperationTagService>();
+
+builder.Services.AddHttpClient<ITransactionService, TransactionService>(client => 
+    client.BaseAddress = new Uri("http://localhost:5149/self-finance/api/"));
+
+builder.Services.AddHttpClient<IOperationTagService, OperationTagService>(client => 
+    client.BaseAddress = new Uri("http://localhost:5149/self-finance/api/"));
 
 var app = builder.Build();
 
