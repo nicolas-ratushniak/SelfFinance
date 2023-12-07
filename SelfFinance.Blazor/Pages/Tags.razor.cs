@@ -20,18 +20,37 @@ public partial class Tags
     private Popup _popup;
     
     [Inject] private IOperationTagService OperationTagService { get; set; }
-    
-    protected override async Task OnInitializedAsync()
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
+        if (!firstRender)
+        {
+            return;
+        }
+        
         try
         {
             _tags = new ObservableCollection<OperationTagViewModel>(await OperationTagService.GetAllAsync());
         }
         catch (HttpRequestException)
         {
-            _warningPopup.PopupAsync("Failed to load data", "The server is not accessible at the moment");
+            _popup.PopupAsync(PopupType.Error, "Failed to load data", 
+                "The server is not accessible at the moment");
         }
     }
+
+    // protected override async Task On()
+    // {
+    //     try
+    //     {
+    //         _tags = new ObservableCollection<OperationTagViewModel>(await OperationTagService.GetAllAsync());
+    //     }
+    //     catch (HttpRequestException)
+    //     {
+    //         _popup.PopupAsync(PopupType.Error, "Failed to load data", 
+    //             "The server is not accessible at the moment");
+    //     }
+    // }
 
     private void ShowDeleteModal(OperationTagViewModel tag)
     {
