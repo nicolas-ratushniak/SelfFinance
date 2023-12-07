@@ -49,8 +49,8 @@ public class TransactionController : ControllerBase
     {
         try
         {
-            await _transactionService.AddAsync(dto);
-            return Ok();
+            var id = await _transactionService.AddAsync(dto);
+            return Ok(id);
         }
         catch (ValidationException ex)
         {
