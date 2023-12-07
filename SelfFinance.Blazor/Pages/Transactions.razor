@@ -2,10 +2,6 @@
 @page "/transactions"
 
 @using SelfFinance.Blazor.Components
-@using SelfFinance.Client.Abstract
-
-@inject ITransactionService TransactionService
-@inject IOperationTagService OperationTagService
 
 <ModalDelete @ref="_deleteModal"
              Description="The action will permanently delete a transaction"

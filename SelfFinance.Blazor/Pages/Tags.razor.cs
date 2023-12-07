@@ -1,6 +1,8 @@
 ﻿using System.Collections.ObjectModel;
+using Microsoft.AspNetCore.Components;
 using SelfFinance.Blazor.Components;
 using SelfFinance.Blazor.Components.Abstract;
+using SelfFinance.Client.Abstract;
 using SelfFinance.Client.ViewModels;
 using SelfFinance.Domain.Dto;
 
@@ -14,6 +16,8 @@ public partial class Tags
     private ModalDelete _deleteModal;
     private TagCreateModal _addModal;
     private TagUpdateModal _editModal;
+    
+    [Inject] private IOperationTagService OperationTagService { get; set; }
     
     protected override async Task OnInitializedAsync()
     {
