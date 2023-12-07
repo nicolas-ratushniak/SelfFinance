@@ -1,0 +1,44 @@
+﻿@using SelfFinance.Blazor.Components.Abstract
+
+<div class="popup-container" hidden="@_isHidden">
+    <div class="popup">
+        <div class="popup__header">
+            <img src="@IconPath" alt="">
+            <h3 class="title">@_title</h3>
+        </div>
+        <div class="popup__content">
+            <p>@_message</p>
+        </div>
+    </div>
+</div>
+
+@code {
+    private bool _isHidden = true;
+    private string? _title;
+    private string? _message;
+
+    [Parameter]
+    public string? IconPath { get; set; }
+
+    private void Show()
+    {
+        _isHidden = false;
+        StateHasChanged();
+    }
+    
+    private void Hide()
+    {
+        _isHidden = true;
+        StateHasChanged();
+    }
+
+    public async Task PopupAsync(string title, string message)
+    {
+        _title = title;
+        _message = message;
+
+        Show();
+        await Task.Delay(7000);
+        Hide();
+    }
+}

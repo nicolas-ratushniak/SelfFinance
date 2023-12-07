@@ -1,0 +1,36 @@
+﻿.popup-container {
+    z-index: 2000;
+    display: block;
+    position: fixed;
+    top: 0;
+    right: 0;
+    padding: 10px;
+}
+
+.popup {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 300px;
+    background-color: var(--warning-color);
+    border: solid 1px var(--border-light);
+    padding: 7px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.6);
+    border-radius: 10px;
+}
+
+.popup__header {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+}
+
+.popup__header > img {
+    width: 24px;
+    height: 24px;
+}
+
+.popup__content p {
+    color: var(--text-secondary);
+}
