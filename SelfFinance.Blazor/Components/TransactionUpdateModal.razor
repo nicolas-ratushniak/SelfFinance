@@ -10,7 +10,7 @@
 
             <div class="form__item">
                 <ValidationMessage For="() => Transaction!.OperationDate"/>
-                <InputDate id="date" TValue="DateTime" @bind-Value="Transaction!.OperationDate" min="2000-01-01" max="@DateTime.Today.ToString("yyyy-MM-dd")"/>
+                <InputDate id="date" Type="InputDateType.DateTimeLocal" @bind-Value="Transaction!.OperationDate" min="2000-01-01" max="@DateTime.Today.ToString("yyyy-MM-dd")"/>
                 <label for="date">Date</label>
             </div>
 
