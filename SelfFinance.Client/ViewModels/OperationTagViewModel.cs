@@ -1,6 +1,6 @@
 ﻿using SelfFinance.Data.Models;
 
-namespace SelfFinance.ApiConsumer.ViewModels;
+namespace SelfFinance.Client.ViewModels;
 
 public class OperationTagViewModel
 {

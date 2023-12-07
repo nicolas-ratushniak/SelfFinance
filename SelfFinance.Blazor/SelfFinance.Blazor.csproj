@@ -17,6 +17,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\SelfFinance.ApiConsumer\SelfFinance.ApiConsumer.csproj" />
+      <ProjectReference Include="..\SelfFinance.Client\SelfFinance.Client.csproj" />
     </ItemGroup>
 </Project>

@@ -1,7 +1,7 @@
-﻿using SelfFinance.ApiConsumer.ViewModels;
+﻿using SelfFinance.Client.ViewModels;
 using SelfFinance.Domain.Dto;
 
-namespace SelfFinance.ApiConsumer.Abstract;
+namespace SelfFinance.Client.Abstract;
 
 public interface ITransactionService
 {
