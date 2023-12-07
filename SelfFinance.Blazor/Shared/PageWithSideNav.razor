@@ -3,6 +3,9 @@
 <nav class="side-nav">
     <label for="is-side-bar-closed" class="side-nav__toggle"></label>
     <div class="side-nav__content">
+        <div class="logo-container">
+            @Logo
+        </div>
         @SideNavOptions
     </div>
 </nav>
@@ -14,5 +17,6 @@
 @code
 {
     [Parameter] public RenderFragment SideNavOptions { get; set; }
+    [Parameter] public RenderFragment Logo { get; set; }
     [Parameter] public RenderFragment MainContent { get; set; }
 }

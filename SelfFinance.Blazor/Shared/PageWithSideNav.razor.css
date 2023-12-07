@@ -21,7 +21,6 @@
 .side-nav__content {
     height: 100%;
     width: 240px;
-    padding-top: 4rem;
     background-color: var(--contrast-color);
     color: #FFFFFF;
     transition: width .5s;
@@ -103,4 +102,18 @@
     .side-nav__content {
         width: calc(100% - 25px);
     }
+}
+
+.logo-container {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    height: 4rem;
+    justify-content: center;
+}
+
+::deep .logo-container > img {
+    width: 24px;
+    height: 24px;
 }
