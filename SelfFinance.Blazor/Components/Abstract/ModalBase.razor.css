@@ -39,7 +39,9 @@
     justify-content: space-between;
 }
 
-::deep button, ::deep input[type=submit] {
+::deep button, 
+::deep input[type=submit],
+::deep input[type=reset]{
     padding: .5rem 0;
     width: 50%;
     border: none;
@@ -47,9 +49,12 @@
     opacity: .8;
     transition: opacity .3s;
     font-size: 16px;
+    margin: 0;
 }
 
-::deep button:hover, ::deep input[type=submit]:hover {
+::deep button:hover, 
+::deep input[type=submit]:hover,
+::deep input[type=reset]:hover{
     opacity: 1;
 }
 
@@ -85,8 +90,8 @@
     margin-top: 12px;
 }
 
-::deep input[type=submit] {
-    margin: 0;
+::deep option, ::deep optgroup {
+    font-size: 16px;
 }
 
 ::deep input:focus,
@@ -104,6 +109,11 @@
     color: var(--danger-color);
     position: absolute;
     top: calc(100% - 26px);
+}
+
+::deep .server-error-message {
+    font-size: 14px;
+    color: var(--danger-color);
 }
 
 ::deep .validation-message + input,
