@@ -23,13 +23,8 @@ public partial class Transactions
     [Inject] private ITransactionService TransactionService { get; set; }
     [Inject] private IOperationTagService OperationTagService { get; set; }
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    protected override async Task OnInitializedAsync()
     {
-        if (!firstRender)
-        {
-            return;
-        }
-        
         try
         {
             _transactions = new ObservableCollection<TransactionViewModel>(await TransactionService.GetAllAsync());
@@ -40,19 +35,6 @@ public partial class Transactions
             _popup.PopupAsync(PopupType.Error, "Failed to load data", "The server is not accessible at the moment");
         }
     }
-
-    // protected override async Task OnInitializedAsync()
-    // {
-    //     try
-    //     {
-    //         _transactions = new ObservableCollection<TransactionViewModel>(await TransactionService.GetAllAsync());
-    //         _operationTags = await OperationTagService.GetAllAsync();
-    //     }
-    //     catch (HttpRequestException)
-    //     {
-    //         _popup.PopupAsync(PopupType.Error, "Failed to load data", "The server is not accessible at the moment");
-    //     }
-    // }
 
     private void ShowDeleteModal(TransactionViewModel transaction)
     {
