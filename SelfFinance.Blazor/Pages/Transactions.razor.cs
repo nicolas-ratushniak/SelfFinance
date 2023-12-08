@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Net;
 using Microsoft.AspNetCore.Components;
-using SelfFinance.Blazor.Components;
+using SelfFinance.Blazor.Components.Modals;
 using SelfFinance.Blazor.Components.Abstract;
 using SelfFinance.Client.Abstract;
 using SelfFinance.Client.ViewModels;
