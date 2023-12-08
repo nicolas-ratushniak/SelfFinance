@@ -7,7 +7,7 @@ public class TransactionCreateDto
 {
     [Required]
     [JsonProperty("sum")]
-    [Range(1, 1_000_000, ErrorMessage = "Value must be between 1 and 1000000")]
+    [Range(1, 1_000_000, ErrorMessage = "We don't accept sum out of $1-$1,000,000 range")]
     public decimal Sum { get; set; }
 
     [Required]

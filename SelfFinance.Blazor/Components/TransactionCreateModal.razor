@@ -12,7 +12,7 @@
             <div class="form__item">
                 <ValidationMessage For="() => Transaction!.OperationDate"/>
                 <InputDate id="date" Type="InputDateType.DateTimeLocal" 
-                           @bind-Value="Transaction!.OperationDate" min="@MinDate" max="@MaxDate"/>
+                           @bind-Value="Transaction!.OperationDate" max="@MaxDate"/>
                 <label for="date">Date</label>
             </div>
 
@@ -42,7 +42,7 @@
             </div>
 
             <div class="btn-container">
-                <input class="cancel-btn" type="reset" @onclick="CancelForm" value="Cancel"/>
+                <input class="cancel-btn" type="reset" @onclick="Hide" value="Cancel"/>
                 <input class="success-btn" type="submit" value="Submit"/>
             </div>
         </EditForm>
@@ -58,21 +58,17 @@
     [Parameter]
     public EventCallback<TransactionCreateDto> OnValidSubmitCallback { get; set; }
     
-    private DateTime MinDate => DateTime.Today.AddMonths(-1);
-    private DateTime MaxDate => DateTime.Now;
-    
+    private string MaxDate => DateTime.Now.ToString("yyyy-MM-ddTHH:mm");
     private TransactionCreateDto? Transaction { get; set; }
-
-    private static TransactionCreateDto GetDefaultModel() => new() { OperationDate = DateTime.Now};
 
     protected override void OnInitialized()
     {
-        Transaction = GetDefaultModel();
+        Transaction = new TransactionCreateDto();
     }
 
     public void Show()
     {
-        Transaction = GetDefaultModel();
+        Transaction = new TransactionCreateDto { OperationDate = DateTime.Now };
         _modalBase.Show();
     }
 
@@ -80,11 +76,4 @@
     {
         _modalBase.Hide();
     }
-
-    private void CancelForm()
-    {
-        _modalBase.Hide();
-        Transaction = GetDefaultModel();
-    }
-
 }

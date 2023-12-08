@@ -10,7 +10,7 @@
 
             <div class="form__item">
                 <ValidationMessage For="() => Transaction!.OperationDate"/>
-                <InputDate id="date" Type="InputDateType.DateTimeLocal" @bind-Value="Transaction!.OperationDate" min="@MinDate" max="@MaxDate"/>
+                <InputDate id="date" Type="InputDateType.DateTimeLocal" @bind-Value="Transaction!.OperationDate" max="@MaxDate"/>
                 <label for="date">Date</label>
             </div>
 
@@ -40,7 +40,7 @@
             </div>
 
             <div class="btn-container">
-                <input class="cancel-btn" type="reset" @onclick="CancelForm" value="Cancel"/>
+                <input class="cancel-btn" type="reset" @onclick="Hide" value="Cancel"/>
                 <input class="success-btn" type="submit" value="Submit"/>
             </div>
         </EditForm>
@@ -56,8 +56,7 @@
     [Parameter]
     public EventCallback<TransactionUpdateDto> OnValidSubmit { get; set; }
     
-    private DateTime MinDate => Transaction!.OperationDate.AddMonths(-1);
-    private DateTime MaxDate => DateTime.Now;
+    private string MaxDate => DateTime.Now.ToString("yyyy-MM-ddTHH:mm");
     private TransactionUpdateDto? Transaction { get; set; }
 
     protected override void OnInitialized()
@@ -75,11 +74,4 @@
     {
         _modalBase.Hide();
     }
-
-    private void CancelForm()
-    {
-        _modalBase.Hide();
-        Transaction = new TransactionUpdateDto();
-    }
-
 }
