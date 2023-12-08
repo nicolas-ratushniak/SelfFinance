@@ -16,7 +16,7 @@ public class OperationTagService : IOperationTagService
         _client = client;
     }
     
-    public async Task<OperationTagViewModel> GetAsync(int id)
+    public async Task<OperationTagDto> GetAsync(int id)
     {
         using var response = await _client.GetAsync($"tags/{id}");
         response.EnsureSuccessStatusCode();
@@ -24,7 +24,7 @@ public class OperationTagService : IOperationTagService
         var jsonResult = await response.Content.ReadAsStringAsync();
         var tagDto = JsonConvert.DeserializeObject<OperationTagDto>(jsonResult);
 
-        return tagDto!.ConvertToViewModel();
+        return tagDto!;
     }
 
     public async Task<IEnumerable<OperationTagViewModel>> GetAllAsync()

@@ -21,8 +21,8 @@
         </td>
         <td class="actions-cell">
             <div class="btn-container">
-                <button class="edit-btn" @onclick="() => OnEditCallback.InvokeAsync(transaction)"></button>
-                <button class="delete-btn" @onclick="() => OnDeleteCallback.InvokeAsync(transaction)"></button>
+                <button class="edit-btn" @onclick="() => OnEditCallback.InvokeAsync(transaction.Id)"></button>
+                <button class="delete-btn" @onclick="() => OnDeleteCallback.InvokeAsync(transaction.Id)"></button>
             </div>
         </td>
     </DataRowTemplate>
@@ -31,10 +31,10 @@
 @code {
     
     [Parameter]
-    public EventCallback<TransactionViewModel> OnEditCallback { get; set; }
+    public EventCallback<int> OnEditCallback { get; set; }
     
     [Parameter]
-    public EventCallback<TransactionViewModel> OnDeleteCallback { get; set; }
+    public EventCallback<int> OnDeleteCallback { get; set; }
 
     [Parameter]
     public IEnumerable<TransactionViewModel>? Items { get; set; }

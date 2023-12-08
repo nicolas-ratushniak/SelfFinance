@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Components;
 using SelfFinance.Blazor.Components;
 using SelfFinance.Blazor.Components.Abstract;
 using SelfFinance.Client.Abstract;
+using SelfFinance.Client.Helpers;
 using SelfFinance.Client.ViewModels;
 using SelfFinance.Domain.Dto;
 
@@ -54,7 +55,7 @@ public partial class Tags
         try
         {
             var id = await OperationTagService.AddAsync(dto);
-            var addedTransaction = await OperationTagService.GetAsync(id);
+            var addedTransaction = (await OperationTagService.GetAsync(id)).ConvertToViewModel();
 
             _tags!.Insert(0, addedTransaction);
             

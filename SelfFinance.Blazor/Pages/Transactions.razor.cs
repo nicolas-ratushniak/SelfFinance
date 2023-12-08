@@ -35,19 +35,21 @@ public partial class Transactions
         }
     }
 
-    private void ShowDeleteModal(TransactionViewModel transaction)
+    private void ShowDeleteModal(int id)
     {
-        _deleteModal.Show(transaction.Id);
+        _deleteModal.Show(id);
     }
 
-    private void ShowEditModal(TransactionViewModel transaction)
+    private async Task ShowEditModalAsync(int id)
     {
+        var transactionToEdit = await TransactionService.GetAsync(id);
+        
         var updateDto = new TransactionUpdateDto
         {
-            Id = transaction.Id,
-            Sum = transaction.AbsoluteSum,
-            OperationDate = transaction.Date,
-            OperationTagId = transaction.TagId
+            Id = transactionToEdit.Id,
+            Sum = transactionToEdit.Sum,
+            OperationDate = transactionToEdit.OperationDate,
+            OperationTagId = transactionToEdit.OperationTagId
         };
 
         _editModal.Show(updateDto);
@@ -58,7 +60,7 @@ public partial class Transactions
         try
         {
             var id = await TransactionService.AddAsync(dto);
-            var addedTransaction = await TransactionService.GetAsync(id);
+            var addedTransaction = await TransactionService.GetViewModelAsync(id);
 
             _transactions!.Insert(0, addedTransaction);
 
@@ -95,14 +97,12 @@ public partial class Transactions
         {
             await TransactionService.UpdateAsync(dto);
 
-            var updatedTransaction = await TransactionService.GetAsync(dto.Id);
+            var updatedTransaction = await TransactionService.GetViewModelAsync(dto.Id);
             var oldTransaction = _transactions!.Single(t => t.Id == dto.Id);
 
             oldTransaction.Date = updatedTransaction.Date;
-            oldTransaction.AbsoluteSum = updatedTransaction.AbsoluteSum;
-            oldTransaction.Type = updatedTransaction.Type;
-            oldTransaction.TagId = updatedTransaction.TagId;
             oldTransaction.TagName = updatedTransaction.TagName;
+            oldTransaction.SignedSum = updatedTransaction.SignedSum;
 
             _editModal.Hide();
             _popup.PopupAsync(PopupType.Success, "The transaction was updated");
@@ -112,6 +112,10 @@ public partial class Transactions
             if (ex.StatusCode == HttpStatusCode.BadRequest)
             {
                 _popup.PopupAsync(PopupType.Warning, "Oops!", "Validation error occured");
+            }
+            if (ex.StatusCode == HttpStatusCode.NotFound)
+            {
+                _popup.PopupAsync(PopupType.Warning, "Oops!", "Tag not found. Maybe it was deleted");
             }
             else
             {

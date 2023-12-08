@@ -1,5 +1,4 @@
-﻿using System.Net;
-using System.Text;
+﻿using System.Text;
 using Newtonsoft.Json;
 using SelfFinance.Client.Abstract;
 using SelfFinance.Client.Helpers;
@@ -17,7 +16,7 @@ public class TransactionService : ITransactionService
         _client = client;
     }
 
-    public async Task<TransactionViewModel> GetAsync(int id)
+    public async Task<TransactionDto> GetAsync(int id)
     {
         using var transactionResponse = await _client.GetAsync($"transactions/{id}");
         transactionResponse.EnsureSuccessStatusCode();
@@ -25,6 +24,17 @@ public class TransactionService : ITransactionService
         var transactionJsonResult = await transactionResponse.Content.ReadAsStringAsync();
         var transactionDto = JsonConvert.DeserializeObject<TransactionDto>(transactionJsonResult)!;
 
+        return transactionDto;
+    }
+
+    public async Task<TransactionViewModel> GetViewModelAsync(int id)
+    {
+        using var transactionResponse = await _client.GetAsync($"transactions/{id}");
+        transactionResponse.EnsureSuccessStatusCode();
+
+        var transactionJsonResult = await transactionResponse.Content.ReadAsStringAsync();
+        var transactionDto = JsonConvert.DeserializeObject<TransactionDto>(transactionJsonResult)!;
+        
         using var tagResponse = await _client.GetAsync($"tags/{transactionDto.OperationTagId}");
         tagResponse.EnsureSuccessStatusCode();
 

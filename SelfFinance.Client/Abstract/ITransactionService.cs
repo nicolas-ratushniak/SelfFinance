@@ -5,7 +5,8 @@ namespace SelfFinance.Client.Abstract;
 
 public interface ITransactionService
 {
-    public Task<TransactionViewModel> GetAsync(int id);
+    public Task<TransactionDto> GetAsync(int id);
+    public Task<TransactionViewModel> GetViewModelAsync(int id);
     public Task<IEnumerable<TransactionViewModel>> GetAllAsync();
     public Task<int> AddAsync(TransactionCreateDto dto);
     public Task UpdateAsync(TransactionUpdateDto dto);
