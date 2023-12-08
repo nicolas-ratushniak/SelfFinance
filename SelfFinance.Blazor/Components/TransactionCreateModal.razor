@@ -6,12 +6,13 @@
 
 <ModalBase @ref="_modalBase" Title="New Transaction">
     <Content>
-        <EditForm Model="@Transaction" OnValidSubmit="_ => OnValidSubmit.InvokeAsync(Transaction)">
+        <EditForm Model="@Transaction" OnValidSubmit="_ => OnValidSubmitCallback.InvokeAsync(Transaction)">
             <DataAnnotationsValidator/>
 
             <div class="form__item">
                 <ValidationMessage For="() => Transaction!.OperationDate"/>
-                <InputDate id="date" Type="InputDateType.DateTimeLocal" @bind-Value="Transaction!.OperationDate" min="2000-01-01" max="@DateTime.Today.ToString("yyyy-MM-dd")"/>
+                <InputDate id="date" Type="InputDateType.DateTimeLocal" 
+                           @bind-Value="Transaction!.OperationDate" min="@MinDate" max="@MaxDate"/>
                 <label for="date">Date</label>
             </div>
 
@@ -50,14 +51,17 @@
 
 @code {
     private ModalBase _modalBase;
-    
-    public TransactionCreateDto? Transaction { get; set; }
 
     [Parameter]
     public IEnumerable<OperationTagViewModel>? OperationTags { get; set; }
 
     [Parameter]
-    public EventCallback<TransactionCreateDto> OnValidSubmit { get; set; }
+    public EventCallback<TransactionCreateDto> OnValidSubmitCallback { get; set; }
+    
+    private DateTime MinDate => DateTime.Today.AddMonths(-1);
+    private DateTime MaxDate => DateTime.Now;
+    
+    private TransactionCreateDto? Transaction { get; set; }
 
     private static TransactionCreateDto GetDefaultModel() => new() { OperationDate = DateTime.Now};
 

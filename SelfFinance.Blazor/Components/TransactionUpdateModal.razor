@@ -10,7 +10,7 @@
 
             <div class="form__item">
                 <ValidationMessage For="() => Transaction!.OperationDate"/>
-                <InputDate id="date" Type="InputDateType.DateTimeLocal" @bind-Value="Transaction!.OperationDate" min="2000-01-01" max="@DateTime.Today.ToString("yyyy-MM-dd")"/>
+                <InputDate id="date" Type="InputDateType.DateTimeLocal" @bind-Value="Transaction!.OperationDate" min="@MinDate" max="@MaxDate"/>
                 <label for="date">Date</label>
             </div>
 
@@ -25,7 +25,7 @@
                 <InputSelect TValue="int" @bind-Value="Transaction!.OperationTagId">
                     @if (OperationTags is not null)
                     {
-                        foreach (var typeGroup in OperationTags.GroupBy(t => t.OperationType).ToList())
+                        foreach (var typeGroup in OperationTags.GroupBy(t => t.Type))
                         {
                             <optgroup label="@typeGroup.Key">
                                 @foreach (var tag in typeGroup)
@@ -34,10 +34,6 @@
                                 }
                             </optgroup>
                         }
-                    }
-                    else
-                    {
-                        <p>Loading...</p>
                     }
                 </InputSelect>
                 <label for="sum">Tag</label>
@@ -53,17 +49,25 @@
 
 @code {
     private ModalBase _modalBase;
-    
-    public TransactionUpdateDto? Transaction { get; set; } = new();
 
     [Parameter]
     public IEnumerable<OperationTagViewModel>? OperationTags { get; set; }
 
     [Parameter]
     public EventCallback<TransactionUpdateDto> OnValidSubmit { get; set; }
+    
+    private DateTime MinDate => Transaction!.OperationDate.AddMonths(-1);
+    private DateTime MaxDate => DateTime.Now;
+    private TransactionUpdateDto? Transaction { get; set; }
 
-    public void Show()
+    protected override void OnInitialized()
     {
+        Transaction ??= new TransactionUpdateDto();
+    }
+
+    public void Show(TransactionUpdateDto dto)
+    {
+        Transaction = dto;
         _modalBase.Show();
     }
 

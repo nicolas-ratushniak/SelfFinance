@@ -46,8 +46,7 @@ public partial class Tags
             Name = tag.Name
         };
 
-        _editModal.Tag = updateDto;
-        _editModal.Show();
+        _editModal.Show(updateDto);
     }
 
     private async Task HandleAddAsync(OperationTagCreateDto dto)

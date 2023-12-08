@@ -50,8 +50,7 @@ public partial class Transactions
             OperationTagId = transaction.TagId
         };
 
-        _editModal.Transaction = updateDto;
-        _editModal.Show();
+        _editModal.Show(updateDto);
     }
 
     private async Task HandleAddAsync(TransactionCreateDto dto)

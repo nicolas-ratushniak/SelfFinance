@@ -6,7 +6,7 @@
 
 <ModalBase @ref="_modalBase" Title="New Tag">
     <Content>
-        <EditForm Model="@Tag" OnValidSubmit="_ => OnValidSubmit.InvokeAsync(Tag)" autocomplete="off">
+        <EditForm Model="@Tag" OnValidSubmit="_ => OnValidSubmitCallback.InvokeAsync(Tag)" autocomplete="off">
             <DataAnnotationsValidator/>
 
             <div class="form__item">
@@ -37,10 +37,9 @@
 @code {
     private ModalBase _modalBase;
 
-    public OperationTagCreateDto? Tag { get; set; }
-
     [Parameter]
-    public EventCallback<OperationTagCreateDto> OnValidSubmit { get; set; }
+    public EventCallback<OperationTagCreateDto> OnValidSubmitCallback { get; set; }
+    private OperationTagCreateDto? Tag { get; set; }
 
     protected override void OnInitialized()
     {
