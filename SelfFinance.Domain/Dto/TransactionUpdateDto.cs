@@ -10,7 +10,7 @@ public class TransactionUpdateDto
     public int Id { get; set; }
 
     [Required]
-    [Range(1, 1_000_000)]
+    [Range(1, 1_000_000, ErrorMessage = "We don't accept sum out of $1-$1,000,000 range")]
     [JsonProperty("sum")]
     public decimal Sum { get; set; }
 
@@ -20,6 +20,6 @@ public class TransactionUpdateDto
 
     [Required]
     [JsonProperty("operationTagId")]
-    [Range(1, int.MaxValue)]
+    [Range(1, int.MaxValue, ErrorMessage = "None of tags was selected")]
     public int OperationTagId { get; set; }
 }

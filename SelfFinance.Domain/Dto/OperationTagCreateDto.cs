@@ -12,7 +12,7 @@ public class OperationTagCreateDto
     public OperationType OperationType { get; set; }
 
     [Required]
-    [StringLength(30, MinimumLength = 2)]
+    [StringLength(30, MinimumLength = 2, ErrorMessage = "Name should take between 2 to 30 symbols")]
     [JsonProperty("name")]
     public string Name { get; set; }
 }
