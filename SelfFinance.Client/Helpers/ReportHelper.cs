@@ -9,8 +9,8 @@ public static class ReportHelper
     {
         return new ReportViewModel
         {
-            TotalIncome = dto.TotalIncome,
-            TotalExpense = dto.TotalExpense,
+            Income = dto.TotalIncome,
+            Expense = dto.TotalExpense,
             Transactions = dto.Transactions.ConvertToViewModels(tagDtos)
         };
     }

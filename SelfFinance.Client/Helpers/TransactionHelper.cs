@@ -1,4 +1,5 @@
 ﻿using SelfFinance.Client.ViewModels;
+using SelfFinance.Data.Models;
 using SelfFinance.Domain.Dto;
 
 namespace SelfFinance.Client.Helpers;
@@ -15,11 +16,14 @@ public static class TransactionHelper
         return new TransactionViewModel
         {
             Id = dto.Id,
-            Date = dto.OperationDate,
-            TagId = dto.OperationTagId,
+            Date = DateOnly.FromDateTime(dto.OperationDate),
             TagName = tagDto.Name,
-            Type = tagDto.OperationType,
-            AbsoluteSum = dto.Sum
+            SignedSum = tagDto.OperationType switch
+            {
+                OperationType.Expense => -dto.Sum,
+                OperationType.Income =>   dto.Sum,
+                _ => throw new ArgumentException("Unsupportable operation type passed")
+            }
         };
     }
     

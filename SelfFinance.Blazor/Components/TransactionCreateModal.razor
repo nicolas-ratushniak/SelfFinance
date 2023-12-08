@@ -26,7 +26,7 @@
                 <InputSelect TValue="int" @bind-Value="Transaction!.OperationTagId">
                     @if (OperationTags is not null)
                     {
-                        foreach (var typeGroup in OperationTags.GroupBy(t => t.OperationType).ToList())
+                        foreach (var typeGroup in OperationTags.GroupBy(t => t.Type))
                         {
                             <optgroup label="@typeGroup.Key">
                                 @foreach (var tag in typeGroup)

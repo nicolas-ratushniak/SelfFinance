@@ -2,7 +2,8 @@
 
 public class ReportViewModel
 {
-    public decimal TotalIncome { get; set; }
-    public decimal TotalExpense { get; set; }
+    public decimal Income { get; set; }
+    public decimal Expense { get; set; }
+    public decimal Total => Income - Expense;
     public IEnumerable<TransactionViewModel> Transactions { get; set; }
 }

@@ -17,7 +17,7 @@
         <td>@transaction.Date.ToString("dd MMM yyyy")</td>
         <td>@transaction.TagName</td>
         <td class="align-right primary-text">
-            @($"{(transaction.Type == OperationType.Expense ? "-" : "")}{transaction.AbsoluteSum:C}")
+            @($"{(transaction.SignedSum < 0 ? "-" : "")}{transaction.AbsoluteSum:C}")
         </td>
         <td class="actions-cell">
             <div class="btn-container">
