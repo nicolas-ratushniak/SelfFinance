@@ -12,9 +12,8 @@ namespace SelfFinance.Blazor.Pages;
 public partial class Tags
 {
     private ObservableCollection<OperationTagViewModel>? _tags;
-    private OperationTagViewModel? _tagToDelete;
 
-    private ModalDelete _deleteModal;
+    private ModalDelete<int> _deleteModal;
     private TagCreateModal _addModal;
     private TagUpdateModal _editModal;
     private Popup _popup;
@@ -36,8 +35,7 @@ public partial class Tags
 
     private void ShowDeleteModal(OperationTagViewModel tag)
     {
-        _tagToDelete = tag;
-        _deleteModal.Show();
+        _deleteModal.Show(tag.Id);
     }
 
     private void ShowEditModal(OperationTagViewModel tag)
@@ -116,23 +114,17 @@ public partial class Tags
         }
     }
 
-    private async Task HandleDeleteModalResultAsync(ModalResult result)
+    private async Task DeleteAsync(int id)
     {
-        var tagToDelete = _tagToDelete;
-        _tagToDelete = null;
-
-        if (result == ModalResult.Success)
+        try
         {
-            try
-            {
-                await OperationTagService.SoftDeleteAsync(tagToDelete!.Id);
-                _tags!.Remove(tagToDelete);
-                _popup.PopupAsync(PopupType.Success, "The tag was deleted");
-            }
-            catch (HttpRequestException ex)
-            {
-                _popup.PopupAsync(PopupType.Error, "Server error", ex.Message);
-            }
+            await OperationTagService.SoftDeleteAsync(id);
+            _tags!.Remove(_tags.Single(t => t.Id == id));
+            _popup.PopupAsync(PopupType.Success, "The tag was deleted");
+        }
+        catch (HttpRequestException ex)
+        {
+            _popup.PopupAsync(PopupType.Error, "Server error", ex.Message);
         }
     }
 }

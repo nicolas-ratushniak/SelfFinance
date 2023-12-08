@@ -18,9 +18,9 @@
 
 <Popup @ref="_popup"/>
 
-<ModalDelete @ref="_deleteModal"
+<ModalDelete @ref="_deleteModal" TId="int"
              Description="The action will permanently delete a transaction"
-             OnDecisionMadeCallback="HandleDeleteModalResultAsync"/>
+             OnDeleteCallback="DeleteAsync"/>
 
 <TransactionCreateModal @ref="_addModal"
                         OperationTags="_operationTags"

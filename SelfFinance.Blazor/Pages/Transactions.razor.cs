@@ -13,9 +13,8 @@ public partial class Transactions
 {
     private ObservableCollection<TransactionViewModel>? _transactions;
     private IEnumerable<OperationTagViewModel>? _operationTags = new List<OperationTagViewModel>();
-    private TransactionViewModel? _transactionToDelete;
 
-    private ModalDelete _deleteModal;
+    private ModalDelete<int> _deleteModal;
     private TransactionCreateModal _addModal;
     private TransactionUpdateModal _editModal;
     private Popup _popup;
@@ -38,8 +37,7 @@ public partial class Transactions
 
     private void ShowDeleteModal(TransactionViewModel transaction)
     {
-        _transactionToDelete = transaction;
-        _deleteModal.Show();
+        _deleteModal.Show(transaction.Id);
     }
 
     private void ShowEditModal(TransactionViewModel transaction)
@@ -123,23 +121,17 @@ public partial class Transactions
         }
     }
 
-    private async Task HandleDeleteModalResultAsync(ModalResult result)
+    private async Task DeleteAsync(int id)
     {
-        var transactionToDelete = _transactionToDelete;
-        _transactionToDelete = null;
-
-        if (result == ModalResult.Success)
+        try
         {
-            try
-            {
-                await TransactionService.SoftDeleteAsync(transactionToDelete!.Id);
-                _transactions!.Remove(transactionToDelete);
-                _popup.PopupAsync(PopupType.Success, "The transaction was deleted");
-            }
-            catch (HttpRequestException ex)
-            {
-                _popup.PopupAsync(PopupType.Error, "Server error", ex.Message);
-            }
+            await TransactionService.SoftDeleteAsync(id);
+            _transactions!.Remove(_transactions.Single(t => t.Id == id));
+            _popup.PopupAsync(PopupType.Success, "The transaction was deleted");
+        }
+        catch (HttpRequestException ex)
+        {
+            _popup.PopupAsync(PopupType.Error, "Server error", ex.Message);
         }
     }
 }
