@@ -10,7 +10,7 @@ public class OperationTagUpdateDto
     public int Id { get; set; }
 
     [Required]
-    [StringLength(30, MinimumLength = 2, ErrorMessage = "Name should take between 2 to 30 symbols")]
+    [StringLength(30, MinimumLength = 2, ErrorMessage = "Word from 2 to 30 symbols expected")]
     [JsonProperty("name")]
     public string Name { get; set; }
 }
