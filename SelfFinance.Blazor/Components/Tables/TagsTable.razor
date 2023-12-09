@@ -15,9 +15,11 @@
         <td>@tag.Name</td>
         <td>@tag.Type</td>
         <td class="actions-cell">
-            <div class="btn-container">
-                <button class="edit-btn" @onclick="() => OnEditCallback.InvokeAsync(tag)"></button>
-                <button class="delete-btn" @onclick="() => OnDeleteCallback.InvokeAsync(tag)"></button>
+            <div class="btn-container flex-row gap-10 space-between">
+                <button class="edit-btn size-32 bg-transparent bg-warning-on-hover radius-5 transition-dot2s" 
+                        @onclick="() => OnEditCallback.InvokeAsync(tag)"/>
+                <button class="delete-btn size-32 bg-transparent bg-danger-on-hover radius-5 transition-dot2s" 
+                        @onclick="() => OnDeleteCallback.InvokeAsync(tag)"/>
             </div>
         </td>
     </DataRowTemplate>

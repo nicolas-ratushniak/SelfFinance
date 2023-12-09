@@ -19,4 +19,8 @@
     <ItemGroup>
       <ProjectReference Include="..\SelfFinance.Client\SelfFinance.Client.csproj" />
     </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Components\Buttons\" />
+    </ItemGroup>
 </Project>

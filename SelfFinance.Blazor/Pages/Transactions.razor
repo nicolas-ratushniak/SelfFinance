@@ -2,11 +2,12 @@
 @page "/transactions"
 
 @using SelfFinance.Blazor.Components.Modals
+@using SelfFinance.Blazor.Components.Tables
 
 <PageTitle>Transactions</PageTitle>
 
 <div class="container">
-    <div class="horizontal-toolbar">
+    <div class="flex-row gap-20 height-40">
         <h1>Transactions</h1>
         <button class="add-btn" @onclick="() => _addModal.Show()">+</button>
     </div>

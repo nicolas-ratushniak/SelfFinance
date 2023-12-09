@@ -8,37 +8,8 @@
 }
 
 .popup {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
     width: 300px;
     padding: 14px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.6);
     border-radius: 10px;
-}
-
-.popup-error {
-    background-color: var(--danger-color);
-    color: #FFFFFF;
-}
-
-.popup-warning {
-    background-color: var(--warning-color);
-}
-
-.popup-success {
-    background-color: var(--success-color);
-    color: #FFFFFF;
-}
-
-.popup__header {
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-    align-items: center;
-}
-
-.popup__header > img {
-    width: 20px;
-    height: 20px;
 }

@@ -1,10 +1,4 @@
-﻿table {
-    width: 100%;
-    border-spacing: 0;
-    border: none;
-}
-
-::deep td, ::deep th {
+﻿::deep td, ::deep th {
     padding: .5rem .5rem;
 }
 
@@ -23,7 +17,7 @@
     border-radius: 7px 0 0 7px;
 }
 
-::deep .align-left {
+::deep .align-right {
     text-align: right;
 }
 
@@ -31,17 +25,12 @@
     color: var(--text-primary);
 }
 
-
 ::deep .actions-cell {
     border-radius: 0 7px 7px 0;
     width: 40px;
 }
 
 ::deep .btn-container {
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-    justify-content: space-between;
     opacity: 0;
     transition: opacity .1s;
 }
@@ -51,14 +40,9 @@
 }
 
 ::deep .btn-container button {
-    height: 32px;
-    width: 32px;
-    border: solid 2px var(--border-heavy);
-    border-radius: 5px;
-    background-color: transparent;
     background-repeat: no-repeat;
     background-position: center;
-    transition: all .2s;
+    border: solid 2px var(--border-heavy)
 }
 
 ::deep .edit-btn {
@@ -69,16 +53,6 @@
 ::deep .delete-btn {
     background-image: url("images/delete.png");
     background-size: 18px 18px;
-}
-
-::deep .edit-btn:hover {
-    border-color: transparent;
-    background-color: var(--warning-color);
-}
-
-::deep .delete-btn:hover {
-    border-color: transparent;
-    background-color: var(--danger-color);
 }
 
 ::deep .align-right {

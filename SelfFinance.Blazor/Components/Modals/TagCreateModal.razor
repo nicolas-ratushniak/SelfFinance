@@ -6,29 +6,30 @@
 
 <ModalBase @ref="_modalBase" Title="New Tag">
     <Content>
-        <EditForm Model="@Tag" OnValidSubmit="_ => OnValidSubmitCallback.InvokeAsync(Tag)" autocomplete="off">
+        <EditForm class="flex-col gap-14" Model="@Tag" OnValidSubmit="_ => OnValidSubmitCallback.InvokeAsync(Tag)" autocomplete="off">
             <DataAnnotationsValidator/>
 
-            <div class="form__item">
+            <div class="flex-col-reverse gap-5">
                 <ValidationMessage For="() => Tag!.Name"/>
-                <InputText id="name" @bind-Value="Tag!.Name"/>
-                <label for="name">Name</label>
+                <InputText class="input-underlined damage-on-error" id="name" @bind-Value="Tag!.Name"/>
+                <label class="focusable-label text-details text-damage-on-error" for="name">Name</label>
             </div>
 
-            <div class="form__item">
+            <div class="flex-col-reverse gap-5">
                 <ValidationMessage For="() => Tag!.OperationType"/>
-                <InputSelect id="type" TValue="OperationType" @bind-Value="Tag!.OperationType">
+                <InputSelect class="input-underlined damage-on-error" id="type" TValue="OperationType" 
+                             @bind-Value="Tag!.OperationType">
                     @foreach (var type in Enum.GetValues<OperationType>())
                     {
                         <option TValue="OperationType" Value="@type">@type</option>
                     }
                 </InputSelect>
-                <label for="type">Transaction Type</label>
+                <label class="focusable-label text-details text-damage-on-error" for="type">Transaction Type</label>
             </div>
 
-            <div class="btn-container">
-                <input class="cancel-btn" type="reset" @onclick="CancelForm" value="Cancel"/>
-                <input class="success-btn" type="submit" value="Submit"/>
+            <div class="flex-row gap-10 space-between">
+                <input class="rounded-btn bg-cancel item-width-2" type="reset" @onclick="CancelForm" value="Cancel"/>
+                <input class="rounded-btn bg-success item-width-2" type="submit" value="Submit"/>
             </div>
         </EditForm>
     </Content>

@@ -1,23 +1,23 @@
 ﻿@using SelfFinance.Blazor.Components.Abstract
 
 <div class="popup-container" hidden="@_isHidden">
-    <div class="popup @PopupClass">
-        <div class="popup__header">
+    <div class="popup flex-col gap-10 radius-10 @PopupClass">
+        <div class="flex-row gap-10">
             @switch (_popupType)
             {
                 case PopupType.Error:
-                    <img src="images/error.png" alt="">
+                    <img class="size-20" src="images/error.png" alt="">
                     break;
                 case PopupType.Warning:
-                    <img src="images/warning.png" alt="">
+                    <img class="size-20" src="images/warning.png" alt="">
                     break;
                 case PopupType.Success:
-                    <img src="images/success.png" alt="">
+                    <img class="size-20" src="images/success.png" alt="">
                     break;
             }
-            <h3 class="title">@_title</h3>
+            <span class="text-header">@_title</span>
         </div>
-        <div class="popup__content">
+        <div>
             <p>@_message</p>
         </div>
     </div>
@@ -31,9 +31,9 @@
 
     public string PopupClass => _popupType switch
     {
-        PopupType.Error => "popup-error",
-        PopupType.Warning => "popup-warning",
-        PopupType.Success => "popup-success"
+        PopupType.Error => "bg-danger",
+        PopupType.Warning => "bg-warning",
+        PopupType.Success => "bg-success"
     };
 
     private void Show()

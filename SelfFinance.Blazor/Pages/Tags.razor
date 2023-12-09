@@ -1,10 +1,11 @@
 ﻿@page "/tags"
 @using SelfFinance.Blazor.Components.Modals
+@using SelfFinance.Blazor.Components.Tables
 
 <PageTitle>Tags</PageTitle>
 
 <div class="container">
-    <div class="horizontal-toolbar">
+    <div class="flex-row gap-20 height-40">
         <h1>Tags</h1>
         <button class="add-btn" @onclick="() => _addModal.Show()">+</button>
     </div>

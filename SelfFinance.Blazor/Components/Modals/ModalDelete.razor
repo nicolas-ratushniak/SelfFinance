@@ -3,11 +3,11 @@
 
 <ModalBase @ref="_modalBase" Title="Are you sure?">
     <Content>
-        <h2 class="description">@Description</h2>
+        <p class="text-regular">@Description</p>
 
-        <div class="btn-container">
-            <button class="cancel-btn" @onclick="Hide">Cancel</button>
-            <button class="delete-btn" @onclick="OnDeleteAsync">Delete</button>
+        <div class="flex-row space-between gap-10">
+            <button class="rounded-btn bg-cancel item-width-2" @onclick="Hide">Cancel</button>
+            <button class="rounded-btn bg-danger item-width-2" @onclick="OnDeleteAsync">Delete</button>
         </div>
     </Content>
 </ModalBase>
