@@ -58,8 +58,7 @@ public class TransactionService : ITransactionService
         var tagsJsonResult = await tagsResponse.Content.ReadAsStringAsync();
         var tagDtos = JsonConvert.DeserializeObject<IEnumerable<OperationTagDto>>(tagsJsonResult)!;
 
-        return transactionDtos.ConvertToViewModels(tagDtos)
-            .OrderByDescending(t => t.Date);
+        return transactionDtos.ConvertToViewModels(tagDtos);
     }
 
     public async Task<int> AddAsync(TransactionCreateDto dto)

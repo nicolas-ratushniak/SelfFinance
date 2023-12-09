@@ -16,7 +16,7 @@ public static class TransactionHelper
         return new TransactionViewModel
         {
             Id = dto.Id,
-            Date = DateOnly.FromDateTime(dto.OperationDate),
+            Date = dto.OperationDate,
             TagName = tagDto.Name,
             SignedSum = tagDto.OperationType switch
             {
@@ -30,6 +30,7 @@ public static class TransactionHelper
     public static IEnumerable<TransactionViewModel> ConvertToViewModels(this IEnumerable<TransactionDto> dtos, IEnumerable<OperationTagDto> tagDtos)
     {
         return dtos.Select(t => t.ConvertToViewModel(
-            tagDtos.Single(tag => tag.Id == t.OperationTagId)));
+            tagDtos.Single(tag => tag.Id == t.OperationTagId)))
+            .OrderByDescending(t => t.Date);
     }
 }
