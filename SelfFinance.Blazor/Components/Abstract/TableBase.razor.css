@@ -7,20 +7,13 @@
     color: var(--text-primary);
 }
 
-::deep td {
-    color: var(--text-secondary);
-}
-
-::deep th:first-child, ::deep td:first-child {
+::deep th:first-child, 
+::deep td:first-child {
     border-radius: 7px 0 0 7px;
 }
 
 ::deep th:last-child {
     border-radius: 0 7px 7px 0;
-}
-
-::deep .primary-text {
-    color: var(--text-primary);
 }
 
 ::deep .actions-cell {
