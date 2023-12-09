@@ -4,12 +4,10 @@
 
 ::deep th {
     background-color: var(--light-grey);
-    text-align: left;
     color: var(--text-primary);
 }
 
 ::deep td {
-    text-align: left;
     color: var(--text-secondary);
 }
 
@@ -17,8 +15,8 @@
     border-radius: 7px 0 0 7px;
 }
 
-::deep .align-right {
-    text-align: right;
+::deep th:last-child {
+    border-radius: 0 7px 7px 0;
 }
 
 ::deep .primary-text {
@@ -26,7 +24,6 @@
 }
 
 ::deep .actions-cell {
-    border-radius: 0 7px 7px 0;
     width: 40px;
 }
 
@@ -54,15 +51,6 @@
     background-image: url("images/delete.png");
     background-size: 18px 18px;
 }
-
-::deep .align-right {
-    text-align: right;
-}
-
-::deep .primary-text {
-    color: var(--text-primary);
-}
-
 .loading {
     padding: .5rem 7px;
 }

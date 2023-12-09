@@ -15,7 +15,9 @@
                     <img class="size-20" src="images/success.png" alt="">
                     break;
             }
-            <span class="text-header">@_title</span>
+            <span class="text-subheader bolder @(_popupType == PopupType.Warning ? "" : "text-contrast")">
+                @_title
+            </span>
         </div>
         <div>
             <p>@_message</p>

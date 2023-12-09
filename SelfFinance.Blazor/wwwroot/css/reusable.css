@@ -157,6 +157,11 @@
     font-size: 24px;
 }
 
+.text-subheader {
+    color: var(--text-primary);
+    font-size: 24px;
+}
+
 .text-regular {
     color: var(--text-secondary);
     font-size: var(--font-size-regular);
@@ -187,10 +192,6 @@
     font-size: var(--font-size-regular);
 }
 
-.text-right {
-    text-align: right;
-}
-
 .text-success {
     color: var(--success-color);
 }
@@ -201,6 +202,18 @@
 
 .text-contrast {
     color: #FFFFFF;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.text-left {
+    text-align: left;
+}
+
+.bolder {
+    font-weight: bolder;
 }
 
 

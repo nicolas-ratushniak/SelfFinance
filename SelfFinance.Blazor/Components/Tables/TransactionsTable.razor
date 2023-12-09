@@ -7,16 +7,16 @@
            Context="transaction">
 
     <HeaderTemplate>
-        <th>Date</th>
-        <th>Category</th>
-        <th class="align-right">Amount</th>
+        <th class="text-left">Date</th>
+        <th class="text-left">Category</th>
+        <th class="text-right">Amount</th>
         <th class="actions-cell"/>
     </HeaderTemplate>
 
     <DataRowTemplate>
-        <td>@transaction.Date.ToString("dd MMM yyyy")</td>
-        <td>@transaction.TagName</td>
-        <td class="text-right primary-text">
+        <td class="text-left">@transaction.Date.ToString("dd MMM yyyy")</td>
+        <td class="text-left">@transaction.TagName</td>
+        <td class="text-right text-primary">
             @($"{(transaction.SignedSum < 0 ? "-" : "")}{transaction.AbsoluteSum:C}")
         </td>
         <td class="actions-cell">
