@@ -19,7 +19,7 @@ public class ReportService : IReportService
     {
         var dateString = date.ToString("yyyy-MM-dd");
 
-        using var reportResponse = await _client.GetAsync($"daily-report?date={dateString}");
+        using var reportResponse = await _client.GetAsync($"reports/daily-report?date={dateString}");
         using var tagsResponse = await _client.GetAsync("tags/include-deleted");
 
         reportResponse.EnsureSuccessStatusCode();
@@ -40,7 +40,7 @@ public class ReportService : IReportService
         var endDateString = endDate.ToString("yyyy-MM-dd");
 
         using var reportResponse = await _client.GetAsync(
-            $"period-report?startDate={startDateString}&endDate={endDateString}");
+            $"reports/period-report?startDate={startDateString}&endDate={endDateString}");
         using var tagsResponse = await _client.GetAsync("tags/include-deleted");
 
         reportResponse.EnsureSuccessStatusCode();
