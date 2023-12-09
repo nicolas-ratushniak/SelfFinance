@@ -26,9 +26,9 @@
 
             <div class="start-date flex-col-reverse gap-5">
                 <ValidationMessage For="() => _dailyReport!.Date"/>
-                <InputDate class="rounded-input border-danger-on-error" id="date" max="@MaxDate"
+                <InputDate class="rounded-input danger-on-error" id="date" max="@MaxDate"
                            Type="InputDateType.Date" @bind-Value="_dailyReport!.Date"/>
-                <label class="focusable-label text-danger-on-error" for="date">Date</label>
+                <label class="focusable-label" for="date">Date</label>
             </div>
 
             <input class="submit rounded-btn bg-warning radius-7" type="submit" value="Generate"/>
@@ -41,17 +41,17 @@
 
             <div class="start-date flex-col-reverse gap-5">
                 <ValidationMessage For="() => _periodReport!.StartDate"/>
-                <InputDate class="rounded-input border-danger-on-error" id="date" max="@_periodReport?.EndDate.ToString("yyyy-MM-dd")"
+                <InputDate class="rounded-input danger-on-error" id="date" max="@_periodReport?.EndDate.ToString("yyyy-MM-dd")"
                            Type="InputDateType.Date" @bind-Value="_periodReport!.StartDate"/>
                 
-                <label class="focusable-label text-danger-on-error" for="date">Start date</label>
+                <label class="focusable-label" for="date">Start date</label>
             </div>
 
             <div class="end-date flex-col-reverse gap-5">
                 <ValidationMessage For="() => _periodReport!.EndDate"/>
-                <InputDate class="rounded-input border-danger-on-error" id="date" Type="InputDateType.Date"
+                <InputDate class="rounded-input danger-on-error" id="date" Type="InputDateType.Date"
                            @bind-Value="_periodReport!.EndDate" max="@MaxDate"/>
-                <label class="focusable-label text-danger-on-error" for="date">End date</label>
+                <label class="focusable-label" for="date">End date</label>
             </div>
 
             <input class="submit rounded-btn bg-warning radius-7" type="submit" value="Generate"/>

@@ -15,7 +15,7 @@
                 <InputDate class="input-underlined danger-on-error" id="date" Type="InputDateType.DateTimeLocal" 
                            @bind-Value="Transaction!.OperationDate" max="@MaxDate"/>
                 
-                <label class="focusable-label text-details text-danger-on-error" for="date">Date</label>
+                <label class="focusable-label text-details" for="date">Date</label>
             </div>
 
             <div class="flex-col-reverse gap-5">
@@ -24,7 +24,7 @@
                 <InputNumber class="input-underlined danger-on-error" id="sum" TValue="decimal" min="0" width="13" 
                              @bind-Value="Transaction!.Sum"/>
                 
-                <label class="focusable-label text-details text-danger-on-error" for="sum">Amount</label>
+                <label class="focusable-label text-details" for="sum">Amount</label>
             </div>
 
             <div class="flex-col-reverse gap-5">
@@ -45,7 +45,7 @@
                     }
                 </InputSelect>
                 
-                <label class="focusable-label text-details text-danger-on-error" for="sum">Tag</label>
+                <label class="focusable-label text-details" for="sum">Tag</label>
             </div>
 
             <div class="flex-row space-between gap-10">

@@ -97,6 +97,7 @@
 .flex-col-reverse {
     display: flex;
     flex-direction: column-reverse;
+    justify-content: start;
 }
 
 .space-between {
@@ -147,10 +148,6 @@
 .input-underlined:focus + .focusable-label,
 .rounded-input:focus + .focusable-label{
     color: var(--contrast-color);
-}
-
-.validation-message ~ .text-danger-on-error {
-    color: var(--danger-color);
 }
 
 .validation-message ~ .danger-on-error {
