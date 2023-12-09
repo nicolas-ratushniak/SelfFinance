@@ -77,6 +77,45 @@
     gap: 24px;
 }
 
+.table-no-border {
+    width: 100%;
+    border-spacing: 0;
+    border: none;
+}
+
+.flex-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.flex-col {
+    display: flex;
+    flex-direction: column;
+}
+
+.flex-col-reverse {
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.space-between {
+    justify-content: space-between;
+}
+
+
+/*------ Checking ------*/
+.contrast-on-checked {
+    background-color: var(--gray-200);
+    color: var(--contrast-color);
+    transition: .3s;
+}
+
+.checkable:checked + .contrast-on-checked {
+    background-color: var(--contrast-color);
+    color: #FFFFFF;
+}
+
 /*------ Inputs ------*/
 .input-underlined,
 .rounded-input {
@@ -110,11 +149,11 @@
     color: var(--contrast-color);
 }
 
-.validation-message ~ .text-damage-on-error {
+.validation-message ~ .text-danger-on-error {
     color: var(--danger-color);
 }
 
-.validation-message ~ .damage-on-error {
+.validation-message ~ .danger-on-error {
     color: var(--danger-color);
     border-color: var(--danger-color);
 }
@@ -122,32 +161,6 @@
 .validation-message {
     font-size: 14px;
     color: var(--danger-color);
-}
-
-.table-no-border {
-    width: 100%;
-    border-spacing: 0;
-    border: none;
-}
-
-.flex-row {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-}
-
-.flex-col {
-    display: flex;
-    flex-direction: column;
-}
-
-.flex-col-reverse {
-    display: flex;
-    flex-direction: column-reverse;
-}
-
-.space-between {
-    justify-content: space-between;
 }
 
 
@@ -219,7 +232,7 @@
 
 /*------ Button ------*/
 .rounded-btn {
-    padding: .5rem 0;
+    padding: .5rem 1.5rem;
     border: none;
     border-radius: 5px;
     opacity: .8;

@@ -1,0 +1,43 @@
+﻿@page "/reports"
+
+@using SelfFinance.Blazor.Components.Tables
+@using SelfFinance.Blazor.Components.Modals
+@using SelfFinance.Blazor.Components.Forms
+
+<PageTitle>Reports</PageTitle>
+
+<div class="container">
+    <div class="flex-row gap-20 height-40">
+        <h1>Reports</h1>
+    </div>
+
+    <div class="grid-container">
+        <div class="main-total bg-contrast report-data component-container">
+            <p class="text-regular text-contrast">Total</p>
+            <p class="text-header text-contrast">
+                @(Total < 0 ? $"-{-Total:C}" : $"{Total:C}")
+            </p>
+        </div>
+        <div class="detailed-total component-container">
+            <div class="report-data">
+                <p class="text-regular">Income</p>
+                <p class="text-header text-success">@($"+{Income:C}")</p>
+            </div>
+
+            <div class="report-data">
+                <p class="text-regular">Expense</p>
+                <p class="text-header text-danger">@($"-{Expense:C}")</p>
+            </div>
+        </div>
+
+        <ReportForm OnDailyReportCallback="GenerateDailyReportAsync"
+                    OnPeriodReportCallback="GeneratePeriodReportAsync"/>
+        
+        @if (Transactions is not null)
+        {
+            <TransactionsReadOnlyTable Items="Transactions"/>
+        }
+    </div>
+</div>
+
+<Popup @ref="_popup"/>

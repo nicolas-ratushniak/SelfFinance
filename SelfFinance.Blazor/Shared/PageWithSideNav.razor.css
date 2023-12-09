@@ -101,6 +101,7 @@
 
 #is-side-bar-closed:checked + .side-nav > .side-nav__content {
     width: 0;
+    overflow-x: hidden;
 }
 
 #is-side-bar-closed:checked ~ .presentation {

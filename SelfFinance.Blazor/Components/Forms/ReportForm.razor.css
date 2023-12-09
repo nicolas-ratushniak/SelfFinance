@@ -1,0 +1,19 @@
+﻿::deep .form-grid {
+    display: grid;
+    height: 100%;
+    gap: 20px;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 70px 1fr 40px;
+}
+
+.start-date {
+    grid-area: 1 / 1 / 2 / 2;
+}
+
+.end-date {
+    grid-area: 1 / 2 / 2 / 3;
+}
+
+.submit {
+    grid-area: 3 / 2 / 4 / 3;
+}

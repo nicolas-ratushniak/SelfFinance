@@ -1,0 +1,117 @@
+﻿@using Microsoft.AspNetCore.Components.Forms
+@using SelfFinance.Blazor.Components.Abstract
+@using SelfFinance.Blazor.Models
+
+<div class="flex-col gap-14 space-between report-form component-container">
+    <div class="flex-row space-between">
+        <h2>Generate Report</h2>
+
+        <div class="flex-row gap-5 space-between">
+            <input class="checkable" type="radio" id="daily" name="report-type"
+                   checked="@(_currentReportType == ReportType.DailyReport)"
+                   @onchange="@(() => SetReportType(ReportType.DailyReport))"/>
+            <label class="rounded-btn contrast-on-checked" for="daily">Daily Report</label>
+
+            <input class="checkable" type="radio" id="period" name="report-type"
+                   checked="@(_currentReportType == ReportType.PeriodReport)"
+                   @onchange="@(() => SetReportType(ReportType.PeriodReport))"/>
+            <label class="rounded-btn contrast-on-checked" for="period">Period Report</label>
+        </div>
+    </div>
+
+    @if (_currentReportType == ReportType.DailyReport)
+    {
+        <EditForm class="form-grid gap-20" Model="_dailyReport" OnValidSubmit="() => OnDailyReportCallback.InvokeAsync(_dailyReport)">
+            <DataAnnotationsValidator/>
+
+            <div class="start-date flex-col-reverse gap-5">
+                <ValidationMessage For="() => _dailyReport!.Date"/>
+                <InputDate class="rounded-input border-danger-on-error" id="date" max="@MaxDate"
+                           Type="InputDateType.Date" @bind-Value="_dailyReport!.Date"/>
+                <label class="focusable-label text-danger-on-error" for="date">Date</label>
+            </div>
+
+            <input class="submit rounded-btn bg-warning radius-7" type="submit" value="Generate"/>
+        </EditForm>
+    }
+    @if (_currentReportType == ReportType.PeriodReport)
+    {
+        <EditForm class="form-grid gap-20" Model="_periodReport" OnValidSubmit="() => OnPeriodReportCallback.InvokeAsync(_periodReport)">
+            <DataAnnotationsValidator/>
+
+            <div class="start-date flex-col-reverse gap-5">
+                <ValidationMessage For="() => _periodReport!.StartDate"/>
+                <InputDate class="rounded-input border-danger-on-error" id="date" max="@_periodReport?.EndDate.ToString("yyyy-MM-dd")"
+                           Type="InputDateType.Date" @bind-Value="_periodReport!.StartDate"/>
+                
+                <label class="focusable-label text-danger-on-error" for="date">Start date</label>
+            </div>
+
+            <div class="end-date flex-col-reverse gap-5">
+                <ValidationMessage For="() => _periodReport!.EndDate"/>
+                <InputDate class="rounded-input border-danger-on-error" id="date" Type="InputDateType.Date"
+                           @bind-Value="_periodReport!.EndDate" max="@MaxDate"/>
+                <label class="focusable-label text-danger-on-error" for="date">End date</label>
+            </div>
+
+            <input class="submit rounded-btn bg-warning radius-7" type="submit" value="Generate"/>
+        </EditForm>
+    }
+</div>
+
+@code {
+    private ReportType? _currentReportType;
+    private DailyReport? _dailyReport;
+    private PeriodReport? _periodReport;
+    
+    [Parameter]
+    public EventCallback<DailyReport> OnDailyReportCallback { get; set; }
+    
+    [Parameter]
+    public EventCallback<PeriodReport> OnPeriodReportCallback { get; set; }
+
+    private string MaxDate => DateTime.Today.ToString("yyyy-MM-dd");
+
+    private void SetReportType(ReportType newReportType)
+    {
+        if (_currentReportType == newReportType)
+        {
+            return;
+        }
+
+        _currentReportType = newReportType;
+
+        switch (newReportType)
+        {
+            case ReportType.DailyReport:
+                _dailyReport = GetDefaultDailyReport();
+                break;
+
+            case ReportType.PeriodReport:
+                _periodReport = GetDefaultPeriodReport();
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(newReportType), newReportType, null);
+        }
+        StateHasChanged();
+    }
+
+    protected override void OnInitialized()
+    {
+        SetReportType(ReportType.DailyReport);
+
+        _dailyReport = GetDefaultDailyReport();
+        _periodReport = GetDefaultPeriodReport();
+    }
+    
+    private PeriodReport GetDefaultPeriodReport() => new()
+    {
+        StartDate = DateOnly.FromDateTime(DateTime.Today).AddMonths(-1),
+        EndDate = DateOnly.FromDateTime(DateTime.Today)
+    };
+
+    private DailyReport GetDefaultDailyReport() => new()
+    {
+        Date = DateOnly.FromDateTime(DateTime.Today)
+    };
+}
