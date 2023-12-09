@@ -6,20 +6,16 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 
-builder.Services.AddHttpClient<ITransactionService, TransactionService>(client => 
-    client.BaseAddress = new Uri("http://localhost:5149/self-finance/api/"));
+var baseAddress = new Uri("https://localhost:7242/self-finance/api/");
 
-builder.Services.AddHttpClient<IOperationTagService, OperationTagService>(client => 
-    client.BaseAddress = new Uri("http://localhost:5149/self-finance/api/"));
-
-builder.Services.AddHttpClient<IReportService, ReportService>(client => 
-    client.BaseAddress = new Uri("http://localhost:5149/self-finance/api/"));
+builder.Services.AddHttpClient<ITransactionService, TransactionService>(client => client.BaseAddress = baseAddress);
+builder.Services.AddHttpClient<IOperationTagService, OperationTagService>(client => client.BaseAddress = baseAddress);
+builder.Services.AddHttpClient<IReportService, ReportService>(client => client.BaseAddress = baseAddress);
 
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
 {
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
