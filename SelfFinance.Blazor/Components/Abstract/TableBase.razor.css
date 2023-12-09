@@ -3,8 +3,8 @@
 }
 
 ::deep th {
-    background-color: var(--light-grey);
-    color: var(--text-primary);
+    background-color: var(--gray-300);
+    color: #ffffff;
 }
 
 ::deep th:first-child, 
