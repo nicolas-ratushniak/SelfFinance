@@ -14,13 +14,21 @@
     <DataRowTemplate>
         <td class="text-left">@transaction.Date.ToString("dd MMM yyyy")</td>
         <td class="text-left">@transaction.TagName</td>
-        <td class="text-right primary-text">
-            @($"{(transaction.SignedSum < 0 ? "-" : "")}{transaction.AbsoluteSum:C}")
-        </td>
+        
+        @if (transaction.SignedSum < 0)
+        {
+            <td class="text-right text-danger">@($"-{transaction.AbsoluteSum:C}")</td>
+        }
+        else
+        {
+            <td class="text-right text-success">@($"+{transaction.AbsoluteSum:C}")</td>
+        }
     </DataRowTemplate>
 </TableBase>
 
 @code {
+
     [Parameter]
     public IEnumerable<TransactionViewModel>? Items { get; set; }
+
 }

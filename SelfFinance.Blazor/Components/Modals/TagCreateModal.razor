@@ -11,20 +11,24 @@
 
             <div class="flex-col-reverse gap-5">
                 <ValidationMessage For="() => Tag!.Name"/>
-                <InputText class="input-underlined damage-on-error" id="name" @bind-Value="Tag!.Name"/>
-                <label class="focusable-label text-details text-damage-on-error" for="name">Name</label>
+                
+                <InputText class="input-underlined danger-on-error" id="name" @bind-Value="Tag!.Name"/>
+                
+                <label class="focusable-label text-details text-danger-on-error" for="name">Name</label>
             </div>
 
             <div class="flex-col-reverse gap-5">
                 <ValidationMessage For="() => Tag!.OperationType"/>
-                <InputSelect class="input-underlined damage-on-error" id="type" TValue="OperationType" 
+                
+                <InputSelect class="input-underlined danger-on-error" id="type" TValue="OperationType" 
                              @bind-Value="Tag!.OperationType">
                     @foreach (var type in Enum.GetValues<OperationType>())
                     {
                         <option TValue="OperationType" Value="@type">@type</option>
                     }
                 </InputSelect>
-                <label class="focusable-label text-details text-damage-on-error" for="type">Transaction Type</label>
+                
+                <label class="focusable-label text-details text-danger-on-error" for="type">Transaction Type</label>
             </div>
 
             <div class="flex-row gap-10 space-between">

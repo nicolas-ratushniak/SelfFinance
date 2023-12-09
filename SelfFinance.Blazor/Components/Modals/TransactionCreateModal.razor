@@ -11,21 +11,26 @@
 
             <div class="flex-col-reverse gap-5">
                 <ValidationMessage For="() => Transaction!.OperationDate"/>
-                <InputDate class="input-underlined damage-on-error" id="date" Type="InputDateType.DateTimeLocal" 
+                
+                <InputDate class="input-underlined danger-on-error" id="date" Type="InputDateType.DateTimeLocal" 
                            @bind-Value="Transaction!.OperationDate" max="@MaxDate"/>
-                <label class="focusable-label text-details text-damage-on-error" for="date">Date</label>
+                
+                <label class="focusable-label text-details text-danger-on-error" for="date">Date</label>
             </div>
 
             <div class="flex-col-reverse gap-5">
                 <ValidationMessage For="() => Transaction!.Sum"/>
-                <InputNumber class="input-underlined damage-on-error" id="sum" TValue="decimal" min="0" width="13" 
+                
+                <InputNumber class="input-underlined danger-on-error" id="sum" TValue="decimal" min="0" width="13" 
                              @bind-Value="Transaction!.Sum"/>
-                <label class="focusable-label text-details text-damage-on-error" for="sum">Amount</label>
+                
+                <label class="focusable-label text-details text-danger-on-error" for="sum">Amount</label>
             </div>
 
             <div class="flex-col-reverse gap-5">
                 <ValidationMessage For="() => Transaction!.OperationTagId"/>
-                <InputSelect class="input-underlined damage-on-error" TValue="int" @bind-Value="Transaction!.OperationTagId">
+                
+                <InputSelect class="input-underlined danger-on-error" TValue="int" @bind-Value="Transaction!.OperationTagId">
                     @if (OperationTags is not null)
                     {
                         foreach (var typeGroup in OperationTags.GroupBy(t => t.Type))
@@ -39,7 +44,8 @@
                         }
                     }
                 </InputSelect>
-                <label class="focusable-label text-details text-damage-on-error" for="sum">Tag</label>
+                
+                <label class="focusable-label text-details text-danger-on-error" for="sum">Tag</label>
             </div>
 
             <div class="flex-row space-between gap-10">
