@@ -16,49 +16,28 @@ public class TransactionService : ITransactionService
         _client = client;
     }
 
-    public async Task<TransactionDto> GetAsync(int id)
+    public async Task<TransactionRichDto> GetAsync(int id)
     {
         using var transactionResponse = await _client.GetAsync($"transactions/{id}");
         transactionResponse.EnsureSuccessStatusCode();
 
         var transactionJsonResult = await transactionResponse.Content.ReadAsStringAsync();
-        var transactionDto = JsonConvert.DeserializeObject<TransactionDto>(transactionJsonResult)!;
+        var transactionDto = JsonConvert.DeserializeObject<TransactionRichDto>(transactionJsonResult)!;
 
         return transactionDto;
-    }
-
-    public async Task<TransactionViewModel> GetViewModelAsync(int id)
-    {
-        using var transactionResponse = await _client.GetAsync($"transactions/{id}");
-        transactionResponse.EnsureSuccessStatusCode();
-
-        var transactionJsonResult = await transactionResponse.Content.ReadAsStringAsync();
-        var transactionDto = JsonConvert.DeserializeObject<TransactionDto>(transactionJsonResult)!;
-        
-        using var tagResponse = await _client.GetAsync($"tags/{transactionDto.OperationTagId}");
-        tagResponse.EnsureSuccessStatusCode();
-
-        var tagJsonResult = await tagResponse.Content.ReadAsStringAsync();
-        var tagDto = JsonConvert.DeserializeObject<OperationTagDto>(tagJsonResult)!;
-
-        return transactionDto.ConvertToViewModel(tagDto);
     }
 
     public async Task<IEnumerable<TransactionViewModel>> GetAllAsync()
     {
         using var transactionsResponse = await _client.GetAsync("transactions");
-        using var tagsResponse = await _client.GetAsync("tags/include-deleted");
-
         transactionsResponse.EnsureSuccessStatusCode();
-        tagsResponse.EnsureSuccessStatusCode();
 
         var transactionsJsonResult = await transactionsResponse.Content.ReadAsStringAsync();
-        var transactionDtos = JsonConvert.DeserializeObject<IEnumerable<TransactionDto>>(transactionsJsonResult)!;
+        var transactionDtos = JsonConvert.DeserializeObject<IEnumerable<TransactionRichDto>>(transactionsJsonResult)!;
 
-        var tagsJsonResult = await tagsResponse.Content.ReadAsStringAsync();
-        var tagDtos = JsonConvert.DeserializeObject<IEnumerable<OperationTagDto>>(tagsJsonResult)!;
-
-        return transactionDtos.ConvertToViewModels(tagDtos);
+        return transactionDtos
+            .Select(t => t.ConvertToViewModel())
+            .OrderByDescending(t => t.Date);
     }
 
     public async Task<int> AddAsync(TransactionCreateDto dto)

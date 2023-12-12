@@ -52,12 +52,81 @@ public class TransactionService : ITransactionService
                 fo.OperationDate >= from &&
                 fo.OperationDate <= to)
             .Select(fo => new TransactionDto
+            {
+                Id = fo.Id,
+                Sum = fo.Sum,
+                OperationDate = fo.OperationDate,
+                OperationTagId = fo.OperationTagId
+            })
+            .ToListAsync();
+    }
+
+    public async Task<TransactionRichDto> GetRichAsync(int id)
+    {
+        var transaction = await _context.FinancialOperations
+                              .Include(fo => fo.OperationTag)
+                              .Where(fo => !fo.IsDeleted)
+                              .SingleOrDefaultAsync(fo => fo.Id == id)
+                          ?? throw new EntityNotFoundException();
+
+        return new TransactionRichDto
+        {
+            Id = transaction.Id,
+            Sum = transaction.Sum,
+            OperationDate = transaction.OperationDate,
+            OperationTag = new OperationTagDto
+            {
+                Id = transaction.OperationTagId,
+                OperationType = transaction.OperationTag.OperationType,
+                Name = transaction.OperationTag.Name
+            }
+        };
+    }
+
+    public async Task<IEnumerable<TransactionRichDto>> GetAllRichAsync()
+    {
+        return await _context.FinancialOperations
+            .Include(fo => fo.OperationTag)
+            .Where(fo => !fo.IsDeleted)
+            .Select(fo => new TransactionRichDto
+            {
+                Id = fo.Id,
+                Sum = fo.Sum,
+                OperationDate = fo.OperationDate,
+                OperationTag = new OperationTagDto
                 {
-                    Id = fo.Id,
-                    Sum = fo.Sum,
-                    OperationDate = fo.OperationDate,
-                    OperationTagId = fo.OperationTagId
-                })
+                    Id = fo.OperationTagId,
+                    OperationType = fo.OperationTag.OperationType,
+                    Name = fo.OperationTag.Name
+                }
+            })
+            .ToListAsync();
+    }
+
+    public async Task<IEnumerable<TransactionRichDto>> GetAllRichAsync(DateTime from, DateTime to)
+    {
+        if (from > to)
+        {
+            throw new ArgumentException("From should precede To");
+        }
+
+        return await _context.FinancialOperations
+            .Where(fo =>
+                !fo.IsDeleted &&
+                fo.OperationDate >= from &&
+                fo.OperationDate <= to)
+            .Select(fo => new TransactionRichDto
+            {
+                Id = fo.Id,
+                Sum = fo.Sum,
+                OperationDate = fo.OperationDate,
+                OperationTag = new OperationTagDto
+                {
+                    Id = fo.OperationTagId,
+                    OperationType = fo.OperationTag.OperationType,
+                    Name = fo.OperationTag.Name
+                }
+            })
             .ToListAsync();
     }
 

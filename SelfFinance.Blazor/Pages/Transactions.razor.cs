@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Components;
 using SelfFinance.Blazor.Components.Modals;
 using SelfFinance.Blazor.Components.Abstract;
 using SelfFinance.Client.Abstract;
+using SelfFinance.Client.Helpers;
 using SelfFinance.Client.ViewModels;
 using SelfFinance.Domain.Dto;
 
@@ -49,7 +50,7 @@ public partial class Transactions
             Id = transactionToEdit.Id,
             Sum = transactionToEdit.Sum,
             OperationDate = transactionToEdit.OperationDate,
-            OperationTagId = transactionToEdit.OperationTagId
+            OperationTagId = transactionToEdit.OperationTag.Id
         };
 
         _editModal.Show(updateDto);
@@ -60,21 +61,10 @@ public partial class Transactions
         try
         {
             var id = await TransactionService.AddAsync(dto);
-            var addedTransaction = await TransactionService.GetViewModelAsync(id);
+            var addedTransaction = await TransactionService.GetAsync(id);
 
-            _transactions!.Insert(0, addedTransaction);
-
-            // ------ sort by date ------
-            // var sortedTransactions = new List<TransactionViewModel>(_transactions!)
-            //     .OrderByDescending(t => t.Date);
-            //
-            // _transactions!.Clear();
-            //
-            // foreach (var transaction in sortedTransactions)
-            // {
-            //     _transactions.Add(transaction);
-            // }
-            // ---------------------------
+            _transactions!.Insert(0, addedTransaction.ConvertToViewModel());
+            
             _addModal.Hide();
             _popup.PopupAsync(PopupType.Success, "New transaction added");
         }
@@ -97,7 +87,7 @@ public partial class Transactions
         {
             await TransactionService.UpdateAsync(dto);
 
-            var updatedTransaction = await TransactionService.GetViewModelAsync(dto.Id);
+            var updatedTransaction = (await TransactionService.GetAsync(dto.Id)).ConvertToViewModel();
             var oldTransaction = _transactions!.Single(t => t.Id == dto.Id);
 
             oldTransaction.Date = updatedTransaction.Date;

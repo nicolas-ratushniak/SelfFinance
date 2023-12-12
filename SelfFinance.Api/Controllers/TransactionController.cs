@@ -25,7 +25,7 @@ public class TransactionController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAllAsync()
     {
-        var operations = await _transactionService.GetAllAsync();
+        var operations = await _transactionService.GetAllRichAsync();
         return Ok(operations);
     }
     
@@ -34,8 +34,8 @@ public class TransactionController : ControllerBase
     {
         try
         {
-            var operation = await _transactionService.GetAsync(id);
-            return Ok(operation.ConvertToDto());
+            var operation = await _transactionService.GetRichAsync(id);
+            return Ok(operation);
         }
         catch (EntityNotFoundException ex)
         {

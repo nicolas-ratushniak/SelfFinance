@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SelfFinance.Data;
-using SelfFinance.Data.Models;
+﻿using SelfFinance.Data.Models;
 using SelfFinance.Domain.Abstract;
 using SelfFinance.Domain.Dto;
 
@@ -8,12 +6,10 @@ namespace SelfFinance.Domain.Services;
 
 public class ReportService : IReportService
 {
-    private readonly SelfFinanceDbContext _context;
     private readonly ITransactionService _transactionService;
 
-    public ReportService(SelfFinanceDbContext context, ITransactionService transactionService)
+    public ReportService(ITransactionService transactionService)
     {
-        _context = context;
         _transactionService = transactionService;
     }
 
@@ -32,8 +28,8 @@ public class ReportService : IReportService
             throw new ArgumentException("Start date should precede end date");
         }
 
-        var operations = (await _transactionService.GetAllAsync(from, to)).ToList();
-        var totals = await CalculateTotalAsync(operations);
+        var operations = (await _transactionService.GetAllRichAsync(from, to)).ToList();
+        var totals = CalculateTotal(operations);
 
         return new ReportDto
         {
@@ -43,14 +39,10 @@ public class ReportService : IReportService
         };
     }
 
-    private async Task<Dictionary<OperationType, decimal>> CalculateTotalAsync(
-        IEnumerable<TransactionDto> operations)
+    private Dictionary<OperationType, decimal> CalculateTotal(IEnumerable<TransactionRichDto> operations)
     {
-        var operationTags = await _context.OperationTags.ToListAsync();
-
         var resultDict = operations
-            .GroupBy(o => operationTags
-                .Single(t => t.Id == o.OperationTagId).OperationType)
+            .GroupBy(o => o.OperationTag.OperationType)
             .ToDictionary(g => g.Key, 
                 g => g.Sum(o => o.Sum));
 

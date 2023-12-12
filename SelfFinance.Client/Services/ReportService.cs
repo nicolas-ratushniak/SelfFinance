@@ -20,18 +20,12 @@ public class ReportService : IReportService
         var dateString = date.ToString("yyyy-MM-dd");
 
         using var reportResponse = await _client.GetAsync($"reports/daily-report?date={dateString}");
-        using var tagsResponse = await _client.GetAsync("tags/include-deleted");
-
         reportResponse.EnsureSuccessStatusCode();
-        tagsResponse.EnsureSuccessStatusCode();
 
         var reportJsonResult = await reportResponse.Content.ReadAsStringAsync();
         var reportDto = JsonConvert.DeserializeObject<ReportDto>(reportJsonResult)!;
 
-        var tagsJsonResult = await tagsResponse.Content.ReadAsStringAsync();
-        var tagDtos = JsonConvert.DeserializeObject<IEnumerable<OperationTagDto>>(tagsJsonResult)!;
-
-        return reportDto.ConvertToViewModel(tagDtos);
+        return reportDto.ConvertToViewModel();
     }
 
     public async Task<ReportViewModel> GetPeriodReportAsync(DateOnly startDate, DateOnly endDate)
@@ -41,17 +35,12 @@ public class ReportService : IReportService
 
         using var reportResponse = await _client.GetAsync(
             $"reports/period-report?startDate={startDateString}&endDate={endDateString}");
-        using var tagsResponse = await _client.GetAsync("tags/include-deleted");
 
         reportResponse.EnsureSuccessStatusCode();
-        tagsResponse.EnsureSuccessStatusCode();
 
         var reportJsonResult = await reportResponse.Content.ReadAsStringAsync();
         var reportDto = JsonConvert.DeserializeObject<ReportDto>(reportJsonResult)!;
 
-        var tagsJsonResult = await tagsResponse.Content.ReadAsStringAsync();
-        var tagDtos = JsonConvert.DeserializeObject<IEnumerable<OperationTagDto>>(tagsJsonResult)!;
-
-        return reportDto.ConvertToViewModel(tagDtos);
+        return reportDto.ConvertToViewModel();
     }
 }
