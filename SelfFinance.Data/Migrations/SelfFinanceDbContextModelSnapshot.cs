@@ -22,7 +22,34 @@ namespace SelfFinance.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("SelfFinance.Data.Models.FinancialOperation", b =>
+            modelBuilder.Entity("SelfFinance.Data.Models.OperationTag", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<int>("OperationType")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("OperationTags");
+                });
+
+            modelBuilder.Entity("SelfFinance.Data.Models.Transaction", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -55,37 +82,10 @@ namespace SelfFinance.Data.Migrations
 
                     b.HasIndex("OperationTagId");
 
-                    b.ToTable("FinancialOperations");
+                    b.ToTable("Transactions");
                 });
 
-            modelBuilder.Entity("SelfFinance.Data.Models.OperationTag", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
-
-                    b.Property<int>("OperationType")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("OperationTags");
-                });
-
-            modelBuilder.Entity("SelfFinance.Data.Models.FinancialOperation", b =>
+            modelBuilder.Entity("SelfFinance.Data.Models.Transaction", b =>
                 {
                     b.HasOne("SelfFinance.Data.Models.OperationTag", "OperationTag")
                         .WithMany()

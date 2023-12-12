@@ -12,7 +12,7 @@ using SelfFinance.Data;
 namespace SelfFinance.Data.Migrations
 {
     [DbContext(typeof(SelfFinanceDbContext))]
-    [Migration("20231116211506_Initial")]
+    [Migration("20231212141620_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -25,42 +25,6 @@ namespace SelfFinance.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("SelfFinance.Data.Models.FinancialOperation", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DeletedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime>("OperationDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("OperationTagId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("Sum")
-                        .HasColumnType("numeric(9,2)");
-
-                    b.Property<DateTime>("UpdatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OperationTagId");
-
-                    b.ToTable("FinancialOperations");
-                });
-
             modelBuilder.Entity("SelfFinance.Data.Models.OperationTag", b =>
                 {
                     b.Property<int>("Id")
@@ -69,7 +33,7 @@ namespace SelfFinance.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("DeletedOn")
+                    b.Property<DateTime?>("DeletedOn")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("IsDeleted")
@@ -88,7 +52,43 @@ namespace SelfFinance.Data.Migrations
                     b.ToTable("OperationTags");
                 });
 
-            modelBuilder.Entity("SelfFinance.Data.Models.FinancialOperation", b =>
+            modelBuilder.Entity("SelfFinance.Data.Models.Transaction", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("OperationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("OperationTagId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Sum")
+                        .HasColumnType("numeric(9,2)");
+
+                    b.Property<DateTime?>("UpdatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OperationTagId");
+
+                    b.ToTable("Transactions");
+                });
+
+            modelBuilder.Entity("SelfFinance.Data.Models.Transaction", b =>
                 {
                     b.HasOne("SelfFinance.Data.Models.OperationTag", "OperationTag")
                         .WithMany()

@@ -19,22 +19,22 @@ public class TransactionService : ITransactionService
 
     public async Task<Transaction> GetAsync(int id)
     {
-        return await _context.FinancialOperations
-                   .Where(fo => !fo.IsDeleted)
-                   .SingleOrDefaultAsync(fo => fo.Id == id)
+        return await _context.Transactions
+                   .Where(t => !t.IsDeleted)
+                   .SingleOrDefaultAsync(t => t.Id == id)
                ?? throw new EntityNotFoundException();
     }
 
     public async Task<IEnumerable<TransactionDto>> GetAllAsync()
     {
-        return await _context.FinancialOperations
-            .Where(fo => !fo.IsDeleted)
-            .Select(fo => new TransactionDto
+        return await _context.Transactions
+            .Where(t => !t.IsDeleted)
+            .Select(t => new TransactionDto
             {
-                Id = fo.Id,
-                Sum = fo.Sum,
-                OperationDate = fo.OperationDate,
-                OperationTagId = fo.OperationTagId
+                Id = t.Id,
+                Sum = t.Sum,
+                OperationDate = t.OperationDate,
+                OperationTagId = t.OperationTagId
             })
             .ToListAsync();
     }
@@ -46,27 +46,27 @@ public class TransactionService : ITransactionService
             throw new ArgumentException("From should precede To");
         }
 
-        return await _context.FinancialOperations
-            .Where(fo =>
-                !fo.IsDeleted &&
-                fo.OperationDate >= from &&
-                fo.OperationDate <= to)
-            .Select(fo => new TransactionDto
+        return await _context.Transactions
+            .Where(t =>
+                !t.IsDeleted &&
+                t.OperationDate >= from &&
+                t.OperationDate <= to)
+            .Select(t => new TransactionDto
             {
-                Id = fo.Id,
-                Sum = fo.Sum,
-                OperationDate = fo.OperationDate,
-                OperationTagId = fo.OperationTagId
+                Id = t.Id,
+                Sum = t.Sum,
+                OperationDate = t.OperationDate,
+                OperationTagId = t.OperationTagId
             })
             .ToListAsync();
     }
 
     public async Task<TransactionRichDto> GetRichAsync(int id)
     {
-        var transaction = await _context.FinancialOperations
-                              .Include(fo => fo.OperationTag)
-                              .Where(fo => !fo.IsDeleted)
-                              .SingleOrDefaultAsync(fo => fo.Id == id)
+        var transaction = await _context.Transactions
+                              .Include(t => t.OperationTag)
+                              .Where(t => !t.IsDeleted)
+                              .SingleOrDefaultAsync(t => t.Id == id)
                           ?? throw new EntityNotFoundException();
 
         return new TransactionRichDto
@@ -85,19 +85,19 @@ public class TransactionService : ITransactionService
 
     public async Task<IEnumerable<TransactionRichDto>> GetAllRichAsync()
     {
-        return await _context.FinancialOperations
-            .Include(fo => fo.OperationTag)
-            .Where(fo => !fo.IsDeleted)
-            .Select(fo => new TransactionRichDto
+        return await _context.Transactions
+            .Include(t => t.OperationTag)
+            .Where(t => !t.IsDeleted)
+            .Select(t => new TransactionRichDto
             {
-                Id = fo.Id,
-                Sum = fo.Sum,
-                OperationDate = fo.OperationDate,
+                Id = t.Id,
+                Sum = t.Sum,
+                OperationDate = t.OperationDate,
                 OperationTag = new OperationTagDto
                 {
-                    Id = fo.OperationTagId,
-                    OperationType = fo.OperationTag.OperationType,
-                    Name = fo.OperationTag.Name
+                    Id = t.OperationTagId,
+                    OperationType = t.OperationTag.OperationType,
+                    Name = t.OperationTag.Name
                 }
             })
             .ToListAsync();
@@ -110,21 +110,21 @@ public class TransactionService : ITransactionService
             throw new ArgumentException("From should precede To");
         }
 
-        return await _context.FinancialOperations
-            .Where(fo =>
-                !fo.IsDeleted &&
-                fo.OperationDate >= from &&
-                fo.OperationDate <= to)
-            .Select(fo => new TransactionRichDto
+        return await _context.Transactions
+            .Where(t =>
+                !t.IsDeleted &&
+                t.OperationDate >= from &&
+                t.OperationDate <= to)
+            .Select(t => new TransactionRichDto
             {
-                Id = fo.Id,
-                Sum = fo.Sum,
-                OperationDate = fo.OperationDate,
+                Id = t.Id,
+                Sum = t.Sum,
+                OperationDate = t.OperationDate,
                 OperationTag = new OperationTagDto
                 {
-                    Id = fo.OperationTagId,
-                    OperationType = fo.OperationTag.OperationType,
-                    Name = fo.OperationTag.Name
+                    Id = t.OperationTagId,
+                    OperationType = t.OperationTag.OperationType,
+                    Name = t.OperationTag.Name
                 }
             })
             .ToListAsync();
@@ -154,7 +154,7 @@ public class TransactionService : ITransactionService
             CreatedOn = createdOn
         };
 
-        await _context.FinancialOperations.AddAsync(operation);
+        await _context.Transactions.AddAsync(operation);
         await _context.SaveChangesAsync();
 
         return operation.Id;
@@ -166,7 +166,7 @@ public class TransactionService : ITransactionService
 
         Validator.ValidateObject(dto, new ValidationContext(dto), true);
 
-        var operation = await _context.FinancialOperations
+        var operation = await _context.Transactions
                             .SingleOrDefaultAsync(op =>
                                 !op.IsDeleted &&
                                 op.Id == dto.Id)
@@ -190,7 +190,7 @@ public class TransactionService : ITransactionService
     {
         var deletedOn = DateTime.Now;
 
-        var operation = await _context.FinancialOperations
+        var operation = await _context.Transactions
                             .SingleOrDefaultAsync(op =>
                                 !op.IsDeleted &&
                                 op.Id == id)
