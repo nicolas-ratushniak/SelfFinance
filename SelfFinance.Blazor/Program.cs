@@ -6,7 +6,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 
-var baseAddress = new Uri("https://localhost:7242/self-finance/api/");
+var apiBaseAddress = builder.Configuration.GetRequiredSection("ApiBaseAddress").Value
+                     ?? throw new KeyNotFoundException();
+var baseAddress = new Uri(apiBaseAddress);
 
 builder.Services.AddHttpClient<ITransactionService, TransactionService>(client => client.BaseAddress = baseAddress);
 builder.Services.AddHttpClient<IOperationTagService, OperationTagService>(client => client.BaseAddress = baseAddress);
