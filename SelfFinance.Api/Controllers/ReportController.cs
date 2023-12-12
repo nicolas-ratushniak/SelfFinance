@@ -4,7 +4,7 @@ using SelfFinance.Domain.Abstract;
 namespace SelfFinance.Api.Controllers;
 
 [ApiController]
-[Route("self-finance/api/reports")]
+[Route("api/reports")]
 public class ReportController : Controller
 {
     private readonly IReportService _reportService;

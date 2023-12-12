@@ -8,7 +8,7 @@ using SelfFinance.Domain.Exceptions;
 namespace SelfFinance.Api.Controllers;
 
 [ApiController]
-[Route("self-finance/api/tags")]
+[Route("api/tags")]
 public class OperationTagController : ControllerBase
 {
     private readonly IOperationTagService _operationTagService;

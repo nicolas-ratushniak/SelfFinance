@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
-using SelfFinance.Api.Helpers;
 using SelfFinance.Domain.Abstract;
 using SelfFinance.Domain.Dto;
 using SelfFinance.Domain.Exceptions;
@@ -8,7 +7,7 @@ using SelfFinance.Domain.Exceptions;
 namespace SelfFinance.Api.Controllers;
 
 [ApiController]
-[Route("self-finance/api/transactions")]
+[Route("api/transactions")]
 public class TransactionController : ControllerBase
 {
     private readonly ITransactionService _transactionService;
