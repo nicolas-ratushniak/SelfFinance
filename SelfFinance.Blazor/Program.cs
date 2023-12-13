@@ -1,3 +1,4 @@
+using System.Globalization;
 using SelfFinance.Client.Abstract;
 using SelfFinance.Client.Services;
 
@@ -13,6 +14,9 @@ var baseAddress = new Uri(apiBaseAddress);
 builder.Services.AddHttpClient<ITransactionService, TransactionService>(client => client.BaseAddress = baseAddress);
 builder.Services.AddHttpClient<IOperationTagService, OperationTagService>(client => client.BaseAddress = baseAddress);
 builder.Services.AddHttpClient<IReportService, ReportService>(client => client.BaseAddress = baseAddress);
+
+CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US");
+CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo("en-US");
 
 var app = builder.Build();
 
