@@ -1,4 +1,18 @@
-﻿::deep .form-grid {
+﻿input[type=radio] {
+    display: none;
+}
+
+.header-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.btn-container {
+    min-width: 310px;
+}
+
+::deep .form-grid {
     display: grid;
     height: 100%;
     gap: 20px;
@@ -16,4 +30,11 @@
 
 .submit {
     grid-area: 3 / 2 / 4 / 3;
+}
+
+@media screen and (max-width: 610px) {
+    .header-row {
+        flex-direction: column;
+        gap: 14px;
+    }
 }

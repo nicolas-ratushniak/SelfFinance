@@ -241,6 +241,10 @@
     text-align: left;
 }
 
+.text-center {
+    text-align: center;
+}
+
 .bolder {
     font-weight: bolder;
 }
