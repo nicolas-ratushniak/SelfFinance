@@ -3,16 +3,20 @@
 <PageTitle>TestBlazorServer</PageTitle>
 
 <PageWithSideNav>
+    <Logo>
+        <div class="flex-row center gap-10" style="height: 4rem">
+            <img class="size-24" src="favicon.png" alt="">
+            <h1 class="text-contrast">Self Finance</h1>
+        </div>
+    </Logo>
+    
     <SideNavOptions>
-        <NavLink href="/" Match="NavLinkMatch.All">Transactions</NavLink>
-        <NavLink href="tags">Tags</NavLink>
-        <NavLink href="reports">Reports</NavLink>
+        <NavLink class="nice-link" href="/" Match="NavLinkMatch.All">Transactions</NavLink>
+        <NavLink class="nice-link" href="tags">Tags</NavLink>
+        <NavLink class="nice-link" href="reports">Reports</NavLink>
     </SideNavOptions>
+    
     <MainContent>
         @Body
     </MainContent>
-    <Logo>
-        <img src="favicon.png" alt="">
-        <h1>Self Finance</h1>
-    </Logo>
 </PageWithSideNav>

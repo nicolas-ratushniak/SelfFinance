@@ -1,12 +1,10 @@
-﻿<input id="is-side-bar-closed" type="checkbox">
+﻿<input id="check" type="checkbox">
 
 <nav class="side-nav">
-    <label for="is-side-bar-closed" class="side-nav__toggle"></label>
+    <label class="side-nav__toggle" for="check"></label>
     <div class="side-nav__content">
-        <div class="logo-container">
-            @Logo
-        </div>
-        @SideNavOptions
+        <div class="side-nav__logo">@Logo</div>
+        <div class="side-nav__options flex-col">@SideNavOptions</div>
     </div>
 </nav>
 
