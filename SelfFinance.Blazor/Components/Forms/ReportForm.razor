@@ -21,7 +21,7 @@
 
     @if (_currentReportType == ReportType.DailyReport)
     {
-        <EditForm class="form-grid gap-20" Model="_dailyReport" OnValidSubmit="() => OnDailyReportCallback.InvokeAsync(_dailyReport)">
+        <EditForm class="form-grid gap-10" Model="_dailyReport" OnValidSubmit="() => OnDailyReportCallback.InvokeAsync(_dailyReport)">
             <DataAnnotationsValidator/>
 
             <div class="start-date flex-col-reverse gap-5">
@@ -36,7 +36,7 @@
     }
     @if (_currentReportType == ReportType.PeriodReport)
     {
-        <EditForm class="form-grid gap-20" Model="_periodReport" OnValidSubmit="() => OnPeriodReportCallback.InvokeAsync(_periodReport)">
+        <EditForm class="form-grid gap-10" Model="_periodReport" OnValidSubmit="() => OnPeriodReportCallback.InvokeAsync(_periodReport)">
             <DataAnnotationsValidator/>
 
             <div class="start-date flex-col-reverse gap-5">

@@ -15,9 +15,8 @@
 ::deep .form-grid {
     display: grid;
     height: 100%;
-    gap: 20px;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 86px 1fr 40px;
+    grid-template-rows: 1fr 40px;
 }
 
 .start-date {
@@ -29,7 +28,7 @@
 }
 
 .submit {
-    grid-area: 3 / 2 / 4 / 3;
+    grid-area: 2 / 2 / 3 / 3;
 }
 
 @media screen and (max-width: 610px) {
