@@ -1,0 +1,49 @@
+﻿::deep td, ::deep th {
+    padding: .5rem .5rem;
+}
+
+::deep th {
+    background-color: var(--gray-300);
+    color: #ffffff;
+}
+
+::deep th:first-child, 
+::deep td:first-child {
+    border-radius: 7px 0 0 7px;
+}
+
+::deep th:last-child {
+    border-radius: 0 7px 7px 0;
+}
+
+::deep .actions-cell {
+    width: 40px;
+}
+
+::deep .btn-container {
+    opacity: 0;
+    transition: opacity .1s;
+}
+
+::deep tr:hover .btn-container {
+    opacity: 1;
+}
+
+::deep .btn-container button {
+    background-repeat: no-repeat;
+    background-position: center;
+    border: solid 2px var(--border-heavy)
+}
+
+::deep .edit-btn {
+    background-image: url("images/edit.png");
+    background-size: 16px 16px;
+}
+
+::deep .delete-btn {
+    background-image: url("images/delete.png");
+    background-size: 18px 18px;
+}
+.loading {
+    padding: .5rem 7px;
+}

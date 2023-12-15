@@ -1,0 +1,18 @@
+﻿<input id="check" type="checkbox">
+
+<nav class="sidenav">
+    <div class="sidenav__logo">@Logo</div>
+    <div class="sidenav__options">@SideNavOptions</div>
+    <label class="sidenav__toggle" for="check"><span></span></label>
+</nav>
+
+<div class="presentation">
+    @MainContent
+</div>
+
+@code
+{
+    [Parameter] public RenderFragment SideNavOptions { get; set; }
+    [Parameter] public RenderFragment Logo { get; set; }
+    [Parameter] public RenderFragment MainContent { get; set; }
+}

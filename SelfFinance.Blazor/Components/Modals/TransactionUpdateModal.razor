@@ -1,0 +1,85 @@
+﻿@using SelfFinance.Blazor.Components.Abstract
+@using Microsoft.AspNetCore.Components.Forms
+@using SelfFinance.Client.ViewModels
+@using SelfFinance.Domain.Dto
+
+<ModalBase @ref="_modalBase" Title="Edit Transaction">
+    <Content>
+        <EditForm class="flex-col gap-14" action="" Model="@Transaction" OnValidSubmit="_ => OnValidSubmit.InvokeAsync(Transaction)">
+            <DataAnnotationsValidator/>
+
+            <div class="flex-col-reverse gap-5">
+                <ValidationMessage For="() => Transaction!.OperationDate"/>
+                
+                <InputDate class="input-underlined danger-on-error" id="date" max="@MaxDate"
+                           Type="InputDateType.DateTimeLocal" @bind-Value="Transaction!.OperationDate"/>
+                
+                <label class="focusable-label text-details" for="date">Date</label>
+            </div>
+
+            <div class="flex-col-reverse gap-5">
+                <ValidationMessage For="() => Transaction!.Sum"/>
+                
+                <InputNumber class="input-underlined danger-on-error" id="sum" TValue="decimal" min="0" width="13" 
+                             @bind-Value="Transaction!.Sum"/>
+                
+                <label class="focusable-label text-details" for="sum">Amount</label>
+            </div>
+
+            <div class="flex-col-reverse gap-5">
+                <ValidationMessage For="() => Transaction!.OperationTagId"/>
+                
+                <InputSelect class="input-underlined danger-on-error" TValue="int" @bind-Value="Transaction!.OperationTagId">
+                    @if (OperationTags is not null)
+                    {
+                        foreach (var typeGroup in OperationTags.GroupBy(t => t.Type))
+                        {
+                            <optgroup label="@typeGroup.Key">
+                                @foreach (var tag in typeGroup)
+                                {
+                                    <option TValue="int" Value="@tag.Id">@tag.Name</option>
+                                }
+                            </optgroup>
+                        }
+                    }
+                </InputSelect>
+                
+                <label class="focusable-label text-details" for="sum">Tag</label>
+            </div>
+
+            <div class="flex-row space-between gap-10">
+                <input class="rounded-btn bg-cancel item-width-2" type="reset" @onclick="Hide" value="Cancel"/>
+                <input class="rounded-btn bg-success item-width-2" type="submit" value="Submit"/>
+            </div>
+        </EditForm>
+    </Content>
+</ModalBase>
+
+@code {
+    private ModalBase _modalBase;
+
+    [Parameter]
+    public IEnumerable<OperationTagViewModel>? OperationTags { get; set; }
+
+    [Parameter]
+    public EventCallback<TransactionUpdateDto> OnValidSubmit { get; set; }
+    
+    private string MaxDate => DateTime.Now.ToString("yyyy-MM-ddTHH:mm");
+    private TransactionUpdateDto? Transaction { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Transaction ??= new TransactionUpdateDto();
+    }
+
+    public void Show(TransactionUpdateDto dto)
+    {
+        Transaction = dto;
+        _modalBase.Show();
+    }
+
+    public void Hide()
+    {
+        _modalBase.Hide();
+    }
+}

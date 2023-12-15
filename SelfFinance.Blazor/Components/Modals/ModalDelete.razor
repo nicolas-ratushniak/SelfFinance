@@ -1,0 +1,42 @@
+﻿@using SelfFinance.Blazor.Components.Abstract
+@typeparam TId
+
+<ModalBase @ref="_modalBase" Title="Are you sure?">
+    <Content>
+        <p class="text-regular">@Description</p>
+
+        <div class="flex-row space-between gap-10">
+            <button class="rounded-btn bg-cancel item-width-2" @onclick="Hide">Cancel</button>
+            <button class="rounded-btn bg-danger item-width-2" @onclick="OnDeleteAsync">Delete</button>
+        </div>
+    </Content>
+</ModalBase>
+
+@code {
+    private ModalBase _modalBase;
+    private TId? _modelId;
+
+    [Parameter]
+    public string? Description { get; set; }
+    
+    [Parameter]
+    public EventCallback<TId> OnDeleteCallback { get; set; }
+
+    public void Show(TId id)
+    {
+        _modelId = id;
+        _modalBase.Show();
+    }
+
+    private void Hide()
+    {
+        _modalBase.Hide();
+        StateHasChanged();
+    }
+
+    private async Task OnDeleteAsync()
+    {
+        Hide();
+        await OnDeleteCallback.InvokeAsync(_modelId);
+    }
+}

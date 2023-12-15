@@ -1,0 +1,51 @@
+﻿@using SelfFinance.Blazor.Components.Abstract
+@using SelfFinance.Client.ViewModels
+@using SelfFinance.Data.Models
+
+<TableBase Items="Items"
+           TItem="TransactionViewModel"
+           Context="transaction">
+
+    <HeaderTemplate>
+        <th class="text-left">Date</th>
+        <th class="text-left">Category</th>
+        <th class="text-right">Amount</th>
+        <th class="actions-cell"/>
+    </HeaderTemplate>
+
+    <DataRowTemplate>
+        <td class="text-left">@transaction.Date.ToString("dd MMM yyyy")</td>
+        <td class="text-left">@transaction.TagName</td>
+        
+        @if (transaction.SignedSum < 0)
+        {
+            <td class="text-right text-danger">@($"-{transaction.AbsoluteSum:C}")</td>
+        }
+        else
+        {
+            <td class="text-right text-success">@($"+{transaction.AbsoluteSum:C}")</td>
+        }
+       
+        <td class="actions-cell">
+            <div class="btn-container flex-row gap-10 space-between">
+                <button class="edit-btn size-32 bg-transparent bg-warning-on-hover radius-5 transition-dot2s" 
+                        @onclick="() => OnEditCallback.InvokeAsync(transaction.Id)"></button>
+                <button class="delete-btn size-32 bg-transparent bg-danger-on-hover radius-5 transition-dot2s" 
+                        @onclick="() => OnDeleteCallback.InvokeAsync(transaction.Id)"></button>
+            </div>
+        </td>
+    </DataRowTemplate>
+</TableBase>
+
+@code {
+
+    [Parameter]
+    public EventCallback<int> OnEditCallback { get; set; }
+
+    [Parameter]
+    public EventCallback<int> OnDeleteCallback { get; set; }
+
+    [Parameter]
+    public IEnumerable<TransactionViewModel>? Items { get; set; }
+
+}

@@ -1,0 +1,34 @@
+﻿@using SelfFinance.Blazor.Components.Abstract
+@using SelfFinance.Client.ViewModels
+
+<TableBase Items="Items"
+           TItem="TransactionViewModel"
+           Context="transaction">
+
+    <HeaderTemplate>
+        <th class="text-left">Date</th>
+        <th class="text-left">Category</th>
+        <th class="text-right">Amount</th>
+    </HeaderTemplate>
+
+    <DataRowTemplate>
+        <td class="text-left">@transaction.Date.ToString("dd MMM yyyy")</td>
+        <td class="text-left">@transaction.TagName</td>
+        
+        @if (transaction.SignedSum < 0)
+        {
+            <td class="text-right text-danger">@($"-{transaction.AbsoluteSum:C}")</td>
+        }
+        else
+        {
+            <td class="text-right text-success">@($"+{transaction.AbsoluteSum:C}")</td>
+        }
+    </DataRowTemplate>
+</TableBase>
+
+@code {
+
+    [Parameter]
+    public IEnumerable<TransactionViewModel>? Items { get; set; }
+
+}

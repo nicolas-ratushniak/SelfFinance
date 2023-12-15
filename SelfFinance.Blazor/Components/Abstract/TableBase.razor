@@ -1,0 +1,50 @@
+﻿@typeparam TItem
+
+<div class="component-container table-container">
+    <table class="table-no-border">
+        <thead>
+        <tr>
+            @if (HeaderTemplate is not null)
+            {
+                @HeaderTemplate
+            }
+        </tr>
+        </thead>
+
+        <tbody>
+        @if (Items is not null)
+        {
+            @if (!Items.Any())
+            {
+                <p class="loading">Nothing found</p>
+            }
+            foreach (var item in Items)
+            {
+                <tr>
+                    @if (DataRowTemplate is not null)
+                    {
+                        @DataRowTemplate(item)
+                    }
+                </tr>
+            }
+        }
+        else
+        {
+            <p class="loading">Loading...</p>
+        }
+        </tbody>
+    </table>
+</div>
+
+@code {
+
+    [Parameter]
+    public IEnumerable<TItem>? Items { get; set; }
+
+    [Parameter]
+    public RenderFragment? HeaderTemplate { get; set; }
+
+    [Parameter]
+    public RenderFragment<TItem>? DataRowTemplate { get; set; }
+
+}

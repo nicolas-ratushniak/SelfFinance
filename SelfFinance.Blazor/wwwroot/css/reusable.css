@@ -1,0 +1,403 @@
+﻿:root {
+    --accent-color: #AB68FF;
+    --primary-color: #F7F7F9;
+
+    --success-color: #19C37D;
+    --danger-color: #F05454;
+    --warning-color: #FFC60B;
+
+    --contrast-color: #272829;
+    --lighter-contrast-color: #202123;
+
+    --ligther-grey: #F7F7F7;
+    --light-grey: #ECECF1;
+    --grey: #8E8EA0;
+
+    --border-light: rgba(0, 0, 0, .1);
+    --border-medium: rgba(0, 0, 0, .15);
+    --border-heavy: rgba(0, 0, 0, .2);
+    --border-xheavy: rgba(0, 0, 0, .25);
+
+    --text-primary: var(--gizmo-gray-950);
+    --text-secondary: var(--gray-800);
+    --text-tertiary: var(--gray-400);
+
+    --gray-50: #f7f7f8;
+    --gray-100: #ececf1;
+    --gray-200: #d9d9e3;
+    --gray-300: #c5c5d2;
+    --gray-400: #acacbe;
+    --gray-500: #8e8ea0;
+    --gray-600: #565869;
+    --gray-700: #40414f;
+    --gray-800: #343541;
+    --gray-900: #202123;
+    --gray-950: #050509;
+    --gizmo-gray-500: #999;
+    --gizmo-gray-600: #666;
+    --gizmo-gray-950: #0f0f0f;
+
+    --font-size-small: 12px;
+    --font-size-regular: 16px;
+}
+
+/*----- Components -----*/
+.add-btn {
+    background-color: var(--gray-100);
+    border-radius: 10px;
+    width: 40px;
+    height: 40px;
+    border: solid 3px var(--gray-400);
+    color: var(--gray-400);
+    text-align: center;
+    font-size: 30px;
+    font-weight: bolder;
+    transition: all .3s;
+}
+
+.add-btn:hover {
+    color: var(--contrast-color);
+    border-color: var(--contrast-color);
+    background-color: var(--warning-color);
+}
+
+.nice-link {
+    padding: 1rem 0;
+    text-align: center;
+    text-decoration: none;
+    color: #FFFFFF;
+}
+
+.nice-link:hover {
+    background-color: var(--gray-700);
+}
+
+.nice-link.active {
+    background-color: var(--gray-700);
+}
+
+/*------ Containers ------*/
+.component-container {
+    padding: 20px;
+    border: solid 2px var(--border-heavy);
+    border-radius: 20px;
+}
+
+.container {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.table-no-border {
+    width: 100%;
+    border-spacing: 0;
+    border: none;
+}
+
+.flex-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.flex-col {
+    display: flex;
+    flex-direction: column;
+}
+
+.flex-col-reverse {
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: start;
+}
+
+.space-between {
+    justify-content: space-between;
+}
+
+.center {
+    justify-content: center;
+}
+
+
+/*------ Checking ------*/
+.contrast-on-checked {
+    background-color: var(--gray-200);
+    color: var(--contrast-color);
+    transition: .3s;
+}
+
+.checkable:checked + .contrast-on-checked {
+    background-color: var(--contrast-color);
+    color: #FFFFFF;
+}
+
+/*------ Inputs ------*/
+.input-underlined,
+.rounded-input {
+    transition: all .3s;
+}
+
+.input-underlined {
+    padding: .2rem 0 .5rem 0;
+    border: none;
+    border-bottom: solid 1px var(--gray-400);
+}
+
+.rounded-input {
+    padding: .5rem;
+    border: solid 1px var(--gray-400);
+    border-radius: 7px;
+}
+
+.input-underlined:focus,
+.rounded-input:focus {
+    border-color: var(--contrast-color);
+}
+
+.focusable-label {
+    color: var(--gray-400);
+    transition: .3s;
+}
+
+.input-underlined:focus + .focusable-label,
+.rounded-input:focus + .focusable-label{
+    color: var(--contrast-color);
+}
+
+.validation-message ~ .danger-on-error {
+    color: var(--danger-color);
+    border-color: var(--danger-color);
+}
+
+.validation-message {
+    font-size: 14px;
+    color: var(--danger-color);
+}
+
+
+/*------ Text ------*/
+.text-header {
+    color: var(--text-primary);
+    font-size: 24px;
+}
+
+.text-subheader {
+    color: var(--text-primary);
+    font-size: 18px;
+}
+
+.text-regular {
+    color: var(--text-secondary);
+    font-size: var(--font-size-regular);
+}
+
+.text-details {
+    color: var(--text-tertiary);
+    font-size: var(--font-size-small);
+}
+
+.text-primary {
+    color: var(--text-primary);
+}
+
+.text-secondary {
+    color: var(--text-secondary);
+}
+
+.text-tertiary {
+    color: var(--text-tertiary);
+}
+
+.text-small {
+    font-size: var(--font-size-small);
+}
+
+.text-medium {
+    font-size: var(--font-size-regular);
+}
+
+.text-success {
+    color: var(--success-color);
+}
+
+.text-danger {
+    color: var(--danger-color);
+}
+
+.text-contrast {
+    color: #FFFFFF;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.text-left {
+    text-align: left;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.bolder {
+    font-weight: bolder;
+}
+
+
+/*------ Button ------*/
+.rounded-btn {
+    padding: .5rem 1.5rem;
+    border: none;
+    border-radius: 5px;
+    opacity: .8;
+    font-size: 16px;
+    transition: opacity .3s;
+}
+
+.rounded-btn:hover{
+    opacity: 1;
+}
+
+
+/*------ Background ------*/
+.bg-cancel {
+    background-color: var(--gray-200);
+}
+
+.bg-success {
+    background-color: var(--success-color);
+    color: #FFFFFF;
+}
+
+.bg-warning {
+    background-color: var(--warning-color);
+}
+
+.bg-danger {
+    background-color: var(--danger-color);
+    color: #FFFFFF;
+}
+
+.bg-contrast {
+    background-color: var(--contrast-color);
+    color: #FFFFFF;
+}
+
+.bg-transparent {
+    background-color: transparent;
+}
+
+.bg-warning-on-hover:hover {
+    background-color: var(--warning-color);
+}
+
+.bg-danger-on-hover:hover {
+    background-color: var(--danger-color);
+}
+
+
+/*------ Border ------*/
+.radius-5 {
+    border-radius: 5px;
+}
+
+.radius-7 {
+    border-radius: 7px;
+}
+
+.radius-10 {
+    border-radius: 10px;
+}
+
+.border-heavy {
+    border: solid 2px var(--border-heavy)
+}
+
+
+/*------- Size Templates ------*/
+.size-20 {
+    width: 20px;
+    height: 20px;
+}
+
+.size-24 {
+    width: 24px;
+    height: 24px;
+}
+
+.size-32 {
+    width: 32px;
+    height: 32px;
+}
+
+.item-width-1 {
+    width: 100%;
+}
+
+.item-width-2 {
+    width: 50%;
+}
+
+.item-width-3 {
+    width: 33%;
+}
+
+.item-width-4 {
+    width: 25%;
+}
+
+.height-40 {
+    height: 40px;
+}
+
+
+/*------ Gap ------*/
+.gap-24 {
+    gap: 24px;
+}
+
+.gap-20 {
+    gap: 20px;
+}
+
+.gap-14 {
+    gap: 14px;
+}
+
+.gap-10 {
+    gap: 10px;
+}
+
+.gap-5 {
+    gap: 5px;
+}
+
+
+/*------ Position ------*/
+.relative {
+    position: relative;
+}
+
+.absolute {
+    position: absolute;
+}
+
+.fixed {
+    position: fixed;
+}
+
+
+/*------ Transition ------*/
+.transition-dot3s {
+    transition: all .3s;
+}
+
+.transition-dot2s {
+    transition: all .2s;
+}

@@ -1,0 +1,21 @@
+﻿.popup-container {
+    z-index: 2000;
+    display: block;
+    position: fixed;
+    top: 0;
+    right: 0;
+    padding: 10px;
+}
+
+.popup {
+    width: 300px;
+    padding: 14px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.6);
+    border-radius: 10px;
+}
+
+@media screen and (max-width: 768px) {
+    .popup-container {
+        top: 4rem;
+    }
+}
