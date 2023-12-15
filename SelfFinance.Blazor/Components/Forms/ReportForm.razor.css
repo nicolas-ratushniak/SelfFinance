@@ -2,6 +2,10 @@
     display: none;
 }
 
+::deep form {
+    height: 100%;
+}
+
 .header-row {
     display: flex;
     flex-direction: row;
@@ -9,12 +13,19 @@
 }
 
 .btn-container {
-    min-width: 310px;
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    gap: 10px;
 }
 
-::deep .form-grid {
+.radio-btn {
+}
+
+.form-grid {
     display: grid;
     height: 100%;
+    gap: 10px;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 40px;
 }
@@ -34,6 +45,29 @@
 @media screen and (max-width: 610px) {
     .header-row {
         flex-direction: column;
+        gap: 14px;
+    }
+
+    .btn-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .radio-btn {
+        width: 50%;
+    }
+
+    .submit {
+        grid-area: 2 / 1 / 3 / 3;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .form-grid {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
         gap: 14px;
     }
 }

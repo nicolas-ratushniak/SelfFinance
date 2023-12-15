@@ -336,6 +336,10 @@
     height: 32px;
 }
 
+.item-width-1 {
+    width: 100%;
+}
+
 .item-width-2 {
     width: 50%;
 }

@@ -6,55 +6,59 @@
     <div class="header-row">
         <h2>Generate Report</h2>
 
-        <div class="btn-container flex-row gap-10 space-between">
+        <div class="btn-container">
             <input class="checkable" type="radio" id="daily" name="report-type"
                    checked="@(_currentReportType == ReportType.DailyReport)"
                    @onchange="@(() => SetReportType(ReportType.DailyReport))"/>
-            <label class="rounded-btn contrast-on-checked item-width-2 text-center" for="daily">Daily Report</label>
+            <label class="radio-btn rounded-btn contrast-on-checked text-center" for="daily">Daily</label>
 
             <input class="checkable" type="radio" id="period" name="report-type"
                    checked="@(_currentReportType == ReportType.PeriodReport)"
                    @onchange="@(() => SetReportType(ReportType.PeriodReport))"/>
-            <label class="rounded-btn contrast-on-checked item-width-2 text-center" for="period">Period Report</label>
+            <label class="radio-btn rounded-btn contrast-on-checked text-center" for="period">Period</label>
         </div>
     </div>
 
     @if (_currentReportType == ReportType.DailyReport)
     {
-        <EditForm class="form-grid gap-10" Model="_dailyReport" OnValidSubmit="() => OnDailyReportCallback.InvokeAsync(_dailyReport)">
+        <EditForm Model="_dailyReport" OnValidSubmit="() => OnDailyReportCallback.InvokeAsync(_dailyReport)">
             <DataAnnotationsValidator/>
 
-            <div class="start-date flex-col-reverse gap-5">
-                <ValidationMessage For="() => _dailyReport!.Date"/>
-                <InputDate class="rounded-input danger-on-error" id="date" max="@MaxDate"
-                           Type="InputDateType.Date" @bind-Value="_dailyReport!.Date"/>
-                <label class="focusable-label" for="date">Date</label>
-            </div>
+            <div class="form-grid">
+                <div class="start-date flex-col-reverse gap-5">
+                    <ValidationMessage For="() => _dailyReport!.Date"/>
+                    <InputDate class="rounded-input danger-on-error" id="date" max="@MaxDate"
+                               Type="InputDateType.Date" @bind-Value="_dailyReport!.Date"/>
+                    <label class="focusable-label" for="date">Date</label>
+                </div>
 
-            <input class="submit rounded-btn bg-warning radius-7" type="submit" value="Generate"/>
+                <input class="submit rounded-btn bg-warning radius-7" type="submit" value="Generate"/>
+            </div>
         </EditForm>
     }
     @if (_currentReportType == ReportType.PeriodReport)
     {
-        <EditForm class="form-grid gap-10" Model="_periodReport" OnValidSubmit="() => OnPeriodReportCallback.InvokeAsync(_periodReport)">
+        <EditForm Model="_periodReport" OnValidSubmit="() => OnPeriodReportCallback.InvokeAsync(_periodReport)">
             <DataAnnotationsValidator/>
 
-            <div class="start-date flex-col-reverse gap-5">
-                <ValidationMessage For="() => _periodReport!.StartDate"/>
-                <InputDate class="rounded-input danger-on-error" id="date" max="@_periodReport?.EndDate.ToString("yyyy-MM-dd")"
-                           Type="InputDateType.Date" @bind-Value="_periodReport!.StartDate"/>
-                
-                <label class="focusable-label" for="date">Start date</label>
-            </div>
+            <div class="form-grid">
+                <div class="start-date flex-col-reverse gap-5 item-width-1">
+                    <ValidationMessage For="() => _periodReport!.StartDate"/>
+                    <InputDate class="rounded-input danger-on-error" id="date" max="@_periodReport?.EndDate.ToString("yyyy-MM-dd")"
+                               Type="InputDateType.Date" @bind-Value="_periodReport!.StartDate"/>
 
-            <div class="end-date flex-col-reverse gap-5">
-                <ValidationMessage For="() => _periodReport!.EndDate"/>
-                <InputDate class="rounded-input danger-on-error" id="date" Type="InputDateType.Date"
-                           @bind-Value="_periodReport!.EndDate" max="@MaxDate"/>
-                <label class="focusable-label" for="date">End date</label>
-            </div>
+                    <label class="focusable-label" for="date">Start date</label>
+                </div>
 
-            <input class="submit rounded-btn bg-warning radius-7" type="submit" value="Generate"/>
+                <div class="end-date flex-col-reverse gap-5 item-width-1">
+                    <ValidationMessage For="() => _periodReport!.EndDate"/>
+                    <InputDate class="rounded-input danger-on-error" id="date" Type="InputDateType.Date"
+                               @bind-Value="_periodReport!.EndDate" max="@MaxDate"/>
+                    <label class="focusable-label" for="date">End date</label>
+                </div>
+
+                <input class="submit rounded-btn bg-warning radius-7" type="submit" value="Generate"/>
+            </div>
         </EditForm>
     }
 </div>
@@ -63,10 +67,10 @@
     private ReportType? _currentReportType;
     private DailyReport? _dailyReport;
     private PeriodReport? _periodReport;
-    
+
     [Parameter]
     public EventCallback<DailyReport> OnDailyReportCallback { get; set; }
-    
+
     [Parameter]
     public EventCallback<PeriodReport> OnPeriodReportCallback { get; set; }
 
@@ -103,7 +107,7 @@
         _dailyReport = GetDefaultDailyReport();
         _periodReport = GetDefaultPeriodReport();
     }
-    
+
     private PeriodReport GetDefaultPeriodReport() => new()
     {
         StartDate = DateOnly.FromDateTime(DateTime.Today).AddMonths(-1),
@@ -114,4 +118,5 @@
     {
         Date = DateOnly.FromDateTime(DateTime.Today)
     };
+
 }
