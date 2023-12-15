@@ -39,6 +39,10 @@ input {
     appearance: none;
 }
 
+input[type=date] {
+    min-width: 100%;
+}
+
 [hidden] {
     display: none !important;
 }

@@ -2,10 +2,6 @@
     display: none;
 }
 
-::deep form {
-    height: 100%;
-}
-
 .header-row {
     display: flex;
     flex-direction: row;
@@ -22,9 +18,9 @@
 .radio-btn {
 }
 
-.form-grid {
-    display: grid;
+::deep .form-grid {
     height: 100%;
+    display: grid;
     gap: 10px;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 40px;
@@ -64,7 +60,7 @@
 }
 
 @media screen and (max-width: 500px) {
-    .form-grid {
+    ::deep .form-grid {
         display: flex;
         flex-direction: column;
         align-items: stretch;
